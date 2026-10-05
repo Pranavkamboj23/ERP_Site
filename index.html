@@ -1,1062 +1,413 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#171b2c">
+  <title>ERP — Architecture / Design / Delivery</title>
+  <meta name="description" content="A scroll-driven architecture studio experience built with GSAP, ScrollTrigger and Lenis.">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://images.unsplash.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <title>ERP — Architecture & Design</title>
-
-    <meta
-        name="description"
-        content="Architecture, interiors and spatial design."
-    >
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
-        rel="stylesheet"
-    >
-
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/lenis@1.3.11/dist/lenis.css"
-    >
-
-    <link rel="stylesheet" href="./css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/style.css">
 </head>
 
 <body>
 
+<!-- =========================================================
+     PRELOADER
+========================================================= -->
+<div class="preloader" aria-hidden="true">
+  <div class="preloader-back"></div>
 
-<!-- =====================================================
-     LOADER
-===================================================== -->
+  <div class="preloader-head">
+    <span>ERP / STUDIO</span>
+    <span class="preloader-count">00</span>
+  </div>
 
-<div class="loader">
-
-    <div class="loader-inner">
-
-        <div class="loader-brand">
-            ERP
-        </div>
-
-        <div class="loader-bottom">
-
-            <span>
-                ARCHITECTURE / DESIGN
-            </span>
-
-            <span class="loader-counter">
-                00
-            </span>
-
-        </div>
-
+  <div class="preloader-grid">
+    <div class="preloader-row preloader-row-first">
+      <figure class="preload-tile first one"><img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=300&q=70" alt=""></figure>
+      <figure class="preload-tile first two"><img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=300&q=70" alt=""></figure>
+      <figure class="preload-tile first three"><img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=300&q=70" alt=""></figure>
+      <figure class="preload-tile first four"><img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=300&q=70" alt=""></figure>
+      <figure class="preload-tile first five"><img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=300&q=70" alt=""></figure>
+      <figure class="preload-tile first six"><img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=300&q=70" alt=""></figure>
+      <figure class="preload-tile first seven"><img src="https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=300&q=70" alt=""></figure>
     </div>
 
+    <div class="preloader-row preloader-row-second">
+      <figure class="preload-tile second one"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=300&q=70" alt=""></figure>
+      <figure class="preload-tile second two"><img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=300&q=70" alt=""></figure>
+      <figure class="preload-tile second three"><img src="https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?auto=format&fit=crop&w=300&q=70" alt=""></figure>
+      <figure class="preload-tile second four"><img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=300&q=70" alt=""></figure>
+      <figure class="preload-tile second five"><img src="https://images.unsplash.com/photo-1615874694520-474822394e73?auto=format&fit=crop&w=300&q=70" alt=""></figure>
+      <figure class="preload-tile second six"><img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=300&q=70" alt=""></figure>
+      <figure class="preload-tile second seven"><img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=300&q=70" alt=""></figure>
+    </div>
+  </div>
+
+  <div class="preloader-text">
+    <p data-split="chars">SPACE IS A COMPOSITION.</p>
+    <span data-split="words">Architecture / Design / Delivery</span>
+  </div>
 </div>
 
 
-
-<!-- =====================================================
+<!-- =========================================================
      HEADER
-===================================================== -->
+========================================================= -->
+<header class="header is-hide">
+  <a class="brand" href="#hero">ERP</a>
 
-<header class="site-header">
+  <div class="header-center">
+    <span>ARCHITECTURE</span>
+    <span>DESIGN</span>
+    <span>DELIVERY</span>
+  </div>
 
-    <a href="#home" class="logo">
-        ERP
-    </a>
-
-
-    <div class="header-center">
-
-        <span>ARCHITECTURE</span>
-        <span>DESIGN</span>
-        <span>DELIVERY</span>
-
-    </div>
-
-
-    <button
-        class="menu-button"
-        aria-label="Open navigation"
-    >
-
-        <span>MENU</span>
-
-        <span class="menu-icon">
-            <i></i>
-            <i></i>
-        </span>
-
-    </button>
-
+  <button class="nav-button" type="button" data-menu-open>
+    <span>MENU</span>
+    <i></i>
+    <i></i>
+  </button>
 </header>
 
 
-
-<!-- =====================================================
+<!-- =========================================================
      MENU
-===================================================== -->
+========================================================= -->
+<aside class="menu-overlay" aria-hidden="true">
+  <div class="menu-top">
+    <span>ERP ©2026</span>
+    <button type="button" data-menu-close>CLOSE</button>
+  </div>
 
-<div class="menu-overlay">
+  <nav class="menu-nav">
+    <a href="#composition"><small>01</small><span>COMPOSITION</span></a>
+    <a href="#projects"><small>02</small><span>PROJECTS</span></a>
+    <a href="#story"><small>03</small><span>APPROACH</span></a>
+    <a href="#about"><small>04</small><span>ABOUT</span></a>
+    <a href="#contact"><small>05</small><span>CONTACT</span></a>
+  </nav>
 
-    <div class="menu-overlay-top">
-
-        <span>
-            ERP ©2026
-        </span>
-
-        <button class="menu-close">
-            CLOSE
-        </button>
-
-    </div>
-
-
-    <nav class="menu-nav">
-
-        <a href="#about">
-
-            <span class="menu-number">
-                01
-            </span>
-
-            <span>
-                ABOUT
-            </span>
-
-        </a>
-
-
-        <a href="#projects">
-
-            <span class="menu-number">
-                02
-            </span>
-
-            <span>
-                PROJECTS
-            </span>
-
-        </a>
-
-
-        <a href="#approach">
-
-            <span class="menu-number">
-                03
-            </span>
-
-            <span>
-                APPROACH
-            </span>
-
-        </a>
-
-
-        <a href="#process">
-
-            <span class="menu-number">
-                04
-            </span>
-
-            <span>
-                PROCESS
-            </span>
-
-        </a>
-
-
-        <a href="#contact">
-
-            <span class="menu-number">
-                05
-            </span>
-
-            <span>
-                CONTACT
-            </span>
-
-        </a>
-
-    </nav>
-
-
-    <div class="menu-footer">
-
-        <span>
-            INDIA
-        </span>
-
-        <span>
-            CREATIVE STUDIO
-        </span>
-
-    </div>
-
-</div>
-
+  <div class="menu-bottom">
+    <span>INDIA</span>
+    <span>DESIGNING FROM WHOLE TO DETAIL</span>
+  </div>
+</aside>
 
 
 <main>
 
-
-<!-- =====================================================
+<!-- =========================================================
      HERO
-===================================================== -->
+========================================================= -->
+<section class="section hero" id="hero">
+  <div class="image-hero">
+    <img class="hero-img" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2400&q=90" alt="Architectural interior">
+    <div class="hero-overlay"></div>
+  </div>
 
-<section class="hero" id="home">
-
-
-    <div class="hero-media">
-
-        <img
-            src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2200&q=88"
-            alt="Modern architectural interior"
-        >
-
-        <div class="hero-overlay"></div>
-
+  <div class="hero-content">
+    <div class="hero-kicker">
+      <span>ARCHITECTURE</span>
+      <span>DESIGN</span>
+      <span>DELIVERY</span>
     </div>
 
+    <div class="hero-main">
+      <p class="hero-label">RECOGNITION OF SPACE</p>
 
-    <div class="hero-meta">
+      <h1 class="hero-title" data-preload="main-head">
+        SPACES<br>COMPOSED.
+      </h1>
 
-        <span>ARCHITECTURE</span>
-        <span>DESIGN</span>
-        <span>DELIVERY</span>
-
+      <div class="hero-bottom">
+        <p>Architecture and interiors considered as one complete whole.</p>
+        <span>SCROLL</span>
+      </div>
     </div>
-
-
-    <div class="hero-title-wrap">
-
-        <div class="hero-line-mask">
-
-            <h1 class="hero-title hero-title-one">
-                SPACES
-            </h1>
-
-        </div>
-
-
-        <div class="hero-line-mask hero-line-right">
-
-            <h1 class="hero-title hero-title-two">
-                COMPOSED
-            </h1>
-
-        </div>
-
-    </div>
-
-
-    <div class="hero-bottom">
-
-        <div class="hero-description">
-
-            <p>
-                Architecture and interiors designed
-                as one complete whole.
-            </p>
-
-        </div>
-
-
-        <div class="scroll-indicator">
-
-            <span>
-                SCROLL TO EXPLORE
-            </span>
-
-            <div class="scroll-line"></div>
-
-        </div>
-
-
-        <div class="hero-index">
-            01 / 05
-        </div>
-
-    </div>
-
+  </div>
 </section>
 
 
+<!-- =========================================================
+     COMPOSITION — VERTICAL COLLAGE
+========================================================= -->
+<section class="section composition-section" id="composition">
+  <div class="composition-heading">
+    <div class="section-tag">01 / COMPOSITION</div>
+    <h2 data-reveal="chars">A SPACE IS<br>A COMPOSITION.</h2>
+  </div>
 
-<!-- =====================================================
-     INTRO
-===================================================== -->
+  <div class="composition-copy">
+    <p data-reveal="words">
+      Proportion sets the structure. Material sets the tone. Light shapes the
+      experience. Every part belongs to the same idea.
+    </p>
+  </div>
 
-<section class="intro" id="about">
+  <div class="composition-canvas">
+    <div class="composition-back"></div>
 
+    <article class="composition-card card-center">
+      <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1200&q=86" alt="Interior project">
+      <div class="card-caption"><span>01</span><span>RESIDENCE</span></div>
+    </article>
 
-    <div class="section-top">
+    <article class="composition-card card-left-a">
+      <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=800&q=86" alt="Interior detail">
+    </article>
 
-        <span>
-            COMPOSED
-        </span>
+    <article class="composition-card card-left-b">
+      <img src="https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=800&q=86" alt="Architectural project">
+    </article>
 
-        <span>
-            01 — ABOUT
-        </span>
+    <article class="composition-card card-right-a">
+      <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=900&q=86" alt="Living space">
+    </article>
 
-    </div>
-
-
-    <div class="intro-heading">
-
-        <div class="intro-line-mask">
-
-            <h2 class="intro-line">
-                A SPACE
-            </h2>
-
-        </div>
-
-
-        <div class="intro-line-mask">
-
-            <h2 class="intro-line intro-indent">
-                IS A
-            </h2>
-
-        </div>
-
-
-        <div class="intro-line-mask">
-
-            <h2 class="intro-line">
-                COMPOSITION.
-            </h2>
-
-        </div>
-
-    </div>
-
-
-    <div class="intro-content">
-
-        <div></div>
-
-
-        <div class="intro-copy">
-
-            <p>
-                In a well-composed interior, nothing is
-                accidental. Proportion sets the structure,
-                material sets the tone and light shapes
-                the experience.
-            </p>
-
-            <p>
-                We begin with how a space should work,
-                refine how it should feel and guide every
-                decision through execution.
-            </p>
-
-
-            <a
-                href="#projects"
-                class="text-link magnetic"
-            >
-
-                VIEW PROJECTS
-
-                <span>↗</span>
-
-            </a>
-
-        </div>
-
-    </div>
-
+    <article class="composition-card card-right-b">
+      <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=900&q=86" alt="Interior composition">
+    </article>
+  </div>
 </section>
 
 
+<!-- =========================================================
+     PROJECT REVEAL — SCALE INTO FULL VIEW
+========================================================= -->
+<section class="section project-reveal" id="projects">
+  <div class="project-sticky">
+    <div class="chess-bar chess-left"></div>
+    <div class="chess-bar chess-right"></div>
 
-<!-- =====================================================
-     PROJECTS
-===================================================== -->
+    <div class="project-back project-back-two"></div>
+    <div class="project-back project-back-one"></div>
 
-<section class="projects" id="projects">
+    <div class="project-slider">
+      <article class="project-slide is-active">
+        <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2400&q=90" alt="House of Light">
+        <div class="project-slide-overlay"></div>
 
-    <div class="projects-sticky">
+        <div class="project-ui">
+          <div class="project-number">01 / 03</div>
 
+          <div class="project-copy">
+            <small>RESIDENTIAL</small>
+            <h2 data-reveal="chars">HOUSE OF LIGHT</h2>
+            <p data-reveal="words">A restrained residence organised around light, proportion and calm material transitions.</p>
+          </div>
 
-        <div class="projects-media">
-
-
-            <div class="project-image">
-
-                <img
-                    src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2200&q=88"
-                    alt="House of Light"
-                >
-
-            </div>
-
-
-            <div class="project-image">
-
-                <img
-                    src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=2200&q=88"
-                    alt="Quiet Form"
-                >
-
-            </div>
-
-
-            <div class="project-image">
-
-                <img
-                    src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=2200&q=88"
-                    alt="Inner Court"
-                >
-
-            </div>
-
-
-            <div class="project-image">
-
-                <img
-                    src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=2200&q=88"
-                    alt="Warm Minimal"
-                >
-
-            </div>
-
-
-            <div class="project-image">
-
-                <img
-                    src="https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=2200&q=88"
-                    alt="Still House"
-                >
-
-            </div>
-
-
-            <div class="projects-dark-overlay"></div>
-
+          <button class="project-next" type="button">NEXT PROJECT ↗</button>
         </div>
+      </article>
 
+      <article class="project-slide">
+        <img src="https://images.unsplash.com/photo-1615874694520-474822394e73?auto=format&fit=crop&w=2400&q=90" alt="Quiet Form">
+        <div class="project-slide-overlay"></div>
 
+        <div class="project-ui">
+          <div class="project-number">02 / 03</div>
 
-        <div class="projects-top">
+          <div class="project-copy">
+            <small>INTERIOR</small>
+            <h2>QUIET FORM</h2>
+            <p>A soft interior where joinery, stone and warm light create a continuous visual rhythm.</p>
+          </div>
 
-            <span>
-                SELECTED PROJECTS
-            </span>
-
-            <span>
-                2022 — 2026
-            </span>
-
+          <button class="project-next" type="button">NEXT PROJECT ↗</button>
         </div>
+      </article>
 
+      <article class="project-slide">
+        <img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=2400&q=90" alt="Inner Court">
+        <div class="project-slide-overlay"></div>
 
+        <div class="project-ui">
+          <div class="project-number">03 / 03</div>
 
-        <div class="project-number-wrap">
+          <div class="project-copy">
+            <small>ARCHITECTURE</small>
+            <h2>INNER COURT</h2>
+            <p>Circulation and daylight are organised around a central void that anchors the entire plan.</p>
+          </div>
 
-            <span class="project-current">
-                01
-            </span>
-
-            <span>/</span>
-
-            <span>
-                05
-            </span>
-
+          <button class="project-next" type="button">BACK TO FIRST ↗</button>
         </div>
-
-
-
-        <div class="project-titles">
-
-
-            <div class="project-title">
-
-                <span class="project-type">
-                    RESIDENTIAL
-                </span>
-
-                <h2>
-                    HOUSE<br>
-                    OF LIGHT
-                </h2>
-
-            </div>
-
-
-            <div class="project-title">
-
-                <span class="project-type">
-                    INTERIOR
-                </span>
-
-                <h2>
-                    QUIET<br>
-                    FORM
-                </h2>
-
-            </div>
-
-
-            <div class="project-title">
-
-                <span class="project-type">
-                    ARCHITECTURE
-                </span>
-
-                <h2>
-                    INNER<br>
-                    COURT
-                </h2>
-
-            </div>
-
-
-            <div class="project-title">
-
-                <span class="project-type">
-                    HOSPITALITY
-                </span>
-
-                <h2>
-                    WARM<br>
-                    MINIMAL
-                </h2>
-
-            </div>
-
-
-            <div class="project-title">
-
-                <span class="project-type">
-                    RESIDENTIAL
-                </span>
-
-                <h2>
-                    STILL<br>
-                    HOUSE
-                </h2>
-
-            </div>
-
-        </div>
-
-
-
-        <div class="projects-bottom">
-
-            <span>
-                INDIA
-            </span>
-
-            <p>
-                Architecture and interiors composed
-                through proportion, material and light.
-            </p>
-
-            <a href="#" class="project-link magnetic">
-                VIEW PROJECT ↗
-            </a>
-
-        </div>
-
-
-
-        <div class="project-progress">
-
-            <div class="project-progress-line"></div>
-
-        </div>
-
+      </article>
     </div>
-
+  </div>
 </section>
 
 
+<!-- =========================================================
+     APPROACH — REFERENCE-STYLE 700VH HORIZONTAL STORY
+========================================================= -->
+<section class="section approach-section" id="story">
+  <div class="approach-sticky">
 
-<!-- =====================================================
-     PHILOSOPHY
-===================================================== -->
+    <div class="approach-intro">
+      <div class="approach-intro-head">
+        <span>[ 03 ]</span>
 
-<section class="philosophy">
+        <div>
+          <h2 data-reveal="chars">Architectural thinking.</h2>
+          <h2 data-reveal="chars">Design sensibility.</h2>
+          <h2 data-reveal="chars">Premium delivery.</h2>
+        </div>
+      </div>
 
+      <figure class="approach-intro-left">
+        <img src="https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=900&q=84" alt="">
+      </figure>
 
-    <div class="section-top">
-
-        <span>
-            OUR APPROACH
-        </span>
-
-        <span>
-            02 — PHILOSOPHY
-        </span>
-
+      <figure class="approach-intro-right">
+        <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=900&q=84" alt="">
+      </figure>
     </div>
 
 
-    <div class="philosophy-title">
+    <div class="approach-track">
 
-        <div class="philosophy-mask">
-
-            <h2>
-                FORM FOLLOWS
-            </h2>
-
+      <article class="approach-panel approach-panel-one">
+        <div class="approach-panel-head">
+          <span class="approach-tag" data-approach="tag-1">[ 01 ]</span>
+          <h2 data-approach="head-1">Architecture</h2>
         </div>
 
-
-        <div class="philosophy-mask philosophy-right">
-
-            <h2>
-                FEELING.
-            </h2>
-
+        <div class="approach-media approach-media-one">
+          <div class="approach-image-wrap">
+            <img data-approach="image-1" src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1600&q=88" alt="Architecture">
+          </div>
         </div>
 
-    </div>
-
-
-    <div class="philosophy-grid">
-
-        <span>
-            (02)
-        </span>
-
-
-        <div class="philosophy-copy">
-
-            <p>
-                We believe architecture is experienced
-                before it is understood.
-            </p>
-
-            <p>
-                Material, proportion, light and movement
-                work together to create spaces that feel
-                inevitable rather than decorated.
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- =====================================================
-     EXPANSION
-===================================================== -->
-
-<section class="expansion" id="approach">
-
-    <div class="expansion-sticky">
-
-
-        <div class="expansion-word expansion-word-left">
-            MATERIAL
-        </div>
-
-
-        <div class="expansion-word expansion-word-right">
-            MATTERS
-        </div>
-
-
-
-        <div class="expansion-frame">
-
-            <img
-                src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2200&q=88"
-                alt="Material and architectural detail"
-            >
-
-            <div class="expansion-shade"></div>
-
-        </div>
-
-
-
-        <div class="expansion-top">
-
-            <span>
-                MATERIAL / LIGHT
-            </span>
-
-            <span>
-                03 — EXPERIENCE
-            </span>
-
-        </div>
-
-
-        <div class="expansion-caption">
-
-            DETAIL DEFINES<br>
-            THE WHOLE.
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- =====================================================
-     STATEMENT
-===================================================== -->
-
-<section class="statement">
-
-
-    <div class="section-top section-top-light">
-
-        <span>
-            OUR PRINCIPLE
-        </span>
-
-        <span>
-            04 — INTENTION
-        </span>
-
-    </div>
-
-
-    <div class="statement-copy">
-
-
-        <div class="statement-mask">
-
-            <h2>
-                NOTHING
-            </h2>
-
-        </div>
-
-
-        <div class="statement-mask statement-indent">
-
-            <h2>
-                WITHOUT
-            </h2>
-
-        </div>
-
-
-        <div class="statement-mask">
-
-            <h2>
-                PURPOSE.
-            </h2>
-
-        </div>
-
-
-    </div>
-
-
-    <div class="statement-bottom">
-
-        <span>
-            FROM CONCEPT
-        </span>
-
-
-        <p>
-            Every line, material and junction is
-            considered as part of a larger composition.
+        <p class="approach-text" data-approach="text-1">
+          Planning, circulation, engineering logic. The invisible layer that makes daily life effortless.
         </p>
+      </article>
 
 
-        <span>
-            TO COMPLETION
-        </span>
-
-    </div>
-
-</section>
-
-
-
-<!-- =====================================================
-     QUIET PROCESS
-===================================================== -->
-
-<section class="process" id="process">
-
-
-    <div class="section-top">
-
-        <span>
-            HOW WE WORK
-        </span>
-
-        <span>
-            05 — PROCESS
-        </span>
-
-    </div>
-
-
-
-    <div class="process-intro">
-
-        <span>
-            OUR PROCESS
-        </span>
-
-
-        <h2>
-            WE DESIGN FROM<br>
-            THE WHOLE DOWN<br>
-            TO THE DETAIL.
-        </h2>
-
-    </div>
-
-
-
-    <div class="process-grid">
-
-
-        <article class="process-item">
-
-            <span class="process-number">
-                01
-            </span>
-
-            <h3>
-                CONCEPT
-            </h3>
-
-            <p>
-                Understanding context, purpose,
-                people and the intention behind
-                the space.
-            </p>
-
-        </article>
-
-
-
-        <article class="process-item">
-
-            <span class="process-number">
-                02
-            </span>
-
-            <h3>
-                DESIGN
-            </h3>
-
-            <p>
-                Resolving proportion, movement,
-                material, light and every spatial
-                relationship.
-            </p>
-
-        </article>
-
-
-
-        <article class="process-item">
-
-            <span class="process-number">
-                03
-            </span>
-
-            <h3>
-                DELIVERY
-            </h3>
-
-            <p>
-                Carrying the idea through drawings,
-                detailing, coordination and execution.
-            </p>
-
-        </article>
-
-
-    </div>
-
-</section>
-
-
-
-<!-- =====================================================
-     MARQUEE
-===================================================== -->
-
-<section class="marquee-section">
-
-    <div class="marquee">
-
-        <div class="marquee-track">
-
-            <span>ARCHITECTURE</span>
-            <i>✦</i>
-
-            <span>INTERIORS</span>
-            <i>✦</i>
-
-            <span>DESIGN</span>
-            <i>✦</i>
-
-            <span>DETAIL</span>
-            <i>✦</i>
-
-            <span>ARCHITECTURE</span>
-            <i>✦</i>
-
-            <span>INTERIORS</span>
-            <i>✦</i>
-
-            <span>DESIGN</span>
-            <i>✦</i>
-
-            <span>DETAIL</span>
-            <i>✦</i>
-
+      <article class="approach-panel approach-panel-two">
+        <div class="approach-panel-head">
+          <span class="approach-tag" data-approach="tag-2">[ 02 ]</span>
+          <h2 data-approach="head-2">Design</h2>
         </div>
 
-    </div>
+        <div class="design-strip">
+          <div class="design-thumb is-bottom"><img data-approach="image-2" src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=500&q=84" alt=""></div>
+          <div class="design-thumb is-top"><img data-approach="image-3" src="https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?auto=format&fit=crop&w=500&q=84" alt=""></div>
+          <div class="design-thumb is-bottom"><img data-approach="image-4" src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=500&q=84" alt=""></div>
+          <div class="design-thumb is-top"><img data-approach="image-5" src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=500&q=84" alt=""></div>
+          <div class="design-thumb is-bottom"><img data-approach="image-6" src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=500&q=84" alt=""></div>
+        </div>
 
+        <p class="approach-text light" data-approach="text-2">
+          Material, light, proportion, restraint. Choices that feel calm and age well.
+        </p>
+      </article>
+
+
+      <article class="approach-panel approach-panel-three">
+        <div class="approach-panel-head">
+          <span class="approach-tag" data-approach="tag-3">[ 03 ]</span>
+          <h2 data-approach="head-3">Delivery</h2>
+        </div>
+
+        <div class="approach-media approach-media-three">
+          <div class="approach-image-wrap is-square">
+            <img data-approach="image-7" src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1500&q=88" alt="Project delivery">
+          </div>
+        </div>
+
+        <p class="approach-text" data-approach="text-3">
+          Coordination, timing and detailing through handover. Where the design stays intact.
+        </p>
+      </article>
+
+    </div>
+  </div>
 </section>
 
 
+<!-- =========================================================
+     ABOUT — HORIZONTAL CARD STRIP
+========================================================= -->
+<section class="section about-section" id="about">
+  <div class="about-sticky">
+    <div class="section-tag">04 / ABOUT</div>
 
-<!-- =====================================================
+    <div class="about-heading">
+      <h2 data-reveal="chars">ABOUT THE STUDIO.</h2>
+    </div>
+
+    <div class="about-track">
+      <article class="about-card">
+        <span>01</span>
+        <strong data-counter="10">0</strong>
+        <p>Years building carefully considered spaces.</p>
+      </article>
+
+      <article class="about-card">
+        <span>02</span>
+        <strong data-counter="38">0</strong>
+        <p>Projects developed from concept through completion.</p>
+      </article>
+
+      <article class="about-card">
+        <span>03</span>
+        <strong data-counter="7">0</strong>
+        <p>Design disciplines working together as one process.</p>
+      </article>
+
+      <article class="about-card about-card-image">
+        <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=86" alt="Studio">
+      </article>
+    </div>
+  </div>
+</section>
+
+
+<!-- =========================================================
      CONTACT
-===================================================== -->
+========================================================= -->
+<section class="section contact" id="contact">
+  <div class="contact-top">
+    <span>START A PROJECT</span>
+    <span>INDIA / 2026</span>
+  </div>
 
-<section class="contact" id="contact">
+  <div class="contact-main">
+    <p>HAVE A SPACE<br>IN MIND?</p>
 
+    <a href="mailto:hello@example.com" class="contact-title">
+      <span>LET'S TALK</span>
+      <span>↗</span>
+    </a>
+  </div>
 
-    <div class="contact-top">
-
-        <span>
-            START A PROJECT
-        </span>
-
-        <span>
-            INDIA / 2026
-        </span>
-
-    </div>
-
-
-
-    <div class="contact-main">
-
-
-        <p>
-            HAVE A SPACE<br>
-            IN MIND?
-        </p>
-
-
-        <a
-            href="mailto:hello@example.com"
-            class="contact-title magnetic"
-        >
-
-            <span>
-                LET'S TALK
-            </span>
-
-            <span class="contact-arrow">
-                ↗
-            </span>
-
-        </a>
-
-
-    </div>
-
-
-
-    <footer class="footer">
-
-
-        <span>
-            ERP ©2026
-        </span>
-
-
-        <div class="footer-links">
-
-            <a href="#" class="magnetic">
-                INSTAGRAM
-            </a>
-
-            <a href="#" class="magnetic">
-                LINKEDIN
-            </a>
-
-            <a href="mailto:hello@example.com" class="magnetic">
-                EMAIL
-            </a>
-
-        </div>
-
-
-        <button class="back-top">
-            BACK TO TOP ↑
-        </button>
-
-
-    </footer>
-
+  <footer>
+    <span>ERP ©2026</span>
+    <button class="back-top" type="button">BACK TO TOP ↑</button>
+  </footer>
 </section>
-
 
 </main>
 
 
-
-<!-- =====================================================
-     CURSOR
-===================================================== -->
-
-<div class="cursor">
-
-    <div class="cursor-dot"></div>
-
-    <div class="cursor-label">
-        VIEW
-    </div>
-
-</div>
-
-
-
-<!-- =====================================================
+<!-- =========================================================
      LIBRARIES
-===================================================== -->
-
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.11/dist/lenis.min.js"></script>
+========================================================= -->
+<script src="https://cdn.prod.website-files.com/gsap/3.15.0/gsap.min.js"></script>
+<script src="https://cdn.prod.website-files.com/gsap/3.15.0/SplitText.min.js"></script>
+<script src="https://cdn.prod.website-files.com/gsap/3.15.0/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
 
 <script src="./js/main.js"></script>
-
 <script src="./js/animations.js"></script>
-
-
 </body>
 </html>
