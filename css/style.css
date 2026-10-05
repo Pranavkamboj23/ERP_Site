@@ -1,5 +1,5 @@
 /* =========================================================
-   RESET / GLOBAL
+   RESET
 ========================================================= */
 
 *,
@@ -10,16 +10,25 @@
     box-sizing: border-box;
 }
 
+:root {
+    --paper: #e8e6df;
+    --black: #111;
+    --white: #f3f1ea;
+    --accent: #d8ff37;
+}
+
 html {
     scroll-behavior: auto;
 }
 
 body {
-    margin: 0;
-    background: #e8e6df;
-    color: #111;
+    background: var(--paper);
+    color: var(--black);
+
     font-family: "Inter", Arial, sans-serif;
+
     overflow-x: hidden;
+
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
 }
@@ -35,15 +44,17 @@ a {
 
 button {
     border: 0;
-    outline: 0;
     background: none;
+
     color: inherit;
     font: inherit;
+
     cursor: pointer;
 }
 
 img {
     display: block;
+
     width: 100%;
 }
 
@@ -72,12 +83,33 @@ html.lenis body {
 
 
 /* =========================================================
+   COMMON
+========================================================= */
+
+.section-top {
+    display: flex;
+    justify-content: space-between;
+
+    font-size: 9px;
+
+    letter-spacing: .13em;
+
+    text-transform: uppercase;
+}
+
+.section-top-light {
+    color: #eee;
+}
+
+
+/* =========================================================
    LOADER
 ========================================================= */
 
 .loader {
     position: fixed;
     inset: 0;
+
     z-index: 999999;
 
     background: #111;
@@ -88,6 +120,7 @@ html.lenis body {
 
 .loader-inner {
     height: 100%;
+
     padding: 28px 32px;
 
     display: flex;
@@ -97,8 +130,11 @@ html.lenis body {
 
 .loader-brand {
     font-size: clamp(60px, 12vw, 180px);
+
     line-height: .8;
+
     letter-spacing: -.08em;
+
     font-weight: 500;
 }
 
@@ -108,12 +144,15 @@ html.lenis body {
     align-items: flex-end;
 
     font-size: 10px;
+
     letter-spacing: .13em;
 }
 
 .loader-counter {
     font-size: clamp(60px, 9vw, 130px);
+
     line-height: .8;
+
     letter-spacing: -.07em;
 }
 
@@ -158,6 +197,7 @@ html.lenis body {
     justify-self: start;
 
     font-size: 21px;
+
     line-height: 1;
 
     font-weight: 600;
@@ -172,7 +212,9 @@ html.lenis body {
 
     gap: 25px;
 
-    font-size: 9px;
+    font-size: 10px;
+
+    font-weight: 500;
 
     letter-spacing: .12em;
 }
@@ -188,25 +230,25 @@ html.lenis body {
 
     font-size: 10px;
 
+    font-weight: 500;
+
     letter-spacing: .12em;
 }
 
 .menu-icon {
-    width: 24px;
-    height: 10px;
-
     position: relative;
 
-    display: block;
+    width: 24px;
+    height: 10px;
 }
 
 .menu-icon i {
     position: absolute;
 
+    left: 0;
+
     width: 100%;
     height: 1px;
-
-    left: 0;
 
     background: currentColor;
 }
@@ -221,7 +263,7 @@ html.lenis body {
 
 
 /* =========================================================
-   MENU OVERLAY
+   MENU
 ========================================================= */
 
 .menu-overlay {
@@ -231,13 +273,13 @@ html.lenis body {
 
     z-index: 5000;
 
-    background: #151515;
-    color: #f0eee8;
-
     padding: 28px 30px;
 
     display: flex;
     flex-direction: column;
+
+    background: #151515;
+    color: #f0eee8;
 
     visibility: hidden;
 
@@ -249,7 +291,6 @@ html.lenis body {
 .menu-overlay-top,
 .menu-footer {
     display: flex;
-
     justify-content: space-between;
 
     font-size: 10px;
@@ -273,17 +314,17 @@ html.lenis body {
 
     align-items: center;
 
-    border-bottom:
-        1px solid rgba(255, 255, 255, .18);
-
     padding: 10px 0;
 
     overflow: hidden;
+
+    border-bottom:
+        1px solid rgba(255,255,255,.18);
 }
 
 .menu-nav a:first-child {
     border-top:
-        1px solid rgba(255, 255, 255, .18);
+        1px solid rgba(255,255,255,.18);
 }
 
 .menu-number {
@@ -296,9 +337,12 @@ html.lenis body {
     font-size:
         clamp(45px, 7vw, 105px);
 
+    line-height: 1;
+
     letter-spacing: -.065em;
 
-    line-height: 1;
+    transition:
+        transform .4s cubic-bezier(.16,1,.3,1);
 }
 
 
@@ -352,12 +396,10 @@ html.lenis body {
     background:
         linear-gradient(
             180deg,
-            rgba(0, 0, 0, .25),
-            rgba(0, 0, 0, .05) 45%,
-            rgba(0, 0, 0, .45)
+            rgba(0,0,0,.25),
+            rgba(0,0,0,.05) 45%,
+            rgba(0,0,0,.45)
         );
-
-    pointer-events: none;
 }
 
 .hero-meta {
@@ -381,20 +423,15 @@ html.lenis body {
     opacity: .8;
 }
 
-
-/* =========================================================
-   HERO TITLE
-========================================================= */
-
 .hero-title-wrap {
     position: absolute;
 
     z-index: 2;
 
+    top: 50%;
+
     left: 27px;
     right: 27px;
-
-    top: 50%;
 
     transform: translateY(-50%);
 }
@@ -428,11 +465,6 @@ html.lenis body {
     padding-right: 2vw;
 }
 
-
-/* =========================================================
-   HERO BOTTOM
-========================================================= */
-
 .hero-bottom {
     position: absolute;
 
@@ -459,8 +491,6 @@ html.lenis body {
     font-size: 11px;
 
     line-height: 1.5;
-
-    letter-spacing: -.01em;
 }
 
 .scroll-indicator {
@@ -478,15 +508,15 @@ html.lenis body {
 }
 
 .scroll-line {
+    position: relative;
+
     width: 50px;
     height: 1px;
-
-    position: relative;
 
     overflow: hidden;
 
     background:
-        rgba(255, 255, 255, .6);
+        rgba(255,255,255,.6);
 }
 
 .scroll-line::after {
@@ -533,8 +563,6 @@ html.lenis body {
 ========================================================= */
 
 .intro {
-    position: relative;
-
     min-height: 100vh;
 
     padding:
@@ -542,25 +570,11 @@ html.lenis body {
         30px
         140px;
 
-    background: #e8e6df;
-
-    color: #111;
+    background: var(--paper);
 }
 
-.intro-top {
-    display: flex;
-
-    justify-content: space-between;
-
+.intro .section-top {
     padding-bottom: 80px;
-
-    font-size: 9px;
-
-    letter-spacing: .13em;
-}
-
-.intro-heading {
-    width: 100%;
 }
 
 .intro-line-mask {
@@ -584,11 +598,6 @@ html.lenis body {
     padding-left: 24vw;
 }
 
-
-/* =========================================================
-   INTRO COPY
-========================================================= */
-
 .intro-content {
     display: grid;
 
@@ -604,14 +613,14 @@ html.lenis body {
 }
 
 .intro-copy p {
+    margin-bottom: 28px;
+
     font-size:
         clamp(17px, 1.45vw, 23px);
 
     line-height: 1.4;
 
     letter-spacing: -.035em;
-
-    margin-bottom: 28px;
 }
 
 .text-link {
@@ -623,10 +632,9 @@ html.lenis body {
 
     gap: 15px;
 
-    border-bottom:
-        1px solid #111;
-
     padding-bottom: 7px;
+
+    border-bottom: 1px solid #111;
 
     font-size: 10px;
 
@@ -641,7 +649,7 @@ html.lenis body {
 .projects {
     position: relative;
 
-    height: 500vh;
+    height: 420vh;
 
     background: #111;
 }
@@ -661,14 +669,8 @@ html.lenis body {
     overflow: hidden;
 
     background: #111;
-
     color: #fff;
 }
-
-
-/* =========================================================
-   PROJECT MEDIA
-========================================================= */
 
 .projects-media {
     position: absolute;
@@ -676,8 +678,6 @@ html.lenis body {
     inset: 0;
 
     overflow: hidden;
-
-    background: #111;
 }
 
 .project-image {
@@ -688,17 +688,15 @@ html.lenis body {
     overflow: hidden;
 
     opacity: 0;
-
     visibility: hidden;
 
     will-change:
-        opacity,
-        clip-path;
+        clip-path,
+        opacity;
 }
 
 .project-image:first-child {
     opacity: 1;
-
     visibility: visible;
 }
 
@@ -725,21 +723,16 @@ html.lenis body {
 
     z-index: 5;
 
+    pointer-events: none;
+
     background:
         linear-gradient(
             180deg,
-            rgba(0, 0, 0, .35) 0%,
-            rgba(0, 0, 0, .08) 35%,
-            rgba(0, 0, 0, .5) 100%
+            rgba(0,0,0,.35),
+            rgba(0,0,0,.08) 35%,
+            rgba(0,0,0,.52)
         );
-
-    pointer-events: none;
 }
-
-
-/* =========================================================
-   PROJECT TOP
-========================================================= */
 
 .projects-top {
     position: absolute;
@@ -759,11 +752,6 @@ html.lenis body {
 
     letter-spacing: .14em;
 }
-
-
-/* =========================================================
-   PROJECT NUMBER
-========================================================= */
 
 .project-number-wrap {
     position: absolute;
@@ -789,29 +777,19 @@ html.lenis body {
     display: inline-block;
 }
 
-.project-divider {
-    opacity: .5;
-}
-
-
-/* =========================================================
-   PROJECT TITLES
-========================================================= */
-
 .project-titles {
     position: absolute;
 
     z-index: 20;
 
-    left: 12vw;
-
     top: 50%;
 
-    transform: translateY(-50%);
+    left: 12vw;
 
     width: 76vw;
-
     height: 45vh;
+
+    transform: translateY(-50%);
 
     pointer-events: none;
 }
@@ -824,11 +802,9 @@ html.lenis body {
     display: flex;
 
     flex-direction: column;
-
     justify-content: center;
 
     opacity: 0;
-
     visibility: hidden;
 
     will-change:
@@ -838,13 +814,10 @@ html.lenis body {
 
 .project-title:first-child {
     opacity: 1;
-
     visibility: visible;
 }
 
 .project-type {
-    display: block;
-
     margin-bottom: 22px;
 
     font-size: 9px;
@@ -853,8 +826,6 @@ html.lenis body {
 }
 
 .project-title h2 {
-    margin: 0;
-
     font-size:
         clamp(80px, 12.5vw, 200px);
 
@@ -864,11 +835,6 @@ html.lenis body {
 
     letter-spacing: -.075em;
 }
-
-
-/* =========================================================
-   PROJECT BOTTOM
-========================================================= */
 
 .projects-bottom {
     position: absolute;
@@ -894,7 +860,7 @@ html.lenis body {
     letter-spacing: .11em;
 }
 
-.project-description {
+.projects-bottom p {
     justify-self: center;
 
     max-width: 280px;
@@ -912,13 +878,8 @@ html.lenis body {
     padding-bottom: 5px;
 
     border-bottom:
-        1px solid rgba(255, 255, 255, .7);
+        1px solid rgba(255,255,255,.7);
 }
-
-
-/* =========================================================
-   PROJECT PROGRESS
-========================================================= */
 
 .project-progress {
     position: absolute;
@@ -926,14 +887,13 @@ html.lenis body {
     z-index: 30;
 
     bottom: 0;
-
     left: 0;
 
     width: 100%;
     height: 2px;
 
     background:
-        rgba(255, 255, 255, .25);
+        rgba(255,255,255,.25);
 }
 
 .project-progress-line {
@@ -955,8 +915,6 @@ html.lenis body {
 ========================================================= */
 
 .philosophy {
-    position: relative;
-
     min-height: 100vh;
 
     padding:
@@ -964,25 +922,11 @@ html.lenis body {
         30px
         140px;
 
-    background: #e8e6df;
-
-    color: #111;
+    background: var(--paper);
 }
 
-.philosophy-top {
-    display: flex;
-
-    justify-content: space-between;
-
+.philosophy .section-top {
     padding-bottom: 100px;
-
-    font-size: 9px;
-
-    letter-spacing: .13em;
-}
-
-.philosophy-title {
-    width: 100%;
 }
 
 .philosophy-mask {
@@ -996,8 +940,6 @@ html.lenis body {
 }
 
 .philosophy-title h2 {
-    margin: 0;
-
     font-size:
         clamp(70px, 11vw, 180px);
 
@@ -1020,10 +962,8 @@ html.lenis body {
     margin-top: 120px;
 }
 
-.philosophy-index {
+.philosophy-grid > span {
     font-size: 10px;
-
-    letter-spacing: .1em;
 }
 
 .philosophy-copy {
@@ -1031,41 +971,591 @@ html.lenis body {
 }
 
 .philosophy-copy p {
+    margin-bottom: 28px;
+
     font-size:
         clamp(18px, 1.5vw, 24px);
 
     line-height: 1.4;
 
     letter-spacing: -.035em;
-
-    margin-bottom: 28px;
 }
 
 
 /* =========================================================
-   HOVER
+   EXPANSION
+========================================================= */
+
+.expansion {
+    position: relative;
+
+    height: 220vh;
+
+    background: var(--paper);
+}
+
+.expansion-sticky {
+    position: sticky;
+
+    top: 0;
+
+    height: 100vh;
+    height: 100svh;
+
+    overflow: hidden;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.expansion-frame {
+    position: absolute;
+
+    z-index: 3;
+
+    width: 28vw;
+    height: 48vh;
+
+    overflow: hidden;
+
+    will-change:
+        width,
+        height;
+}
+
+.expansion-frame img {
+    position: absolute;
+
+    top: -7%;
+
+    width: 100%;
+    height: 115%;
+
+    object-fit: cover;
+
+    will-change: transform;
+}
+
+.expansion-shade {
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        rgba(0,0,0,.08);
+}
+
+.expansion-word {
+    position: absolute;
+
+    z-index: 4;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: #fff;
+
+    mix-blend-mode: difference;
+
+    font-size: 12vw;
+
+    line-height: .8;
+
+    letter-spacing: -.08em;
+
+    white-space: nowrap;
+
+    will-change:
+        transform,
+        opacity;
+}
+
+.expansion-word-left {
+    right: 52%;
+}
+
+.expansion-word-right {
+    left: 52%;
+}
+
+.expansion-top {
+    position: absolute;
+
+    z-index: 5;
+
+    top: 30px;
+
+    left: 30px;
+    right: 30px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    color: #fff;
+
+    mix-blend-mode: difference;
+
+    font-size: 9px;
+
+    letter-spacing: .13em;
+}
+
+.expansion-caption {
+    position: absolute;
+
+    z-index: 5;
+
+    bottom: 30px;
+    left: 30px;
+
+    color: #fff;
+
+    mix-blend-mode: difference;
+
+    font-size: 10px;
+
+    line-height: 1.5;
+
+    letter-spacing: .1em;
+}
+
+
+/* =========================================================
+   STATEMENT
+========================================================= */
+
+.statement {
+    padding:
+        130px
+        30px
+        140px;
+
+    overflow: hidden;
+
+    background: #111;
+    color: #eee;
+}
+
+.statement .section-top {
+    margin-bottom: 100px;
+}
+
+.statement-mask {
+    overflow: hidden;
+}
+
+.statement-copy h2 {
+    font-size:
+        clamp(72px, 11.5vw, 180px);
+
+    line-height: .82;
+
+    font-weight: 400;
+
+    letter-spacing: -.075em;
+
+    will-change: transform;
+}
+
+.statement-indent {
+    padding-left: 22vw;
+}
+
+.statement-bottom {
+    margin-top: 120px;
+
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        1fr
+        1fr;
+}
+
+.statement-bottom > span {
+    font-size: 9px;
+
+    letter-spacing: .12em;
+}
+
+.statement-bottom > span:last-child {
+    justify-self: end;
+}
+
+.statement-bottom p {
+    max-width: 390px;
+
+    font-size: 18px;
+
+    line-height: 1.45;
+
+    letter-spacing: -.025em;
+}
+
+
+/* =========================================================
+   QUIET PROCESS
+========================================================= */
+
+.process {
+    padding:
+        130px
+        30px
+        150px;
+
+    background: #f1efe8;
+
+    color: #111;
+}
+
+.process .section-top {
+    padding-bottom: 150px;
+}
+
+.process-intro {
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        2fr;
+
+    align-items: start;
+}
+
+.process-intro > span {
+    padding-top: 12px;
+
+    font-size: 9px;
+
+    letter-spacing: .13em;
+}
+
+.process-intro h2 {
+    max-width: 1000px;
+
+    font-size:
+        clamp(48px, 6.8vw, 105px);
+
+    line-height: .93;
+
+    font-weight: 400;
+
+    letter-spacing: -.06em;
+}
+
+.process-grid {
+    margin-top: 160px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    border-top:
+        1px solid rgba(0,0,0,.25);
+}
+
+.process-item {
+    min-height: 320px;
+
+    padding:
+        25px
+        35px
+        20px
+        0;
+
+    border-right:
+        1px solid rgba(0,0,0,.2);
+}
+
+.process-item + .process-item {
+    padding-left: 35px;
+}
+
+.process-item:last-child {
+    border-right: 0;
+}
+
+.process-number {
+    display: block;
+
+    margin-bottom: 90px;
+
+    font-size: 9px;
+
+    letter-spacing: .12em;
+}
+
+.process-item h3 {
+    margin-bottom: 20px;
+
+    font-size: 18px;
+
+    font-weight: 500;
+
+    letter-spacing: -.025em;
+}
+
+.process-item p {
+    max-width: 310px;
+
+    color: #555;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   MARQUEE
+========================================================= */
+
+.marquee-section {
+    overflow: hidden;
+
+    padding: 35px 0;
+
+    background: var(--paper);
+
+    border-top:
+        1px solid rgba(0,0,0,.15);
+
+    border-bottom:
+        1px solid rgba(0,0,0,.15);
+}
+
+.marquee {
+    width: 100%;
+
+    overflow: hidden;
+}
+
+.marquee-track {
+    display: flex;
+
+    align-items: center;
+
+    width: max-content;
+
+    gap: 45px;
+
+    will-change: transform;
+}
+
+.marquee-track span {
+    font-size:
+        clamp(55px, 8vw, 130px);
+
+    line-height: 1;
+
+    letter-spacing: -.06em;
+
+    white-space: nowrap;
+}
+
+.marquee-track i {
+    font-size: 30px;
+
+    font-style: normal;
+}
+
+
+/* =========================================================
+   CONTACT
+========================================================= */
+
+.contact {
+    min-height: 100vh;
+    min-height: 100svh;
+
+    padding: 30px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    background: var(--accent);
+
+    color: #111;
+}
+
+.contact-top {
+    display: flex;
+
+    justify-content: space-between;
+
+    font-size: 9px;
+
+    letter-spacing: .13em;
+}
+
+.contact-main {
+    flex: 1;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+}
+
+.contact-main > p {
+    margin-bottom: 45px;
+
+    font-size: 11px;
+
+    line-height: 1.4;
+
+    letter-spacing: .1em;
+}
+
+.contact-title {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: flex-end;
+
+    padding-bottom: 15px;
+
+    border-bottom:
+        2px solid #111;
+}
+
+.contact-title > span:first-child {
+    font-size:
+        clamp(80px, 15vw, 230px);
+
+    line-height: .75;
+
+    letter-spacing: -.085em;
+}
+
+.contact-arrow {
+    font-size:
+        clamp(50px, 8vw, 120px);
+
+    line-height: .7;
+}
+
+.footer {
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        1fr
+        1fr;
+
+    align-items: end;
+
+    padding-top: 40px;
+
+    font-size: 9px;
+
+    letter-spacing: .12em;
+}
+
+.footer-links {
+    justify-self: center;
+
+    display: flex;
+
+    gap: 25px;
+}
+
+.back-top {
+    justify-self: end;
+
+    font-size: 9px;
+
+    letter-spacing: .12em;
+}
+
+
+/* =========================================================
+   CURSOR
+========================================================= */
+
+.cursor {
+    position: fixed;
+
+    z-index: 99999;
+
+    top: 0;
+    left: 0;
+
+    width: 70px;
+    height: 70px;
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    transform:
+        translate(-50%, -50%)
+        scale(.18);
+
+    background: var(--accent);
+
+    color: #111;
+
+    opacity: 0;
+
+    mix-blend-mode: difference;
+
+    will-change: transform;
+}
+
+.cursor-dot {
+    position: absolute;
+
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: #111;
+}
+
+.cursor-label {
+    font-size: 8px;
+
+    letter-spacing: .13em;
+
+    opacity: 0;
+}
+
+
+/* =========================================================
+   DESKTOP HOVER
 ========================================================= */
 
 @media (hover: hover) {
 
+    .menu-nav a:hover > span:last-child {
+        transform: translateX(20px);
+    }
+
     .text-link,
-    .project-link {
+    .project-link,
+    .footer a {
         transition:
             opacity .3s ease;
     }
 
     .text-link:hover,
-    .project-link:hover {
+    .project-link:hover,
+    .footer a:hover {
         opacity: .55;
-    }
-
-    .menu-nav a > span:last-child {
-        transition:
-            transform .4s cubic-bezier(.16, 1, .3, 1);
-    }
-
-    .menu-nav a:hover > span:last-child {
-        transform: translateX(20px);
     }
 }
 
@@ -1076,18 +1566,14 @@ html.lenis body {
 
 @media (max-width: 1024px) {
 
-    .hero-title {
-        font-size: 13.7vw;
-    }
-
-    .project-title h2 {
-        font-size: 13vw;
-    }
-
     .project-titles {
         left: 11vw;
 
         width: 82vw;
+    }
+
+    .project-title h2 {
+        font-size: 13vw;
     }
 
 }
@@ -1098,8 +1584,6 @@ html.lenis body {
 ========================================================= */
 
 @media (max-width: 768px) {
-
-    /* HEADER */
 
     .site-header {
         padding:
@@ -1116,8 +1600,6 @@ html.lenis body {
     }
 
 
-    /* LOADER */
-
     .loader-inner {
         padding:
             20px
@@ -1133,7 +1615,22 @@ html.lenis body {
     }
 
 
-    /* HERO */
+    .menu-overlay {
+        padding:
+            22px
+            18px;
+    }
+
+    .menu-nav a {
+        grid-template-columns:
+            45px
+            1fr;
+    }
+
+    .menu-nav a > span:last-child {
+        font-size: 13vw;
+    }
+
 
     .hero {
         min-height: 600px;
@@ -1172,31 +1669,25 @@ html.lenis body {
             auto;
     }
 
-    .hero-description {
-        max-width: 210px;
-    }
-
     .scroll-indicator {
         display: none;
     }
 
 
-    /* INTRO */
-
-    .intro {
+    .intro,
+    .philosophy,
+    .process {
         padding:
             100px
             18px;
     }
 
-    .intro-top {
+    .intro .section-top {
         padding-bottom: 55px;
     }
 
     .intro-line {
         font-size: 18vw;
-
-        line-height: .85;
     }
 
     .intro-indent {
@@ -1204,48 +1695,18 @@ html.lenis body {
     }
 
     .intro-content {
-        grid-template-columns:
-            1fr;
+        grid-template-columns: 1fr;
 
         margin-top: 70px;
     }
 
-    .intro-empty {
+    .intro-content > div:first-child {
         display: none;
     }
 
-    .intro-copy {
-        max-width: 100%;
-    }
-
-
-    /* MENU */
-
-    .menu-overlay {
-        padding:
-            22px
-            18px;
-    }
-
-    .menu-nav a {
-        grid-template-columns:
-            45px
-            1fr;
-    }
-
-    .menu-nav a > span:last-child {
-        font-size: 13vw;
-    }
-
-
-    /* PROJECTS */
 
     .projects {
-        height: 500vh;
-    }
-
-    .projects-sticky {
-        min-height: 600px;
+        height: 400vh;
     }
 
     .projects-top {
@@ -1274,12 +1735,6 @@ html.lenis body {
 
     .project-title h2 {
         font-size: 18vw;
-
-        line-height: .8;
-    }
-
-    .project-type {
-        margin-bottom: 15px;
     }
 
     .projects-bottom {
@@ -1293,40 +1748,159 @@ html.lenis body {
             auto;
     }
 
-    .project-description {
+    .projects-bottom p {
         display: none;
     }
 
 
-    /* PHILOSOPHY */
-
-    .philosophy {
-        padding:
-            100px
-            18px;
-    }
-
-    .philosophy-top {
+    .philosophy .section-top {
         padding-bottom: 70px;
     }
 
     .philosophy-title h2 {
         font-size: 17vw;
-
-        line-height: .85;
     }
 
     .philosophy-grid {
-        grid-template-columns:
-            1fr;
+        grid-template-columns: 1fr;
 
         margin-top: 80px;
     }
 
-    .philosophy-index {
+    .philosophy-grid > span {
         margin-bottom: 60px;
     }
 
+
+    .expansion {
+        height: 200vh;
+    }
+
+    .expansion-frame {
+        width: 55vw;
+        height: 42vh;
+    }
+
+    .expansion-word {
+        font-size: 19vw;
+    }
+
+    .expansion-top {
+        top: 22px;
+
+        left: 18px;
+        right: 18px;
+    }
+
+    .expansion-caption {
+        left: 18px;
+
+        bottom: 22px;
+    }
+
+
+    .statement {
+        padding:
+            100px
+            18px;
+    }
+
+    .statement .section-top {
+        margin-bottom: 70px;
+    }
+
+    .statement-copy h2 {
+        font-size: 16.5vw;
+    }
+
+    .statement-indent {
+        padding-left: 10vw;
+    }
+
+    .statement-bottom {
+        margin-top: 80px;
+
+        grid-template-columns: 1fr;
+
+        gap: 45px;
+    }
+
+    .statement-bottom > span:last-child {
+        justify-self: start;
+    }
+
+
+    .process .section-top {
+        padding-bottom: 90px;
+    }
+
+    .process-intro {
+        grid-template-columns: 1fr;
+    }
+
+    .process-intro > span {
+        margin-bottom: 40px;
+    }
+
+    .process-intro h2 {
+        font-size: 12vw;
+    }
+
+    .process-grid {
+        margin-top: 100px;
+
+        grid-template-columns: 1fr;
+    }
+
+    .process-item,
+    .process-item + .process-item {
+        min-height: auto;
+
+        padding:
+            25px
+            0
+            60px;
+
+        border-right: 0;
+
+        border-bottom:
+            1px solid rgba(0,0,0,.2);
+    }
+
+    .process-number {
+        margin-bottom: 55px;
+    }
+
+
+    .marquee-track {
+        gap: 25px;
+    }
+
+
+    .contact {
+        padding:
+            22px
+            18px;
+    }
+
+    .contact-title > span:first-child {
+        font-size: 17vw;
+    }
+
+    .footer {
+        grid-template-columns:
+            1fr
+            auto;
+    }
+
+    .footer-links {
+        display: none;
+    }
+
+
+    .cursor {
+        display: none;
+    }
 }
 
 
@@ -1340,23 +1914,15 @@ html.lenis body {
         display: none;
     }
 
-    .hero-title {
-        font-size: 18.5vw;
-    }
-
     .hero-description {
-        font-size: 9px;
+        max-width: 180px;
 
-        max-width: 170px;
+        font-size: 9px;
     }
 
     .intro-copy p,
     .philosophy-copy p {
         font-size: 17px;
-    }
-
-    .projects-top {
-        font-size: 8px;
     }
 
     .project-title h2 {
@@ -1381,5 +1947,4 @@ html.lenis body {
         animation-iteration-count:
             1 !important;
     }
-
 }

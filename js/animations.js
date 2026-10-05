@@ -1,23 +1,20 @@
-/* =========================================================
-   REGISTER GSAP
-========================================================= */
-
 gsap.registerPlugin(
     ScrollTrigger
 );
 
 
-
-/* =========================================================
-   HELPERS
-========================================================= */
-
-const q = (selector) =>
-    document.querySelector(selector);
+const q =
+    selector =>
+        document.querySelector(
+            selector
+        );
 
 
-const qa = (selector) =>
-    gsap.utils.toArray(selector);
+const qa =
+    selector =>
+        gsap.utils.toArray(
+            selector
+        );
 
 
 
@@ -32,7 +29,7 @@ const counter =
     q(".loader-counter");
 
 
-const loaderObject = {
+const loaderValue = {
     value: 0
 };
 
@@ -43,12 +40,12 @@ if (
 ) {
 
     gsap.to(
-        loaderObject,
+        loaderValue,
         {
 
             value: 100,
 
-            duration: 1.6,
+            duration: 1.45,
 
             ease:
                 "power2.inOut",
@@ -57,7 +54,7 @@ if (
 
                 counter.textContent =
                     Math.round(
-                        loaderObject.value
+                        loaderValue.value
                     )
                     .toString()
                     .padStart(
@@ -78,51 +75,39 @@ if (
    HERO INTRO
 ========================================================= */
 
-const introTimeline =
+const heroIntro =
     gsap.timeline({
-
-        delay: 1.35,
-
-        defaults: {
-            ease:
-                "power4.out"
-        }
-
+        delay: 1.25
     });
 
 
-if (loader) {
+heroIntro
 
-    introTimeline.to(
+    .to(
         loader,
         {
 
             yPercent: -100,
 
-            duration: 1.05,
+            duration: 1,
 
             ease:
                 "power4.inOut",
 
             onComplete: () => {
 
-                gsap.set(
-                    loader,
-                    {
-                        display:
-                            "none"
-                    }
-                );
+                if (loader) {
+
+                    loader.style.display =
+                        "none";
+
+                }
 
             }
 
         }
-    );
+    )
 
-}
-
-
-introTimeline
 
     .from(
         ".hero-media img",
@@ -130,7 +115,10 @@ introTimeline
 
             scale: 1.35,
 
-            duration: 1.8
+            duration: 1.8,
+
+            ease:
+                "power3.out"
 
         },
 
@@ -144,7 +132,10 @@ introTimeline
 
             yPercent: 120,
 
-            duration: 1.2
+            duration: 1.15,
+
+            ease:
+                "power4.out"
 
         },
 
@@ -158,11 +149,14 @@ introTimeline
 
             yPercent: 120,
 
-            duration: 1.2
+            duration: 1.15,
+
+            ease:
+                "power4.out"
 
         },
 
-        "-=1.05"
+        "-=1"
     )
 
 
@@ -179,22 +173,22 @@ introTimeline
 
             opacity: 0,
 
-            duration: .8,
+            duration: .75,
 
-            stagger: .08,
+            stagger: .07,
 
             ease:
                 "power3.out"
 
         },
 
-        "-=.65"
+        "-=.6"
     );
 
 
 
 /* =========================================================
-   HERO IMAGE PARALLAX
+   HERO SCROLL
 ========================================================= */
 
 gsap.to(
@@ -209,14 +203,11 @@ gsap.to(
 
         scrollTrigger: {
 
-            trigger:
-                ".hero",
+            trigger: ".hero",
 
-            start:
-                "top top",
+            start: "top top",
 
-            end:
-                "bottom top",
+            end: "bottom top",
 
             scrub: true
 
@@ -225,11 +216,6 @@ gsap.to(
     }
 );
 
-
-
-/* =========================================================
-   HERO TEXT MOVEMENT
-========================================================= */
 
 gsap.to(
     ".hero-title-one",
@@ -241,14 +227,11 @@ gsap.to(
 
         scrollTrigger: {
 
-            trigger:
-                ".hero",
+            trigger: ".hero",
 
-            start:
-                "top top",
+            start: "top top",
 
-            end:
-                "bottom top",
+            end: "bottom top",
 
             scrub: 1
 
@@ -268,14 +251,11 @@ gsap.to(
 
         scrollTrigger: {
 
-            trigger:
-                ".hero",
+            trigger: ".hero",
 
-            start:
-                "top top",
+            start: "top top",
 
-            end:
-                "bottom top",
+            end: "bottom top",
 
             scrub: 1
 
@@ -285,49 +265,11 @@ gsap.to(
 );
 
 
-
-/* =========================================================
-   HERO OVERLAY
-========================================================= */
-
-gsap.to(
-    ".hero-overlay",
-    {
-
-        backgroundColor:
-            "rgba(0,0,0,.72)",
-
-        ease: "none",
-
-        scrollTrigger: {
-
-            trigger:
-                ".hero",
-
-            start:
-                "20% top",
-
-            end:
-                "bottom top",
-
-            scrub: true
-
-        }
-
-    }
-);
-
-
-
-/* =========================================================
-   HERO BOTTOM EXIT
-========================================================= */
-
 gsap.to(
     ".hero-bottom",
     {
 
-        y: -50,
+        y: -45,
 
         opacity: 0,
 
@@ -335,14 +277,11 @@ gsap.to(
 
         scrollTrigger: {
 
-            trigger:
-                ".hero",
+            trigger: ".hero",
 
-            start:
-                "15% top",
+            start: "15% top",
 
-            end:
-                "60% top",
+            end: "60% top",
 
             scrub: true
 
@@ -354,11 +293,11 @@ gsap.to(
 
 
 /* =========================================================
-   INTRO TOP
+   INTRO
 ========================================================= */
 
 gsap.from(
-    ".intro-top",
+    ".intro .section-top",
     {
 
         opacity: 0,
@@ -367,16 +306,11 @@ gsap.from(
 
         duration: .8,
 
-        ease:
-            "power3.out",
-
         scrollTrigger: {
 
-            trigger:
-                ".intro",
+            trigger: ".intro",
 
-            start:
-                "top 75%"
+            start: "top 75%"
 
         }
 
@@ -384,20 +318,15 @@ gsap.from(
 );
 
 
-
-/* =========================================================
-   INTRO HEADLINE
-========================================================= */
-
 gsap.from(
     ".intro-line",
     {
 
         yPercent: 110,
 
-        duration: 1.2,
+        duration: 1.15,
 
-        stagger: .12,
+        stagger: .1,
 
         ease:
             "power4.out",
@@ -416,11 +345,6 @@ gsap.from(
 );
 
 
-
-/* =========================================================
-   INTRO COPY
-========================================================= */
-
 gsap.from(
     ".intro-copy > *",
     {
@@ -429,9 +353,9 @@ gsap.from(
 
         y: 45,
 
-        duration: 1,
+        duration: .9,
 
-        stagger: .13,
+        stagger: .12,
 
         ease:
             "power3.out",
@@ -470,13 +394,7 @@ const projectProgress =
 
 let activeProject = 0;
 
-let projectAnimating = false;
 
-
-
-/* =========================================================
-   PROJECT INITIAL STATES
-========================================================= */
 
 projectImages.forEach(
     (image, index) => {
@@ -530,10 +448,6 @@ projectTitles.forEach(
 
 
 
-/* =========================================================
-   PROJECT MASTER SCROLL
-========================================================= */
-
 if (
     projectImages.length &&
     projectTitles.length
@@ -541,84 +455,106 @@ if (
 
     ScrollTrigger.create({
 
-        trigger:
-            ".projects",
+        trigger: ".projects",
 
-        start:
-            "top top",
+        start: "top top",
 
-        end:
-            "bottom bottom",
+        end: "bottom bottom",
 
-        onUpdate:
-            (self) => {
+        onUpdate: self => {
 
-                /*
-                Progress bar
-                */
+            if (projectProgress) {
 
-                if (projectProgress) {
-
-                    gsap.set(
-                        projectProgress,
-                        {
-
-                            scaleX:
-                                self.progress
-
-                        }
-                    );
-
-                }
-
-
-                /*
-                Calculate project index.
-
-                progress:
-                0.00 -> project 0
-                0.20 -> project 1
-                etc.
-                */
-
-                const count =
-                    projectImages.length;
-
-
-                let newIndex =
-                    Math.floor(
-                        self.progress *
-                        count
-                    );
-
-
-                newIndex =
-                    Math.min(
-                        count - 1,
-                        Math.max(
-                            0,
-                            newIndex
-                        )
-                    );
-
-
-                if (
-                    newIndex !==
-                    activeProject
-                ) {
-
-                    changeProject(
-                        activeProject,
-                        newIndex
-                    );
-
-
-                    activeProject =
-                        newIndex;
-
-                }
+                gsap.set(
+                    projectProgress,
+                    {
+                        scaleX:
+                            self.progress
+                    }
+                );
 
             }
+
+
+            const count =
+                projectImages.length;
+
+
+            let index =
+                Math.floor(
+                    self.progress *
+                    count
+                );
+
+
+            index =
+                Math.min(
+                    count - 1,
+                    Math.max(
+                        0,
+                        index
+                    )
+                );
+
+
+            if (
+                index !==
+                activeProject
+            ) {
+
+                changeProject(
+                    activeProject,
+                    index
+                );
+
+
+                activeProject =
+                    index;
+
+            }
+
+
+            const currentImage =
+                projectImages[
+                    activeProject
+                ];
+
+
+            const image =
+                currentImage
+                    ?.querySelector(
+                        "img"
+                    );
+
+
+            if (image) {
+
+                const scaled =
+                    self.progress *
+                    count;
+
+
+                const local =
+                    scaled -
+                    Math.floor(
+                        scaled
+                    );
+
+
+                gsap.set(
+                    image,
+                    {
+
+                        yPercent:
+                            -3 +
+                            local * 6
+
+                    }
+                );
+
+            }
+
+        }
 
     });
 
@@ -627,7 +563,7 @@ if (
 
 
 /* =========================================================
-   CHANGE PROJECT
+   PROJECT CHANGE
 ========================================================= */
 
 function changeProject(
@@ -636,7 +572,8 @@ function changeProject(
 ) {
 
     if (
-        oldIndex === newIndex
+        oldIndex ===
+        newIndex
     ) {
         return;
     }
@@ -680,13 +617,6 @@ function changeProject(
             : -1;
 
 
-    projectAnimating = true;
-
-
-    /*
-    Stop previous animations
-    */
-
     gsap.killTweensOf(
         [
             oldImage,
@@ -696,12 +626,6 @@ function changeProject(
         ]
     );
 
-
-    /*
-    --------------------------------------------
-    IMAGE
-    --------------------------------------------
-    */
 
     gsap.set(
         newImage,
@@ -714,9 +638,9 @@ function changeProject(
             clipPath:
                 direction > 0
 
-                    ? "inset(100% 0 0 0)"
+                ? "inset(100% 0 0 0)"
 
-                    : "inset(0 0 100% 0)"
+                : "inset(0 0 100% 0)"
 
         }
     );
@@ -730,20 +654,20 @@ function changeProject(
     );
 
 
-    const newImg =
+    const image =
         newImage
             .querySelector(
                 "img"
             );
 
 
-    if (newImg) {
+    if (image) {
 
         gsap.set(
-            newImg,
+            image,
             {
 
-                scale: 1.18,
+                scale: 1.17,
 
                 yPercent:
                     direction > 0
@@ -756,20 +680,15 @@ function changeProject(
     }
 
 
-    const imageTimeline =
+    const tl =
         gsap.timeline({
 
             onComplete: () => {
 
-                /*
-                Hide all except
-                current image
-                */
-
                 projectImages
                     .forEach(
                         (
-                            image,
+                            item,
                             index
                         ) => {
 
@@ -779,13 +698,13 @@ function changeProject(
                             ) {
 
                                 gsap.set(
-                                    image,
+                                    item,
                                     {
+                                        autoAlpha:
+                                            0,
 
-                                        autoAlpha: 0,
-
-                                        zIndex: 1
-
+                                        zIndex:
+                                            1
                                     }
                                 );
 
@@ -807,44 +726,38 @@ function changeProject(
                     }
                 );
 
-
-                projectAnimating =
-                    false;
-
             }
 
         });
 
 
-    imageTimeline
+    tl.to(
+        newImage,
+        {
 
-        .to(
-            newImage,
-            {
+            clipPath:
+                "inset(0 0 0 0)",
 
-                clipPath:
-                    "inset(0% 0 0 0)",
+            duration: .85,
 
-                duration: .95,
+            ease:
+                "power4.inOut"
 
-                ease:
-                    "power4.inOut"
-
-            }
-        );
+        }
+    );
 
 
-    if (newImg) {
+    if (image) {
 
-        imageTimeline.to(
-            newImg,
+        tl.to(
+            image,
             {
 
                 scale: 1.08,
 
                 yPercent: 0,
 
-                duration: 1.25,
+                duration: 1.1,
 
                 ease:
                     "power3.out"
@@ -857,25 +770,18 @@ function changeProject(
     }
 
 
-
-    /*
-    --------------------------------------------
-    OLD TITLE OUT
-    --------------------------------------------
-    */
-
     gsap.to(
         oldTitle,
         {
 
             y:
                 direction > 0
-                    ? -90
-                    : 90,
+                    ? -80
+                    : 80,
 
             autoAlpha: 0,
 
-            duration: .45,
+            duration: .4,
 
             ease:
                 "power3.in"
@@ -884,13 +790,6 @@ function changeProject(
     );
 
 
-
-    /*
-    --------------------------------------------
-    NEW TITLE
-    --------------------------------------------
-    */
-
     gsap.fromTo(
         newTitle,
 
@@ -898,8 +797,8 @@ function changeProject(
 
             y:
                 direction > 0
-                    ? 100
-                    : -100,
+                    ? 90
+                    : -90,
 
             autoAlpha: 0
 
@@ -911,31 +810,18 @@ function changeProject(
 
             autoAlpha: 1,
 
-            duration: .8,
+            duration: .75,
 
-            delay: .15,
+            delay: .12,
 
             ease:
                 "power4.out"
 
         }
-
     );
 
 
-
-    /*
-    --------------------------------------------
-    NUMBER
-    --------------------------------------------
-    */
-
     if (projectCurrent) {
-
-        gsap.killTweensOf(
-            projectCurrent
-        );
-
 
         gsap.to(
             projectCurrent,
@@ -948,12 +834,11 @@ function changeProject(
 
                 opacity: 0,
 
-                duration: .18,
+                duration: .15,
 
                 onComplete: () => {
 
-                    projectCurrent
-                        .textContent =
+                    projectCurrent.textContent =
                         String(
                             newIndex + 1
                         )
@@ -983,10 +868,7 @@ function changeProject(
 
                             opacity: 1,
 
-                            duration: .28,
-
-                            ease:
-                                "power2.out"
+                            duration: .25
 
                         }
 
@@ -1004,173 +886,7 @@ function changeProject(
 
 
 /* =========================================================
-   PROJECT INTERNAL IMAGE MOVEMENT
-========================================================= */
-
-/*
-Instead of applying a separate ScrollTrigger
-to every invisible image, we move the visible
-image slightly based on overall project progress.
-*/
-
-ScrollTrigger.create({
-
-    trigger:
-        ".projects",
-
-    start:
-        "top top",
-
-    end:
-        "bottom bottom",
-
-    onUpdate:
-        (self) => {
-
-            if (
-                !projectImages.length
-            ) {
-                return;
-            }
-
-
-            const current =
-                projectImages[
-                    activeProject
-                ];
-
-
-            if (!current) {
-                return;
-            }
-
-
-            const image =
-                current
-                    .querySelector(
-                        "img"
-                    );
-
-
-            if (!image) {
-                return;
-            }
-
-
-            /*
-            Local progress within
-            current project.
-            */
-
-            const count =
-                projectImages.length;
-
-
-            const scaledProgress =
-                self.progress *
-                count;
-
-
-            const localProgress =
-                scaledProgress -
-                Math.floor(
-                    scaledProgress
-                );
-
-
-            const y =
-                -3 +
-                (
-                    localProgress *
-                    6
-                );
-
-
-            gsap.set(
-                image,
-                {
-                    yPercent: y
-                }
-            );
-
-        }
-
-});
-
-
-
-/* =========================================================
-   PROJECT UI ENTRANCE
-========================================================= */
-
-gsap.from(
-    [
-        ".projects-top",
-        ".project-number-wrap",
-        ".projects-bottom"
-    ],
-    {
-
-        opacity: 0,
-
-        y: 20,
-
-        duration: .8,
-
-        stagger: .08,
-
-        ease:
-            "power3.out",
-
-        scrollTrigger: {
-
-            trigger:
-                ".projects",
-
-            start:
-                "top 75%"
-
-        }
-
-    }
-);
-
-
-
-/* =========================================================
-   PHILOSOPHY TOP
-========================================================= */
-
-gsap.from(
-    ".philosophy-top",
-    {
-
-        opacity: 0,
-
-        y: 30,
-
-        duration: .8,
-
-        ease:
-            "power3.out",
-
-        scrollTrigger: {
-
-            trigger:
-                ".philosophy",
-
-            start:
-                "top 75%"
-
-        }
-
-    }
-);
-
-
-
-/* =========================================================
-   PHILOSOPHY TITLE
+   PHILOSOPHY
 ========================================================= */
 
 gsap.from(
@@ -1179,9 +895,9 @@ gsap.from(
 
         yPercent: 110,
 
-        duration: 1.2,
+        duration: 1.15,
 
-        stagger: .12,
+        stagger: .1,
 
         ease:
             "power4.out",
@@ -1200,25 +916,17 @@ gsap.from(
 );
 
 
-
-/* =========================================================
-   PHILOSOPHY COPY
-========================================================= */
-
 gsap.from(
     ".philosophy-copy p",
     {
 
-        y: 60,
+        y: 50,
 
         opacity: 0,
 
-        duration: 1,
+        duration: .9,
 
-        stagger: .15,
-
-        ease:
-            "power3.out",
+        stagger: .12,
 
         scrollTrigger: {
 
@@ -1236,18 +944,209 @@ gsap.from(
 
 
 /* =========================================================
-   PHILOSOPHY INDEX
+   EXPANSION
+========================================================= */
+
+const expansionTimeline =
+    gsap.timeline({
+
+        scrollTrigger: {
+
+            trigger:
+                ".expansion",
+
+            start:
+                "top top",
+
+            end:
+                "bottom bottom",
+
+            scrub: 1
+
+        }
+
+    });
+
+
+expansionTimeline
+
+    .to(
+        ".expansion-frame",
+        {
+
+            width:
+                "100vw",
+
+            height:
+                "100vh",
+
+            ease: "none"
+
+        },
+
+        0
+    )
+
+
+    .to(
+        ".expansion-frame img",
+        {
+
+            scale: 1.12,
+
+            yPercent: 5,
+
+            ease: "none"
+
+        },
+
+        0
+    )
+
+
+    .to(
+        ".expansion-word-left",
+        {
+
+            xPercent: -40,
+
+            ease: "none"
+
+        },
+
+        0
+    )
+
+
+    .to(
+        ".expansion-word-right",
+        {
+
+            xPercent: 40,
+
+            ease: "none"
+
+        },
+
+        0
+    )
+
+
+    .to(
+        ".expansion-word",
+        {
+
+            opacity: 0,
+
+            duration: .22
+
+        },
+
+        .72
+    );
+
+
+
+/* =========================================================
+   STATEMENT
 ========================================================= */
 
 gsap.from(
-    ".philosophy-index",
+    ".statement-copy h2",
     {
+
+        yPercent: 110,
+
+        duration: 1.15,
+
+        stagger: .1,
+
+        ease:
+            "power4.out",
+
+        scrollTrigger: {
+
+            trigger:
+                ".statement-copy",
+
+            start:
+                "top 82%"
+
+        }
+
+    }
+);
+
+
+gsap.from(
+    ".statement-bottom > *",
+    {
+
+        y: 40,
 
         opacity: 0,
 
-        y: 30,
-
         duration: .8,
+
+        stagger: .1,
+
+        scrollTrigger: {
+
+            trigger:
+                ".statement-bottom",
+
+            start:
+                "top 85%"
+
+        }
+
+    }
+);
+
+
+
+/* =========================================================
+   PROCESS
+========================================================= */
+
+gsap.from(
+    ".process-intro h2",
+    {
+
+        y: 70,
+
+        opacity: 0,
+
+        duration: 1.1,
+
+        ease:
+            "power4.out",
+
+        scrollTrigger: {
+
+            trigger:
+                ".process-intro",
+
+            start:
+                "top 80%"
+
+        }
+
+    }
+);
+
+
+gsap.from(
+    ".process-item",
+    {
+
+        y: 60,
+
+        opacity: 0,
+
+        duration: .9,
+
+        stagger: .12,
 
         ease:
             "power3.out",
@@ -1255,7 +1154,7 @@ gsap.from(
         scrollTrigger: {
 
             trigger:
-                ".philosophy-grid",
+                ".process-grid",
 
             start:
                 "top 82%"
@@ -1268,7 +1167,317 @@ gsap.from(
 
 
 /* =========================================================
-   REFRESH
+   MARQUEE
+========================================================= */
+
+gsap.to(
+    ".marquee-track",
+    {
+
+        xPercent: -50,
+
+        ease: "none",
+
+        scrollTrigger: {
+
+            trigger:
+                ".marquee-section",
+
+            start:
+                "top bottom",
+
+            end:
+                "bottom top",
+
+            scrub: 1
+
+        }
+
+    }
+);
+
+
+
+/* =========================================================
+   CONTACT
+========================================================= */
+
+gsap.from(
+    ".contact-title",
+    {
+
+        y: 100,
+
+        opacity: 0,
+
+        duration: 1.1,
+
+        ease:
+            "power4.out",
+
+        scrollTrigger: {
+
+            trigger:
+                ".contact",
+
+            start:
+                "top 70%"
+
+        }
+
+    }
+);
+
+
+
+/* =========================================================
+   CURSOR
+========================================================= */
+
+const cursor =
+    q(".cursor");
+
+
+if (
+    cursor &&
+    window.matchMedia(
+        "(pointer:fine)"
+    ).matches
+) {
+
+    const moveX =
+        gsap.quickTo(
+            cursor,
+            "x",
+            {
+
+                duration: .3,
+
+                ease:
+                    "power3"
+
+            }
+        );
+
+
+    const moveY =
+        gsap.quickTo(
+            cursor,
+            "y",
+            {
+
+                duration: .3,
+
+                ease:
+                    "power3"
+
+            }
+        );
+
+
+    window.addEventListener(
+        "mousemove",
+        event => {
+
+            moveX(
+                event.clientX
+            );
+
+            moveY(
+                event.clientY
+            );
+
+
+            gsap.to(
+                cursor,
+                {
+
+                    opacity: 1,
+
+                    duration: .15
+
+                }
+            );
+
+        }
+    );
+
+
+    const projects =
+        q(".projects-sticky");
+
+
+    if (projects) {
+
+        projects.addEventListener(
+            "mouseenter",
+            () => {
+
+                gsap.to(
+                    cursor,
+                    {
+
+                        scale: 1,
+
+                        duration: .35,
+
+                        ease:
+                            "power3.out"
+
+                    }
+                );
+
+
+                gsap.to(
+                    ".cursor-label",
+                    {
+                        opacity: 1
+                    }
+                );
+
+
+                gsap.to(
+                    ".cursor-dot",
+                    {
+                        opacity: 0
+                    }
+                );
+
+            }
+        );
+
+
+        projects.addEventListener(
+            "mouseleave",
+            () => {
+
+                gsap.to(
+                    cursor,
+                    {
+
+                        scale: .18,
+
+                        duration: .35
+
+                    }
+                );
+
+
+                gsap.to(
+                    ".cursor-label",
+                    {
+                        opacity: 0
+                    }
+                );
+
+
+                gsap.to(
+                    ".cursor-dot",
+                    {
+                        opacity: 1
+                    }
+                );
+
+            }
+        );
+
+    }
+
+}
+
+
+
+/* =========================================================
+   MAGNETIC ELEMENTS
+========================================================= */
+
+if (
+    window.matchMedia(
+        "(pointer:fine)"
+    ).matches
+) {
+
+    qa(".magnetic")
+        .forEach(
+            element => {
+
+                element.addEventListener(
+                    "mousemove",
+                    event => {
+
+                        const rect =
+                            element
+                                .getBoundingClientRect();
+
+
+                        const x =
+                            event.clientX -
+                            rect.left -
+                            rect.width / 2;
+
+
+                        const y =
+                            event.clientY -
+                            rect.top -
+                            rect.height / 2;
+
+
+                        gsap.to(
+                            element,
+                            {
+
+                                x:
+                                    x * .06,
+
+                                y:
+                                    y * .1,
+
+                                duration:
+                                    .35,
+
+                                ease:
+                                    "power3.out"
+
+                            }
+                        );
+
+                    }
+                );
+
+
+                element.addEventListener(
+                    "mouseleave",
+                    () => {
+
+                        gsap.to(
+                            element,
+                            {
+
+                                x: 0,
+
+                                y: 0,
+
+                                duration:
+                                    .6,
+
+                                ease:
+                                    "elastic.out(1,.45)"
+
+                            }
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+}
+
+
+
+/* =========================================================
+   FINAL REFRESH
 ========================================================= */
 
 window.addEventListener(

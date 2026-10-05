@@ -1,21 +1,4 @@
 /* =========================================================
-   CHECK REQUIRED LIBRARIES
-========================================================= */
-
-if (
-    typeof gsap === "undefined" ||
-    typeof ScrollTrigger === "undefined"
-) {
-
-    console.error(
-        "GSAP or ScrollTrigger failed to load."
-    );
-
-}
-
-
-
-/* =========================================================
    LENIS
 ========================================================= */
 
@@ -26,7 +9,7 @@ if (typeof Lenis !== "undefined") {
 
     lenis = new Lenis({
 
-        duration: 1.1,
+        duration: 1.05,
 
         smoothWheel: true,
 
@@ -37,19 +20,11 @@ if (typeof Lenis !== "undefined") {
     });
 
 
-    /*
-    Keep ScrollTrigger synced
-    */
-
     lenis.on(
         "scroll",
         ScrollTrigger.update
     );
 
-
-    /*
-    Drive Lenis using GSAP ticker
-    */
 
     gsap.ticker.add(
         (time) => {
@@ -62,11 +37,6 @@ if (typeof Lenis !== "undefined") {
     );
 
 
-    /*
-    Prevent lag smoothing from
-    fighting Lenis
-    */
-
     gsap.ticker.lagSmoothing(0);
 
 }
@@ -74,7 +44,7 @@ if (typeof Lenis !== "undefined") {
 
 
 /* =========================================================
-   MENU ELEMENTS
+   MENU
 ========================================================= */
 
 const menuButton =
@@ -102,10 +72,6 @@ let menuOpen = false;
 
 
 
-/* =========================================================
-   OPEN MENU
-========================================================= */
-
 function openMenu() {
 
     if (
@@ -129,17 +95,12 @@ function openMenu() {
     }
 
 
-    const timeline =
-        gsap.timeline();
-
-
-    timeline
+    gsap.timeline()
 
         .set(
             menuOverlay,
             {
-                visibility:
-                    "visible"
+                visibility: "visible"
             }
         )
 
@@ -150,7 +111,7 @@ function openMenu() {
                 clipPath:
                     "inset(0 0 0% 0)",
 
-                duration: .9,
+                duration: .85,
 
                 ease:
                     "power4.inOut"
@@ -172,25 +133,21 @@ function openMenu() {
 
                 opacity: 1,
 
-                duration: .75,
+                duration: .7,
 
-                stagger: .06,
+                stagger: .05,
 
                 ease:
                     "power4.out"
 
             },
 
-            "-=.35"
+            "-=.3"
         );
 
 }
 
 
-
-/* =========================================================
-   CLOSE MENU
-========================================================= */
 
 function closeMenu() {
 
@@ -212,7 +169,7 @@ function closeMenu() {
             clipPath:
                 "inset(0 0 100% 0)",
 
-            duration: .8,
+            duration: .75,
 
             ease:
                 "power4.inOut",
@@ -228,11 +185,9 @@ function closeMenu() {
                 );
 
 
-                document.body
-                    .classList
-                    .remove(
-                        "menu-open"
-                    );
+                document.body.classList.remove(
+                    "menu-open"
+                );
 
 
                 if (lenis) {
@@ -247,10 +202,6 @@ function closeMenu() {
 }
 
 
-
-/* =========================================================
-   MENU EVENTS
-========================================================= */
 
 if (menuButton) {
 
@@ -273,7 +224,7 @@ if (menuClose) {
 
 
 menuLinks.forEach(
-    (link) => {
+    link => {
 
         link.addEventListener(
             "click",
@@ -285,13 +236,9 @@ menuLinks.forEach(
 
 
 
-/* =========================================================
-   ESCAPE CLOSE
-========================================================= */
-
 document.addEventListener(
     "keydown",
-    (event) => {
+    event => {
 
         if (
             event.key ===
@@ -308,7 +255,7 @@ document.addEventListener(
 
 
 /* =========================================================
-   SMOOTH ANCHOR LINKS
+   ANCHOR SCROLLING
 ========================================================= */
 
 document
@@ -316,11 +263,11 @@ document
         'a[href^="#"]'
     )
     .forEach(
-        (link) => {
+        link => {
 
             link.addEventListener(
                 "click",
-                (event) => {
+                event => {
 
                     const href =
                         link.getAttribute(
@@ -355,12 +302,8 @@ document
                         lenis.scrollTo(
                             target,
                             {
-
-                                offset: 0,
-
                                 duration:
-                                    1.3
-
+                                    1.25
                             }
                         );
 
@@ -382,14 +325,75 @@ document
 
 
 /* =========================================================
-   REFRESH AFTER LOAD
+   BACK TO TOP
 ========================================================= */
 
+const backTop =
+    document.querySelector(
+        ".back-top"
+    );
+
+
+if (backTop) {
+
+    backTop.addEventListener(
+        "click",
+        () => {
+
+            if (lenis) {
+
+                lenis.scrollTo(
+                    0,
+                    {
+                        duration: 1.4
+                    }
+                );
+
+            } else {
+
+                window.scrollTo({
+
+                    top: 0,
+
+                    behavior:
+                        "smooth"
+
+                });
+
+            }
+
+        }
+    );
+
+}
+
+
+
+/* =========================================================
+   RESIZE
+========================================================= */
+
+let resizeTimer;
+
+
 window.addEventListener(
-    "load",
+    "resize",
     () => {
 
-        ScrollTrigger.refresh();
+        clearTimeout(
+            resizeTimer
+        );
+
+
+        resizeTimer =
+            setTimeout(
+                () => {
+
+                    ScrollTrigger.refresh();
+
+                },
+                200
+            );
 
     }
 );
