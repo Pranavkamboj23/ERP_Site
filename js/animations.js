@@ -1,7 +1,6 @@
 /* =========================================================
    GSAP SETUP
 ========================================================= */
-
 gsap.registerPlugin(ScrollTrigger);
 
 if (typeof SplitText !== "undefined") {
@@ -15,7 +14,6 @@ const qa = selector => gsap.utils.toArray(selector);
 /* =========================================================
    SPLIT HELPERS
 ========================================================= */
-
 function splitElement(element, type = "chars") {
   if (!element || typeof SplitText === "undefined") return null;
 
@@ -86,7 +84,7 @@ function prepareSplitReveals() {
         gsap.to(split.words, {
           opacity: 1,
           yPercent: 0,
-          duration: 1.3,
+          duration: 1.25,
           stagger: 0.03,
           ease: "power2.out",
           clearProps: "willChange"
@@ -98,12 +96,8 @@ function prepareSplitReveals() {
 
 
 /* =========================================================
-   PRELOADER
-   Matches the reference sequence:
-   tiles separate -> text exits -> hero image grows
-   4svw -> 42svw x 28svw -> 100svw x 100svh
+   PRELOADER -> RESTORED HERO
 ========================================================= */
-
 function initPreloader() {
   const preloader = q(".preloader");
   const imageHero = q(".image-hero");
@@ -111,6 +105,7 @@ function initPreloader() {
   const heroContent = q(".hero-content");
   const header = q(".header");
   const preloaderCount = q(".preloader-count");
+  const heroTitles = qa('[data-preload="main-head"]');
 
   if (!preloader || !imageHero) {
     if (header) header.classList.remove("is-hide");
@@ -121,11 +116,14 @@ function initPreloader() {
   if (window.lenis) window.lenis.stop();
 
   gsap.set(imageHero, {
-    position: "relative",
+    position: "absolute",
+    top: "50%",
+    left: "50%",
     width: "4svw",
     height: "4svw",
     overflow: "hidden",
-    margin: "auto"
+    xPercent: -50,
+    yPercent: -50
   });
 
   gsap.set(heroImg, {
@@ -144,7 +142,7 @@ function initPreloader() {
 
   const preloadHeadSplit = splitElement(q(".preloader-text p"), "chars");
   const preloadBodySplit = splitElement(q(".preloader-text > span"), "words");
-  const heroHeadSplit = splitElement(q('[data-preload="main-head"]'), "chars");
+  const heroSplits = heroTitles.map(element => splitElement(element, "chars")).filter(Boolean);
 
   if (preloadHeadSplit) {
     gsap.set(preloadHeadSplit.chars, {
@@ -162,24 +160,27 @@ function initPreloader() {
     });
   }
 
-  if (heroHeadSplit) {
-    gsap.set(heroHeadSplit.chars, {
+  heroSplits.forEach(split => {
+    gsap.set(split.chars, {
       opacity: 0,
-      yPercent: 20,
+      yPercent: 115,
       willChange: "transform,opacity",
       force3D: true,
       backfaceVisibility: "hidden",
       display: "inline-block"
     });
-  }
+  });
 
-  gsap.to({ value: 0 }, {
+  const counter = { value: 0 };
+
+  gsap.to(counter, {
     value: 100,
     duration: 1.45,
     ease: "power2.inOut",
-    onUpdate: function() {
-      if (!preloaderCount) return;
-      preloaderCount.textContent = String(Math.round(this.targets()[0].value)).padStart(2, "0");
+    onUpdate: () => {
+      if (preloaderCount) {
+        preloaderCount.textContent = String(Math.round(counter.value)).padStart(2, "0");
+      }
     }
   });
 
@@ -187,7 +188,7 @@ function initPreloader() {
     gsap.to(preloadHeadSplit.chars, {
       opacity: 1,
       yPercent: 0,
-      duration: 1.15,
+      duration: 1.1,
       stagger: 0.025,
       ease: "power2.out"
     });
@@ -197,13 +198,13 @@ function initPreloader() {
     gsap.to(preloadBodySplit.words, {
       opacity: 1,
       yPercent: 0,
-      duration: 1.1,
+      duration: 1,
       stagger: 0.03,
       ease: "power2.out"
     });
   }
 
-  const desktopOffsets = [
+  const offsets = [
     30.8, -30.8,
     26.4, -26.4,
     22, -22,
@@ -217,13 +218,8 @@ function initPreloader() {
   const second = qa(".preload-tile.second");
   const tiles = [];
 
-  first.forEach((tile, index) => {
-    tiles.push({ tile, x: desktopOffsets[index * 2] || 0 });
-  });
-
-  second.forEach((tile, index) => {
-    tiles.push({ tile, x: desktopOffsets[index * 2 + 1] || 0 });
-  });
+  first.forEach((tile, index) => tiles.push({ tile, x: offsets[index * 2] || 0 }));
+  second.forEach((tile, index) => tiles.push({ tile, x: offsets[index * 2 + 1] || 0 }));
 
   const tl = gsap.timeline({
     delay: 1,
@@ -263,10 +259,7 @@ function initPreloader() {
       opacity: 0,
       yPercent: 20,
       duration: 0.7,
-      stagger: {
-        each: 0.03,
-        from: "end"
-      },
+      stagger: { each: 0.03, from: "end" },
       ease: "power2.out"
     }, 1.53);
   }
@@ -276,27 +269,19 @@ function initPreloader() {
       opacity: 0,
       yPercent: 20,
       duration: 0.7,
-      stagger: {
-        each: 0.03,
-        from: "end"
-      },
+      stagger: { each: 0.03, from: "end" },
       ease: "power2.out"
     }, 1.53);
   }
 
+  tl.to(".preloader-back, .preloader-grid", {
+    opacity: 0,
+    duration: 0.3
+  }, 1.9);
+
   tl.to(preloader, {
     backgroundColor: "transparent",
-    duration: 0.35
-  }, 1.9);
-
-  tl.to(".preloader-back", {
-    opacity: 0,
-    duration: 0.35
-  }, 1.9);
-
-  tl.to(".preloader-grid", {
-    opacity: 0,
-    duration: 0.25
+    duration: 0.3
   }, 1.9);
 
   tl.to(imageHero, {
@@ -313,6 +298,10 @@ function initPreloader() {
   }, 1.99);
 
   tl.to(imageHero, {
+    top: 0,
+    left: 0,
+    xPercent: 0,
+    yPercent: 0,
     width: "100svw",
     height: "100svh",
     duration: 0.76,
@@ -322,90 +311,169 @@ function initPreloader() {
   tl.to(heroContent, {
     opacity: 1,
     y: "0%",
-    duration: 0.45,
+    duration: 0.42,
     ease: "power2.out"
-  }, 2.76);
+  }, 2.78);
 
-  if (heroHeadSplit) {
-    tl.to(heroHeadSplit.chars, {
+  heroSplits.forEach((split, index) => {
+    tl.to(split.chars, {
       opacity: 1,
       yPercent: 0,
-      duration: 1.5,
-      stagger: 0.03,
-      ease: "power2.out",
+      duration: 1.2,
+      stagger: 0.025,
+      ease: "power4.out",
       force3D: true,
       clearProps: "willChange"
-    }, 2.76);
-  }
+    }, 2.78 + index * 0.08);
+  });
 
-  tl.to(".preloader-text", {
+  tl.to(".hero-meta, .hero-bottom", {
+    opacity: 1,
+    y: 0,
+    duration: 0.55,
+    ease: "power3.out"
+  }, 3.0);
+
+  tl.to(".preloader-text, .preloader-head", {
     opacity: 0,
-    duration: 0.25
-  }, 2.78);
+    duration: 0.22
+  }, 2.8);
 
   tl.call(() => {
     if (header) header.classList.remove("is-hide");
-  }, null, 3.76);
+  }, null, 3.72);
 }
 
 
 /* =========================================================
-   HERO SCROLL — reference uses -20% vertical movement
+   HERO SCROLL — KEEP THE OLD PREMIUM FEEL
 ========================================================= */
-
 gsap.to(".hero-img", {
-  yPercent: -20,
+  yPercent: 10,
+  scale: 1.04,
   ease: "none",
   scrollTrigger: {
     trigger: ".hero",
-    start: "top bottom",
-    end: "bottom bottom",
+    start: "top top",
+    end: "bottom top",
     scrub: 0.8
   }
 });
 
-
-/* =========================================================
-   COMPOSITION
-========================================================= */
-
-gsap.to(".composition-back", {
-  x: "-145.5vw",
+gsap.to(".hero-title-one", {
+  xPercent: -12,
   ease: "none",
   scrollTrigger: {
-    trigger: ".composition-section",
-    start: "top -25%",
-    end: "bottom bottom",
+    trigger: ".hero",
+    start: "top top",
+    end: "bottom top",
     scrub: 0.8
   }
 });
 
-[
-  [".card-center", -16],
-  [".card-left-a", -28],
-  [".card-left-b", -18],
-  [".card-right-a", -30],
-  [".card-right-b", -22]
-].forEach(([selector, yPercent]) => {
-  gsap.to(selector, {
-    yPercent,
-    ease: "none",
-    scrollTrigger: {
-      trigger: ".composition-canvas",
-      start: "top bottom",
-      end: "bottom top",
-      scrub: 0.8
-    }
-  });
+gsap.to(".hero-title-two", {
+  xPercent: 12,
+  ease: "none",
+  scrollTrigger: {
+    trigger: ".hero",
+    start: "top top",
+    end: "bottom top",
+    scrub: 0.8
+  }
+});
+
+gsap.to(".hero-bottom", {
+  y: -45,
+  autoAlpha: 0,
+  ease: "none",
+  scrollTrigger: {
+    trigger: ".hero",
+    start: "15% top",
+    end: "70% top",
+    scrub: 0.8
+  }
 });
 
 
 /* =========================================================
-   PROJECT REVEAL
-   Same main values as the reference:
-   background 0.65 -> 1.5 / 1.25
-   slider 0.65 -> 1
+   INTRO HORIZONTAL SCROLL
+   Vertical wheel scroll drives the image rail horizontally.
 ========================================================= */
+const introHorizontalSection = q(".intro-horizontal");
+const introHorizontalTrack = q(".intro-horizontal-track");
+const introHorizontalProgress = q(".intro-horizontal-progress-fill");
+
+if (introHorizontalSection && introHorizontalTrack) {
+
+  const introHorizontalTween = gsap.to(introHorizontalTrack, {
+    x: () => {
+      const maxTravel = Math.max(
+        0,
+        introHorizontalTrack.scrollWidth - window.innerWidth + window.innerWidth * 0.04
+      );
+
+      return -maxTravel;
+    },
+
+    ease: "none",
+
+    scrollTrigger: {
+      trigger: introHorizontalSection,
+      start: "top top",
+      end: "bottom bottom",
+      scrub: 0.8,
+      invalidateOnRefresh: true,
+
+      onUpdate: self => {
+        if (introHorizontalProgress) {
+          gsap.set(introHorizontalProgress, {
+            scaleX: self.progress
+          });
+        }
+      }
+    }
+  });
+
+
+  /* Subtle internal image parallax while each card crosses the viewport. */
+  qa(".intro-h-image img").forEach(image => {
+    const card = image.closest(".intro-h-card");
+
+    gsap.fromTo(
+      image,
+      {
+        xPercent: -4
+      },
+      {
+        xPercent: 4,
+        ease: "none",
+
+        scrollTrigger: {
+          trigger: card,
+          containerAnimation: introHorizontalTween,
+          start: "left right",
+          end: "right left",
+          scrub: true
+        }
+      }
+    );
+  });
+
+}
+
+
+
+/* =========================================================
+   PROJECT REVEAL — KEEP MECHANIC, DELAY TITLE UNTIL EXPANDED
+========================================================= */
+gsap.set(".project-slide.is-active .project-copy", {
+  autoAlpha: 0,
+  y: 55
+});
+
+gsap.set(".project-slide.is-active .project-next", {
+  autoAlpha: 0
+});
 
 const projectRevealTL = gsap.timeline({
   scrollTrigger: {
@@ -431,7 +499,17 @@ projectRevealTL
     { scale: 0.65 },
     { scale: 1, duration: 3, ease: "power2.inOut" },
     0.2
-  );
+  )
+  .to(".project-slide.is-active .project-copy", {
+    autoAlpha: 1,
+    y: 0,
+    duration: 0.55,
+    ease: "power3.out"
+  }, 2.18)
+  .to(".project-slide.is-active .project-next", {
+    autoAlpha: 1,
+    duration: 0.35
+  }, 2.35);
 
 gsap.timeline({
   scrollTrigger: {
