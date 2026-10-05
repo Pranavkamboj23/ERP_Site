@@ -1,103 +1,186 @@
 /* =========================================================
-   LENIS SMOOTH SCROLL
+   CHECK REQUIRED LIBRARIES
 ========================================================= */
 
-const lenis = new Lenis({
+if (
+    typeof gsap === "undefined" ||
+    typeof ScrollTrigger === "undefined"
+) {
 
-    duration: 1.15,
+    console.error(
+        "GSAP or ScrollTrigger failed to load."
+    );
 
-    smoothWheel: true,
-
-    wheelMultiplier: 0.9,
-
-    touchMultiplier: 1.2
-
-});
-
-
-lenis.on("scroll", ScrollTrigger.update);
-
-
-gsap.ticker.add((time) => {
-
-    lenis.raf(time * 1000);
-
-});
-
-
-gsap.ticker.lagSmoothing(0);
+}
 
 
 
 /* =========================================================
-   MENU
+   LENIS
+========================================================= */
+
+let lenis = null;
+
+
+if (typeof Lenis !== "undefined") {
+
+    lenis = new Lenis({
+
+        duration: 1.1,
+
+        smoothWheel: true,
+
+        wheelMultiplier: 0.9,
+
+        touchMultiplier: 1.1
+
+    });
+
+
+    /*
+    Keep ScrollTrigger synced
+    */
+
+    lenis.on(
+        "scroll",
+        ScrollTrigger.update
+    );
+
+
+    /*
+    Drive Lenis using GSAP ticker
+    */
+
+    gsap.ticker.add(
+        (time) => {
+
+            lenis.raf(
+                time * 1000
+            );
+
+        }
+    );
+
+
+    /*
+    Prevent lag smoothing from
+    fighting Lenis
+    */
+
+    gsap.ticker.lagSmoothing(0);
+
+}
+
+
+
+/* =========================================================
+   MENU ELEMENTS
 ========================================================= */
 
 const menuButton =
-    document.querySelector(".menu-button");
+    document.querySelector(
+        ".menu-button"
+    );
 
 const menuClose =
-    document.querySelector(".menu-close");
+    document.querySelector(
+        ".menu-close"
+    );
 
 const menuOverlay =
-    document.querySelector(".menu-overlay");
+    document.querySelector(
+        ".menu-overlay"
+    );
 
 const menuLinks =
-    document.querySelectorAll(".menu-nav a");
+    document.querySelectorAll(
+        ".menu-nav a"
+    );
 
 
 let menuOpen = false;
 
 
 
+/* =========================================================
+   OPEN MENU
+========================================================= */
+
 function openMenu() {
 
-    if (menuOpen) return;
+    if (
+        menuOpen ||
+        !menuOverlay
+    ) {
+        return;
+    }
+
 
     menuOpen = true;
+
 
     document.body.classList.add(
         "menu-open"
     );
 
-    lenis.stop();
+
+    if (lenis) {
+        lenis.stop();
+    }
 
 
-    const timeline = gsap.timeline();
+    const timeline =
+        gsap.timeline();
 
 
     timeline
 
-        .set(menuOverlay, {
-            visibility: "visible"
-        })
+        .set(
+            menuOverlay,
+            {
+                visibility:
+                    "visible"
+            }
+        )
 
-        .to(menuOverlay, {
-
-            clipPath:
-                "inset(0 0 0% 0)",
-
-            duration: 0.9,
-
-            ease: "power4.inOut"
-
-        })
-
-        .from(
-            ".menu-nav a",
+        .to(
+            menuOverlay,
             {
 
+                clipPath:
+                    "inset(0 0 0% 0)",
+
+                duration: .9,
+
+                ease:
+                    "power4.inOut"
+
+            }
+        )
+
+        .fromTo(
+            ".menu-nav a",
+
+            {
                 y: 70,
+                opacity: 0
+            },
 
-                opacity: 0,
+            {
 
-                duration: 0.8,
+                y: 0,
 
-                stagger: 0.07,
+                opacity: 1,
 
-                ease: "power4.out"
+                duration: .75,
+
+                stagger: .06,
+
+                ease:
+                    "power4.out"
 
             },
+
             "-=.35"
         );
 
@@ -105,62 +188,208 @@ function openMenu() {
 
 
 
+/* =========================================================
+   CLOSE MENU
+========================================================= */
+
 function closeMenu() {
 
-    if (!menuOpen) return;
+    if (
+        !menuOpen ||
+        !menuOverlay
+    ) {
+        return;
+    }
+
 
     menuOpen = false;
 
 
-    gsap.to(menuOverlay, {
+    gsap.to(
+        menuOverlay,
+        {
 
-        clipPath:
-            "inset(0 0 100% 0)",
+            clipPath:
+                "inset(0 0 100% 0)",
 
-        duration: 0.8,
+            duration: .8,
 
-        ease: "power4.inOut",
+            ease:
+                "power4.inOut",
 
-        onComplete: () => {
+            onComplete: () => {
 
-            gsap.set(
-                menuOverlay,
-                {
-                    visibility: "hidden"
+                gsap.set(
+                    menuOverlay,
+                    {
+                        visibility:
+                            "hidden"
+                    }
+                );
+
+
+                document.body
+                    .classList
+                    .remove(
+                        "menu-open"
+                    );
+
+
+                if (lenis) {
+                    lenis.start();
                 }
-            );
 
-            document.body.classList.remove(
-                "menu-open"
-            );
-
-            lenis.start();
+            }
 
         }
-
-    });
+    );
 
 }
 
 
 
-menuButton.addEventListener(
-    "click",
-    openMenu
-);
+/* =========================================================
+   MENU EVENTS
+========================================================= */
+
+if (menuButton) {
+
+    menuButton.addEventListener(
+        "click",
+        openMenu
+    );
+
+}
 
 
-menuClose.addEventListener(
-    "click",
-    closeMenu
-);
+if (menuClose) {
 
-
-menuLinks.forEach(link => {
-
-    link.addEventListener(
+    menuClose.addEventListener(
         "click",
         closeMenu
     );
 
-});
+}
+
+
+menuLinks.forEach(
+    (link) => {
+
+        link.addEventListener(
+            "click",
+            closeMenu
+        );
+
+    }
+);
+
+
+
+/* =========================================================
+   ESCAPE CLOSE
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    (event) => {
+
+        if (
+            event.key ===
+            "Escape"
+        ) {
+
+            closeMenu();
+
+        }
+
+    }
+);
+
+
+
+/* =========================================================
+   SMOOTH ANCHOR LINKS
+========================================================= */
+
+document
+    .querySelectorAll(
+        'a[href^="#"]'
+    )
+    .forEach(
+        (link) => {
+
+            link.addEventListener(
+                "click",
+                (event) => {
+
+                    const href =
+                        link.getAttribute(
+                            "href"
+                        );
+
+
+                    if (
+                        !href ||
+                        href === "#"
+                    ) {
+                        return;
+                    }
+
+
+                    const target =
+                        document.querySelector(
+                            href
+                        );
+
+
+                    if (!target) {
+                        return;
+                    }
+
+
+                    event.preventDefault();
+
+
+                    if (lenis) {
+
+                        lenis.scrollTo(
+                            target,
+                            {
+
+                                offset: 0,
+
+                                duration:
+                                    1.3
+
+                            }
+                        );
+
+                    } else {
+
+                        target.scrollIntoView({
+                            behavior:
+                                "smooth"
+                        });
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+
+
+/* =========================================================
+   REFRESH AFTER LOAD
+========================================================= */
+
+window.addEventListener(
+    "load",
+    () => {
+
+        ScrollTrigger.refresh();
+
+    }
+);
