@@ -1,6 +1,7 @@
 /* =========================================================
    GSAP SETUP
 ========================================================= */
+
 gsap.registerPlugin(ScrollTrigger);
 
 if (typeof SplitText !== "undefined") {
@@ -10,10 +11,13 @@ if (typeof SplitText !== "undefined") {
 const q = selector => document.querySelector(selector);
 const qa = selector => gsap.utils.toArray(selector);
 
+const isMobile = () => window.matchMedia("(max-width: 767px)").matches;
+
 
 /* =========================================================
    SPLIT HELPERS
 ========================================================= */
+
 function splitElement(element, type = "chars") {
   if (!element || typeof SplitText === "undefined") return null;
 
@@ -40,7 +44,7 @@ function prepareSplitReveals() {
 
     gsap.set(split.chars, {
       opacity: 0,
-      yPercent: 20,
+      yPercent: isMobile() ? 12 : 20,
       willChange: "transform,opacity",
       force3D: true,
       backfaceVisibility: "hidden",
@@ -49,14 +53,14 @@ function prepareSplitReveals() {
 
     ScrollTrigger.create({
       trigger: element,
-      start: "top 80%",
+      start: "top 84%",
       once: true,
       onEnter: () => {
         gsap.to(split.chars, {
           opacity: 1,
           yPercent: 0,
-          duration: 1.5,
-          stagger: 0.03,
+          duration: isMobile() ? 0.9 : 1.35,
+          stagger: isMobile() ? 0.015 : 0.028,
           ease: "power2.out",
           force3D: true,
           clearProps: "willChange"
@@ -71,21 +75,21 @@ function prepareSplitReveals() {
 
     gsap.set(split.words, {
       opacity: 0,
-      yPercent: 20,
+      yPercent: isMobile() ? 10 : 20,
       willChange: "transform,opacity",
       display: "inline-block"
     });
 
     ScrollTrigger.create({
       trigger: element,
-      start: "top 82%",
+      start: "top 86%",
       once: true,
       onEnter: () => {
         gsap.to(split.words, {
           opacity: 1,
           yPercent: 0,
-          duration: 1.25,
-          stagger: 0.03,
+          duration: isMobile() ? 0.75 : 1.15,
+          stagger: isMobile() ? 0.015 : 0.025,
           ease: "power2.out",
           clearProps: "willChange"
         });
@@ -96,8 +100,9 @@ function prepareSplitReveals() {
 
 
 /* =========================================================
-   PRELOADER -> RESTORED HERO
+   PRELOADER -> HERO
 ========================================================= */
+
 function initPreloader() {
   const preloader = q(".preloader");
   const imageHero = q(".image-hero");
@@ -115,12 +120,14 @@ function initPreloader() {
 
   if (window.lenis) window.lenis.stop();
 
+  const mobile = isMobile();
+
   gsap.set(imageHero, {
     position: "absolute",
     top: "50%",
     left: "50%",
-    width: "4svw",
-    height: "4svw",
+    width: mobile ? "11svw" : "4svw",
+    height: mobile ? "11svw" : "4svw",
     overflow: "hidden",
     xPercent: -50,
     yPercent: -50
@@ -135,14 +142,16 @@ function initPreloader() {
 
   gsap.set(heroContent, {
     opacity: 0,
-    y: "3%"
+    y: mobile ? "1.5%" : "3%"
   });
 
   if (header) header.classList.add("is-hide");
 
   const preloadHeadSplit = splitElement(q(".preloader-text p"), "chars");
   const preloadBodySplit = splitElement(q(".preloader-text > span"), "words");
-  const heroSplits = heroTitles.map(element => splitElement(element, "chars")).filter(Boolean);
+  const heroSplits = heroTitles
+    .map(element => splitElement(element, "chars"))
+    .filter(Boolean);
 
   if (preloadHeadSplit) {
     gsap.set(preloadHeadSplit.chars, {
@@ -163,7 +172,7 @@ function initPreloader() {
   heroSplits.forEach(split => {
     gsap.set(split.chars, {
       opacity: 0,
-      yPercent: 115,
+      yPercent: mobile ? 70 : 115,
       willChange: "transform,opacity",
       force3D: true,
       backfaceVisibility: "hidden",
@@ -175,11 +184,12 @@ function initPreloader() {
 
   gsap.to(counter, {
     value: 100,
-    duration: 1.45,
+    duration: mobile ? 0.95 : 1.45,
     ease: "power2.inOut",
     onUpdate: () => {
       if (preloaderCount) {
-        preloaderCount.textContent = String(Math.round(counter.value)).padStart(2, "0");
+        preloaderCount.textContent =
+          String(Math.round(counter.value)).padStart(2, "0");
       }
     }
   });
@@ -188,41 +198,41 @@ function initPreloader() {
     gsap.to(preloadHeadSplit.chars, {
       opacity: 1,
       yPercent: 0,
-      duration: 1.1,
+      duration: mobile ? 0.7 : 1.05,
+      stagger: mobile ? 0.012 : 0.022,
+      ease: "power2.out"
+    });
+  }
+
+  if (preloadBodySplit && !mobile) {
+    gsap.to(preloadBodySplit.words, {
+      opacity: 1,
+      yPercent: 0,
+      duration: 0.95,
       stagger: 0.025,
       ease: "power2.out"
     });
   }
 
-  if (preloadBodySplit) {
-    gsap.to(preloadBodySplit.words, {
-      opacity: 1,
-      yPercent: 0,
-      duration: 1,
-      stagger: 0.03,
-      ease: "power2.out"
-    });
-  }
-
-  const offsets = [
-    30.8, -30.8,
-    26.4, -26.4,
-    22, -22,
-    17.6, -17.6,
-    13.2, -13.2,
-    8.8, -8.8,
-    4.4, -4.4
-  ];
-
   const first = qa(".preload-tile.first");
   const second = qa(".preload-tile.second");
+
+  const offsets = mobile
+    ? [22,-22,18,-18,14,-14,10,-10,7,-7,4,-4,2,-2]
+    : [30.8,-30.8,26.4,-26.4,22,-22,17.6,-17.6,13.2,-13.2,8.8,-8.8,4.4,-4.4];
+
   const tiles = [];
 
-  first.forEach((tile, index) => tiles.push({ tile, x: offsets[index * 2] || 0 }));
-  second.forEach((tile, index) => tiles.push({ tile, x: offsets[index * 2 + 1] || 0 }));
+  first.forEach((tile,index) => {
+    tiles.push({ tile, x: offsets[index * 2] || 0 });
+  });
+
+  second.forEach((tile,index) => {
+    tiles.push({ tile, x: offsets[index * 2 + 1] || 0 });
+  });
 
   const tl = gsap.timeline({
-    delay: 1,
+    delay: mobile ? 0.55 : 0.95,
     onComplete: () => {
       gsap.set(preloader, { display: "none" });
 
@@ -234,68 +244,61 @@ function initPreloader() {
   });
 
   tl.to(first, {
-    y: "-2.2svw",
-    duration: 0.608,
+    y: mobile ? "-4vw" : "-2.2svw",
+    duration: mobile ? 0.35 : 0.58,
     ease: "power2.out"
   }, 0);
 
   tl.to(second, {
-    y: "2.2svw",
-    duration: 0.608,
+    y: mobile ? "4vw" : "2.2svw",
+    duration: mobile ? 0.35 : 0.58,
     ease: "power2.out"
-  }, 0.07);
+  }, 0.05);
 
-  tiles.forEach((item, index) => {
+  tiles.forEach((item,index) => {
     tl.to(item.tile, {
-      x: `${item.x}svw`,
+      x: mobile ? `${item.x}vw` : `${item.x}svw`,
       opacity: index < 4 ? 0 : 1,
-      duration: 0.52,
+      duration: mobile ? 0.28 : 0.48,
       ease: "power2.out"
-    }, 1.05 + index * 0.02);
+    }, (mobile ? 0.55 : 0.98) + index * (mobile ? 0.01 : 0.018));
   });
 
   if (preloadHeadSplit) {
     tl.to(preloadHeadSplit.chars, {
       opacity: 0,
       yPercent: 20,
-      duration: 0.7,
-      stagger: { each: 0.03, from: "end" },
+      duration: mobile ? 0.35 : 0.65,
+      stagger: {
+        each: mobile ? 0.01 : 0.026,
+        from: "end"
+      },
       ease: "power2.out"
-    }, 1.53);
-  }
-
-  if (preloadBodySplit) {
-    tl.to(preloadBodySplit.words, {
-      opacity: 0,
-      yPercent: 20,
-      duration: 0.7,
-      stagger: { each: 0.03, from: "end" },
-      ease: "power2.out"
-    }, 1.53);
+    }, mobile ? 0.9 : 1.45);
   }
 
   tl.to(".preloader-back, .preloader-grid", {
     opacity: 0,
-    duration: 0.3
-  }, 1.9);
+    duration: mobile ? 0.2 : 0.28
+  }, mobile ? 1.05 : 1.82);
 
   tl.to(preloader, {
     backgroundColor: "transparent",
-    duration: 0.3
-  }, 1.9);
+    duration: mobile ? 0.2 : 0.28
+  }, mobile ? 1.05 : 1.82);
 
   tl.to(imageHero, {
-    width: "42svw",
-    height: "28svw",
-    duration: 0.77,
+    width: mobile ? "68vw" : "42svw",
+    height: mobile ? "38vh" : "28svw",
+    duration: mobile ? 0.48 : 0.72,
     ease: "power2.inOut"
-  }, 1.9);
+  }, mobile ? 1.05 : 1.82);
 
   tl.to(heroImg, {
-    scale: 1.25,
-    duration: 1.55,
+    scale: mobile ? 1.12 : 1.25,
+    duration: mobile ? 0.75 : 1.45,
     ease: "power3.inOut"
-  }, 1.99);
+  }, mobile ? 1.08 : 1.9);
 
   tl.to(imageHero, {
     top: 0,
@@ -304,129 +307,145 @@ function initPreloader() {
     yPercent: 0,
     width: "100svw",
     height: "100svh",
-    duration: 0.76,
+    duration: mobile ? 0.48 : 0.72,
     ease: "power2.inOut"
-  }, 2.68);
+  }, mobile ? 1.48 : 2.5);
 
   tl.to(heroContent, {
     opacity: 1,
     y: "0%",
-    duration: 0.42,
+    duration: mobile ? 0.3 : 0.4,
     ease: "power2.out"
-  }, 2.78);
+  }, mobile ? 1.7 : 2.62);
 
-  heroSplits.forEach((split, index) => {
+  heroSplits.forEach((split,index) => {
     tl.to(split.chars, {
       opacity: 1,
       yPercent: 0,
-      duration: 1.2,
-      stagger: 0.025,
+      duration: mobile ? 0.7 : 1.1,
+      stagger: mobile ? 0.014 : 0.024,
       ease: "power4.out",
       force3D: true,
       clearProps: "willChange"
-    }, 2.78 + index * 0.08);
+    }, (mobile ? 1.7 : 2.62) + index * 0.06);
   });
-
-  tl.to(".hero-meta, .hero-bottom", {
-    opacity: 1,
-    y: 0,
-    duration: 0.55,
-    ease: "power3.out"
-  }, 3.0);
 
   tl.to(".preloader-text, .preloader-head", {
     opacity: 0,
-    duration: 0.22
-  }, 2.8);
+    duration: 0.18
+  }, mobile ? 1.7 : 2.62);
 
   tl.call(() => {
     if (header) header.classList.remove("is-hide");
-  }, null, 3.72);
+  }, null, mobile ? 2.1 : 3.45);
 }
 
 
 /* =========================================================
-   HERO SCROLL — KEEP THE OLD PREMIUM FEEL
+   HERO SCROLL
 ========================================================= */
-gsap.to(".hero-img", {
-  yPercent: 10,
-  scale: 1.04,
-  ease: "none",
-  scrollTrigger: {
-    trigger: ".hero",
-    start: "top top",
-    end: "bottom top",
-    scrub: 0.8
-  }
+
+const heroMM = gsap.matchMedia();
+
+heroMM.add("(min-width: 768px)", () => {
+  gsap.to(".hero-img", {
+    yPercent: 10,
+    scale: 1.04,
+    ease: "none",
+    scrollTrigger: {
+      trigger: ".hero",
+      start: "top top",
+      end: "bottom top",
+      scrub: 0.8
+    }
+  });
+
+  gsap.to(".hero-title-one", {
+    xPercent: -12,
+    ease: "none",
+    scrollTrigger: {
+      trigger: ".hero",
+      start: "top top",
+      end: "bottom top",
+      scrub: 0.8
+    }
+  });
+
+  gsap.to(".hero-title-two", {
+    xPercent: 12,
+    ease: "none",
+    scrollTrigger: {
+      trigger: ".hero",
+      start: "top top",
+      end: "bottom top",
+      scrub: 0.8
+    }
+  });
+
+  gsap.to(".hero-bottom", {
+    y: -45,
+    autoAlpha: 0,
+    ease: "none",
+    scrollTrigger: {
+      trigger: ".hero",
+      start: "15% top",
+      end: "70% top",
+      scrub: 0.8
+    }
+  });
 });
 
-gsap.to(".hero-title-one", {
-  xPercent: -12,
-  ease: "none",
-  scrollTrigger: {
-    trigger: ".hero",
-    start: "top top",
-    end: "bottom top",
-    scrub: 0.8
-  }
-});
-
-gsap.to(".hero-title-two", {
-  xPercent: 12,
-  ease: "none",
-  scrollTrigger: {
-    trigger: ".hero",
-    start: "top top",
-    end: "bottom top",
-    scrub: 0.8
-  }
-});
-
-gsap.to(".hero-bottom", {
-  y: -45,
-  autoAlpha: 0,
-  ease: "none",
-  scrollTrigger: {
-    trigger: ".hero",
-    start: "15% top",
-    end: "70% top",
-    scrub: 0.8
-  }
+heroMM.add("(max-width: 767px)", () => {
+  gsap.to(".hero-img", {
+    yPercent: 4,
+    scale: 1.02,
+    ease: "none",
+    scrollTrigger: {
+      trigger: ".hero",
+      start: "top top",
+      end: "bottom top",
+      scrub: 0.35
+    }
+  });
 });
 
 
 /* =========================================================
-   INTRO HORIZONTAL SCROLL
-   Vertical wheel scroll drives the image rail horizontally.
+   INTRO HORIZONTAL STORY
+   Desktop = vertical scroll drives horizontal movement.
+   Mobile = native swipe; no ScrollTrigger transform.
 ========================================================= */
-const introHorizontalSection = q(".intro-horizontal");
-const introHorizontalTrack = q(".intro-horizontal-track");
-const introHorizontalProgress = q(".intro-horizontal-progress-fill");
 
-if (introHorizontalSection && introHorizontalTrack) {
+const introMM = gsap.matchMedia();
 
-  const introHorizontalTween = gsap.to(introHorizontalTrack, {
+introMM.add("(min-width: 768px)", () => {
+  const section = q(".intro-horizontal");
+  const track = q(".intro-horizontal-track");
+  const progress = q(".intro-horizontal-progress-fill");
+
+  if (!section || !track) return;
+
+  const tween = gsap.to(track, {
     x: () => {
       const maxTravel = Math.max(
         0,
-        introHorizontalTrack.scrollWidth - window.innerWidth + window.innerWidth * 0.04
+        track.scrollWidth -
+        window.innerWidth +
+        window.innerWidth * 0.04
       );
 
       return -maxTravel;
     },
-
     ease: "none",
-
     scrollTrigger: {
-      trigger: introHorizontalSection,
+      trigger: section,
       start: "top top",
       end: "bottom bottom",
       scrub: 0.8,
       invalidateOnRefresh: true,
-
       onUpdate: self => {
-        if (introHorizontalProgress) {
-          gsap.set(introHorizontalProgress, {
+        if (progress) {
+          gsap.set(progress, {
             scaleX: self.progress
           });
         }
@@ -434,23 +453,18 @@ if (introHorizontalSection && introHorizontalTrack) {
     }
   });
 
-
-  /* Subtle internal image parallax while each card crosses the viewport. */
   qa(".intro-h-image img").forEach(image => {
     const card = image.closest(".intro-h-card");
 
     gsap.fromTo(
       image,
-      {
-        xPercent: -4
-      },
+      { xPercent: -4 },
       {
         xPercent: 4,
         ease: "none",
-
         scrollTrigger: {
           trigger: card,
-          containerAnimation: introHorizontalTween,
+          containerAnimation: tween,
           start: "left right",
           end: "right left",
           scrub: true
@@ -458,106 +472,168 @@ if (introHorizontalSection && introHorizontalTrack) {
       }
     );
   });
-
-}
-
+});
 
 
 /* =========================================================
-   PROJECT REVEAL — KEEP MECHANIC, DELAY TITLE UNTIL EXPANDED
+   SERVICES
 ========================================================= */
-gsap.set(".project-slide.is-active .project-copy", {
+
+gsap.from(".service-card", {
+  y: 42,
   autoAlpha: 0,
-  y: 55
-});
-
-gsap.set(".project-slide.is-active .project-next", {
-  autoAlpha: 0
-});
-
-const projectRevealTL = gsap.timeline({
+  duration: 0.8,
+  stagger: 0.1,
+  ease: "power3.out",
   scrollTrigger: {
-    trigger: ".project-reveal",
-    start: "top -50%",
-    end: "bottom bottom",
-    scrub: 0.8
+    trigger: ".services-grid",
+    start: "top 84%",
+    once: true
   }
 });
 
-projectRevealTL
-  .fromTo(".project-back-two",
-    { scale: 0.65 },
-    { scale: 1.5, duration: 3, ease: "power2.inOut" },
+
+/* =========================================================
+   PROJECT REVEAL
+   Desktop keeps the premium scale sequence.
+   Mobile shows the slider full-screen without heavy pinning.
+========================================================= */
+
+const projectMM = gsap.matchMedia();
+
+projectMM.add("(min-width: 768px)", () => {
+  gsap.set(".project-slide.is-active .project-copy", {
+    autoAlpha: 0,
+    y: 55
+  });
+
+  gsap.set(".project-slide.is-active .project-next", {
+    autoAlpha: 0
+  });
+
+  const projectRevealTL = gsap.timeline({
+    scrollTrigger: {
+      trigger: ".project-reveal",
+      start: "top -50%",
+      end: "bottom bottom",
+      scrub: 0.8
+    }
+  });
+
+  projectRevealTL
+    .fromTo(
+      ".project-back-two",
+      { scale: 0.65 },
+      {
+        scale: 1.5,
+        duration: 3,
+        ease: "power2.inOut"
+      },
+      0
+    )
+    .fromTo(
+      ".project-back-one",
+      { scale: 0.65 },
+      {
+        scale: 1.25,
+        duration: 3,
+        ease: "power2.inOut"
+      },
+      0.1
+    )
+    .fromTo(
+      ".project-slider",
+      { scale: 0.65 },
+      {
+        scale: 1,
+        duration: 3,
+        ease: "power2.inOut"
+      },
+      0.2
+    )
+    .to(
+      ".project-slide.is-active .project-copy",
+      {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.55,
+        ease: "power3.out"
+      },
+      2.18
+    )
+    .to(
+      ".project-slide.is-active .project-next",
+      {
+        autoAlpha: 1,
+        duration: 0.35
+      },
+      2.35
+    );
+
+  gsap.timeline({
+    scrollTrigger: {
+      trigger: ".project-reveal",
+      start: "top bottom",
+      end: "top 35%",
+      scrub: 0.8
+    }
+  })
+  .fromTo(
+    ".chess-left",
+    { height: "65svh" },
+    {
+      height: "0svh",
+      duration: 1,
+      ease: "power2.inOut"
+    },
     0
   )
-  .fromTo(".project-back-one",
-    { scale: 0.65 },
-    { scale: 1.25, duration: 3, ease: "power2.inOut" },
-    0.1
-  )
-  .fromTo(".project-slider",
-    { scale: 0.65 },
-    { scale: 1, duration: 3, ease: "power2.inOut" },
-    0.2
-  )
-  .to(".project-slide.is-active .project-copy", {
-    autoAlpha: 1,
-    y: 0,
-    duration: 0.55,
-    ease: "power3.out"
-  }, 2.18)
-  .to(".project-slide.is-active .project-next", {
-    autoAlpha: 1,
-    duration: 0.35
-  }, 2.35);
+  .fromTo(
+    ".chess-right",
+    { height: "25svh" },
+    {
+      height: "0svh",
+      duration: 1,
+      ease: "power2.inOut"
+    },
+    0
+  );
+});
 
-gsap.timeline({
-  scrollTrigger: {
-    trigger: ".project-reveal",
-    start: "top bottom",
-    end: "top 35%",
-    scrub: 0.8
-  }
-})
-.fromTo(".chess-left",
-  { height: "65svh" },
-  { height: "0svh", duration: 1, ease: "power2.inOut" },
-  0
-)
-.fromTo(".chess-right",
-  { height: "25svh" },
-  { height: "0svh", duration: 1, ease: "power2.inOut" },
-  0
-);
+projectMM.add("(max-width: 767px)", () => {
+  gsap.set(
+    ".project-slider, .project-slide.is-active .project-copy, .project-slide.is-active .project-next",
+    {
+      scale: 1,
+      y: 0,
+      autoAlpha: 1
+    }
+  );
+});
 
 
 /* =========================================================
-   APPROACH
-   Recreates the reference's core Webflow IX3 sequence:
-   desktop/tablet:
-   x -120svh -> -80svh, y 50% -> 0, scale 0 -> 1
-   then x -80svh -> -260svh
-   mobile:
-   x -134svw -> -100svw, y 50svh -> 0, scale 0 -> 1
-   then x -> -300svw
+   APPROACH HELPERS
 ========================================================= */
 
 function prepareApproachElements() {
   [
-    ["head-1", "chars"],
-    ["text-1", "words"],
-    ["head-2", "chars"],
-    ["text-2", "words"],
-    ["head-3", "chars"],
-    ["text-3", "words"]
-  ].forEach(([name, type]) => {
+    ["head-1","chars"],
+    ["text-1","words"],
+    ["head-2","chars"],
+    ["text-2","words"],
+    ["head-3","chars"],
+    ["text-3","words"]
+  ].forEach(([name,type]) => {
     const element = q(`[data-approach="${name}"]`);
     if (!element) return;
 
-    const split = splitElement(element, type);
+    const split = splitElement(element,type);
     if (!split) return;
 
-    const parts = type === "chars" ? split.chars : split.words;
+    const parts = type === "chars"
+      ? split.chars
+      : split.words;
 
     gsap.set(parts, {
       opacity: 0,
@@ -580,7 +656,7 @@ function prepareApproachElements() {
   });
 }
 
-function addApproachReveal(tl, number, at) {
+function addApproachReveal(tl,number,at) {
   const head = q(`[data-approach="head-${number}"]`);
   const text = q(`[data-approach="text-${number}"]`);
   const tag = q(`[data-approach="tag-${number}"]`);
@@ -590,9 +666,7 @@ function addApproachReveal(tl, number, at) {
       opacity: 1,
       xPercent: 0,
       duration: 0.38,
-      stagger: {
-        amount: 0.375
-      },
+      stagger: { amount: 0.375 },
       ease: "power2.out"
     }, at);
   }
@@ -602,9 +676,7 @@ function addApproachReveal(tl, number, at) {
       opacity: 1,
       xPercent: 0,
       duration: 0.38,
-      stagger: {
-        amount: 0.375
-      },
+      stagger: { amount: 0.375 },
       ease: "power2.out"
     }, at);
   }
@@ -617,6 +689,48 @@ function addApproachReveal(tl, number, at) {
       ease: "power2.out"
     }, at);
   }
+}
+
+function revealApproachPanelMobile(panel,index) {
+  const head = panel.querySelector(`[data-approach="head-${index}"]`);
+  const text = panel.querySelector(`[data-approach="text-${index}"]`);
+  const tag = panel.querySelector(`[data-approach="tag-${index}"]`);
+  const images = panel.querySelectorAll(`[data-approach^="image-"]`);
+
+  if (head?.__split) {
+    gsap.to(head.__split.chars, {
+      opacity: 1,
+      xPercent: 0,
+      duration: 0.75,
+      stagger: 0.015,
+      ease: "power2.out"
+    });
+  }
+
+  if (text?.__split) {
+    gsap.to(text.__split.words, {
+      opacity: 1,
+      xPercent: 0,
+      duration: 0.65,
+      stagger: 0.012,
+      ease: "power2.out"
+    });
+  }
+
+  if (tag) {
+    gsap.to(tag, {
+      opacity: 1,
+      yPercent: 0,
+      duration: 0.45
+    });
+  }
+
+  gsap.to(images, {
+    width: "100%",
+    duration: 0.72,
+    stagger: 0.05,
+    ease: "power3.out"
+  });
 }
 
 function initApproach() {
@@ -634,7 +748,8 @@ function initApproach() {
       }
     });
 
-    tl.fromTo(".approach-track",
+    tl.fromTo(
+      ".approach-track",
       {
         x: "-120svh",
         y: "50%",
@@ -650,108 +765,84 @@ function initApproach() {
       0
     );
 
-    tl.to(".approach-track", {
-      x: "-260svh",
-      duration: 3,
-      ease: "none"
-    }, 1);
+    tl.to(
+      ".approach-track",
+      {
+        x: "-260svh",
+        duration: 3,
+        ease: "none"
+      },
+      1
+    );
 
-    addApproachReveal(tl, 1, 0.72);
+    addApproachReveal(tl,1,0.72);
 
     tl.to('[data-approach="image-1"]', {
       width: "100%",
       duration: 0.65,
       ease: "power2.out"
-    }, 0.72);
+    },0.72);
 
-    addApproachReveal(tl, 2, 1.6);
+    addApproachReveal(tl,2,1.6);
 
-    [2,3,4,5,6].forEach((number, index) => {
+    [2,3,4,5,6].forEach((number,index) => {
       tl.to(`[data-approach="image-${number}"]`, {
         width: "100%",
         duration: 0.65,
         ease: "power2.out"
-      }, 1.67 + index * 0.04);
+      },1.67 + index * 0.04);
     });
 
-    addApproachReveal(tl, 3, 3.22);
+    addApproachReveal(tl,3,3.22);
 
     tl.to('[data-approach="image-7"]', {
       width: "100%",
       duration: 0.65,
       ease: "power2.out"
-    }, 3.22);
+    },3.22);
   });
 
   mm.add("(max-width: 767px)", () => {
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: ".approach-section",
-        start: "top -30%",
-        end: "bottom bottom",
-        scrub: 1
-      }
+    gsap.set(".approach-track", {
+      x: 0,
+      y: 0,
+      scale: 1
     });
 
-    tl.fromTo(".approach-track",
-      {
-        x: "-134svw",
-        y: "50svh",
-        scale: 0
-      },
-      {
-        x: "-100svw",
-        y: "0svh",
-        scale: 1,
-        duration: 0.8,
-        ease: "none"
-      },
-      0
-    );
-
-    tl.to(".approach-track", {
-      x: "-300svw",
-      y: "0svh",
-      duration: 3,
-      ease: "none"
-    }, 0.8);
-
-    addApproachReveal(tl, 1, 0.72);
-
-    tl.to('[data-approach="image-1"]', {
-      width: "100%",
-      duration: 0.65
-    }, 0.72);
-
-    addApproachReveal(tl, 2, 1.6);
-
-    [2,3,4,5,6].forEach((number, index) => {
-      tl.to(`[data-approach="image-${number}"]`, {
-        width: "100%",
-        duration: 0.65
-      }, 1.67 + index * 0.04);
+    qa(".approach-panel").forEach((panel,index) => {
+      ScrollTrigger.create({
+        trigger: panel,
+        start: "top 78%",
+        once: true,
+        onEnter: () => {
+          revealApproachPanelMobile(panel,index + 1);
+        }
+      });
     });
-
-    addApproachReveal(tl, 3, 3.22);
-
-    tl.to('[data-approach="image-7"]', {
-      width: "100%",
-      duration: 0.65
-    }, 3.22);
   });
 }
 
 
 /* =========================================================
-   ABOUT HORIZONTAL STRIP
+   STUDIO CARD STRIP
+   Desktop = scroll-driven.
+   Mobile = native horizontal swipe.
 ========================================================= */
 
-const aboutTrack = q(".about-track");
+const studioMM = gsap.matchMedia();
 
-if (aboutTrack) {
+studioMM.add("(min-width: 768px)", () => {
+  const aboutTrack = q(".about-track");
+
+  if (!aboutTrack) return;
+
   gsap.to(aboutTrack, {
     x: () => {
-      const overflow = Math.max(0, aboutTrack.scrollWidth - window.innerWidth + 60);
+      const overflow = Math.max(
+        0,
+        aboutTrack.scrollWidth - window.innerWidth + 60
+      );
+
       return -overflow;
     },
     ease: "none",
@@ -763,7 +854,7 @@ if (aboutTrack) {
       invalidateOnRefresh: true
     }
   });
-}
+});
 
 
 /* =========================================================
@@ -775,7 +866,7 @@ qa("[data-counter]").forEach(element => {
 
   ScrollTrigger.create({
     trigger: element,
-    start: "top 85%",
+    start: "top 88%",
     once: true,
     onEnter: () => {
       const state = { value: 0 };
@@ -785,11 +876,30 @@ qa("[data-counter]").forEach(element => {
         duration: 1,
         ease: "power2.out",
         onUpdate: () => {
-          element.textContent = Math.round(state.value);
+          element.textContent =
+            Math.round(state.value);
         }
       });
     }
   });
+});
+
+
+/* =========================================================
+   TEAM
+========================================================= */
+
+gsap.from(".team-card", {
+  y: 42,
+  autoAlpha: 0,
+  duration: 0.8,
+  stagger: 0.1,
+  ease: "power3.out",
+  scrollTrigger: {
+    trigger: ".team-grid",
+    start: "top 84%",
+    once: true
+  }
 });
 
 
@@ -816,5 +926,7 @@ if (document.readyState === "loading") {
 }
 
 window.addEventListener("load", () => {
-  ScrollTrigger.refresh();
+  requestAnimationFrame(() => {
+    ScrollTrigger.refresh();
+  });
 });

@@ -1,10 +1,16 @@
 /* =========================================================
-   SMOOTH SCROLL — SAME LENIS SETTINGS AS THE REFERENCE
+   SMOOTH SCROLL
+   Desktop: Lenis.
+   Mobile / touch: native scrolling for better performance.
 ========================================================= */
 
 let lenis = null;
 
-if (typeof Lenis !== "undefined") {
+const useNativeScroll = window.matchMedia(
+  "(max-width: 767px), (pointer: coarse)"
+).matches;
+
+if (!useNativeScroll && typeof Lenis !== "undefined") {
   lenis = new Lenis({
     lerp: 0.1,
     wheelMultiplier: 1
@@ -22,6 +28,8 @@ if (typeof Lenis !== "undefined") {
   if (typeof ScrollTrigger !== "undefined") {
     lenis.on("scroll", ScrollTrigger.update);
   }
+} else {
+  window.lenis = null;
 }
 
 
@@ -51,20 +59,23 @@ function openMenu() {
     })
     .to(menu, {
       clipPath: "inset(0 0 0% 0)",
-      duration: 0.8,
+      duration: 0.78,
       ease: "power4.inOut"
     })
     .fromTo(
       ".menu-nav a",
-      { y: 65, autoAlpha: 0 },
+      {
+        y: 48,
+        autoAlpha: 0
+      },
       {
         y: 0,
         autoAlpha: 1,
-        duration: 0.65,
-        stagger: 0.05,
+        duration: 0.56,
+        stagger: 0.045,
         ease: "power3.out"
       },
-      "-=0.3"
+      "-=0.28"
     );
 }
 
@@ -75,7 +86,7 @@ function closeMenu() {
 
   gsap.to(menu, {
     clipPath: "inset(0 0 100% 0)",
-    duration: 0.72,
+    duration: 0.68,
     ease: "power4.inOut",
     onComplete: () => {
       gsap.set(menu, {
@@ -93,7 +104,9 @@ function closeMenu() {
 if (openButton) openButton.addEventListener("click", openMenu);
 if (closeButton) closeButton.addEventListener("click", closeMenu);
 
-menuLinks.forEach(link => link.addEventListener("click", closeMenu));
+menuLinks.forEach(link => {
+  link.addEventListener("click", closeMenu);
+});
 
 document.addEventListener("keydown", event => {
   if (event.key === "Escape") closeMenu();
@@ -101,12 +114,13 @@ document.addEventListener("keydown", event => {
 
 
 /* =========================================================
-   ANCHORS
+   ANCHOR NAVIGATION
 ========================================================= */
 
 document.querySelectorAll('a[href^="#"]').forEach(link => {
   link.addEventListener("click", event => {
     const href = link.getAttribute("href");
+
     if (!href || href === "#") return;
 
     const target = document.querySelector(href);
@@ -116,11 +130,13 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
 
     if (lenis) {
       lenis.scrollTo(target, {
-        duration: 1.2
+        duration: 1.15,
+        offset: 0
       });
     } else {
       target.scrollIntoView({
-        behavior: "smooth"
+        behavior: "smooth",
+        block: "start"
       });
     }
   });
@@ -128,7 +144,7 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
 
 
 /* =========================================================
-   PROJECT BUTTONS
+   PROJECT SLIDES
 ========================================================= */
 
 const slides = [...document.querySelectorAll(".project-slide")];
@@ -162,11 +178,11 @@ function showSlide(nextIndex) {
 
   if (nextImage) {
     gsap.set(nextImage, {
-      scale: 1.12
+      scale: 1.1
     });
   }
 
-  const tl = gsap.timeline({
+  gsap.timeline({
     onComplete: () => {
       slides.forEach((slide, index) => {
         if (index !== nextIndex) {
@@ -186,21 +202,31 @@ function showSlide(nextIndex) {
       activeSlide = nextIndex;
       slideAnimating = false;
     }
-  });
-
-  tl.to(next, {
+  })
+  .to(next, {
     clipPath: "inset(0 0 0 0)",
-    duration: 0.85,
+    duration: 0.82,
     ease: "power4.inOut"
-  });
-
-  if (nextImage) {
-    tl.to(nextImage, {
-      scale: 1,
-      duration: 1.1,
+  })
+  .to(nextImage, {
+    scale: 1,
+    duration: 1,
+    ease: "power3.out"
+  }, 0)
+  .fromTo(
+    next.querySelector(".project-copy"),
+    {
+      y: 34,
+      autoAlpha: 0
+    },
+    {
+      y: 0,
+      autoAlpha: 1,
+      duration: 0.55,
       ease: "power3.out"
-    }, 0);
-  }
+    },
+    0.25
+  );
 }
 
 nextButtons.forEach((button, index) => {
@@ -220,7 +246,7 @@ const backTop = document.querySelector(".back-top");
 if (backTop) {
   backTop.addEventListener("click", () => {
     if (lenis) {
-      lenis.scrollTo(0, { duration: 1.4 });
+      lenis.scrollTo(0, { duration: 1.3 });
     } else {
       window.scrollTo({
         top: 0,
@@ -232,15 +258,20 @@ if (backTop) {
 
 
 /* =========================================================
-   REFRESH
+   RESIZE / ORIENTATION
 ========================================================= */
 
 let refreshTimer;
 
-window.addEventListener("resize", () => {
+function refreshScrollSystem() {
   clearTimeout(refreshTimer);
 
   refreshTimer = setTimeout(() => {
-    if (window.ScrollTrigger) ScrollTrigger.refresh();
-  }, 180);
-});
+    if (window.ScrollTrigger) {
+      ScrollTrigger.refresh();
+    }
+  }, 220);
+}
+
+window.addEventListener("resize", refreshScrollSystem);
+window.addEventListener("orientationchange", refreshScrollSystem);
