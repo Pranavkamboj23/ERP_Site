@@ -4,6 +4,11 @@
 
 gsap.registerPlugin(ScrollTrigger);
 
+ScrollTrigger.config({
+  ignoreMobileResize: true,
+  autoRefreshEvents: "visibilitychange,DOMContentLoaded,load,resize"
+});
+
 if (typeof SplitText !== "undefined") {
   gsap.registerPlugin(SplitText);
 }
@@ -396,27 +401,54 @@ heroMM.add("(min-width: 768px)", () => {
 });
 
 heroMM.add("(max-width: 767px)", () => {
-  gsap.to(".hero-img", {
-    yPercent: 4,
-    scale: 1.02,
-    ease: "none",
+  const tl = gsap.timeline({
     scrollTrigger: {
       trigger: ".hero",
       start: "top top",
       end: "bottom top",
-      scrub: 0.35
+      scrub: 0.55,
+      invalidateOnRefresh: true
     }
   });
+
+  tl.to(".hero-img", {
+    yPercent: 9,
+    scale: 1.07,
+    ease: "none"
+  }, 0)
+  .to(".hero-title-one", {
+    xPercent: -18,
+    ease: "none"
+  }, 0)
+  .to(".hero-title-two", {
+    xPercent: 18,
+    ease: "none"
+  }, 0)
+  .to(".hero-meta", {
+    y: -18,
+    autoAlpha: 0,
+    ease: "none"
+  }, 0.08)
+  .to(".hero-bottom", {
+    y: -38,
+    autoAlpha: 0,
+    ease: "none"
+  }, 0.12);
 });
 
 
 /* =========================================================
    INTRO HORIZONTAL STORY
-   Desktop = vertical scroll drives horizontal movement.
-   Mobile = native swipe; no ScrollTrigger transform.
 ========================================================= */
 
 const introMM = gsap.matchMedia();
+
+function getViewportHeight() {
+  return Math.max(
+    document.documentElement.clientHeight || 0,
+    window.innerHeight || 0
+  );
+}
 
 introMM.add("(min-width: 768px)", () => {
   const section = q(".intro-horizontal");
@@ -429,9 +461,7 @@ introMM.add("(min-width: 768px)", () => {
     x: () => {
       const maxTravel = Math.max(
         0,
-        track.scrollWidth -
-        window.innerWidth +
-        window.innerWidth * 0.04
+        track.scrollWidth - window.innerWidth + window.innerWidth * 0.04
       );
 
       return -maxTravel;
@@ -445,9 +475,7 @@ introMM.add("(min-width: 768px)", () => {
       invalidateOnRefresh: true,
       onUpdate: self => {
         if (progress) {
-          gsap.set(progress, {
-            scaleX: self.progress
-          });
+          gsap.set(progress, { scaleX: self.progress });
         }
       }
     }
@@ -471,6 +499,85 @@ introMM.add("(min-width: 768px)", () => {
         }
       }
     );
+  });
+});
+
+introMM.add("(max-width: 767px)", () => {
+  const section = q(".intro-horizontal");
+  const stage = q(".intro-horizontal-sticky");
+  const track = q(".intro-horizontal-track");
+  const progress = q(".intro-horizontal-progress-fill");
+
+  if (!section || !stage || !track) return;
+
+  const travel = () => Math.max(
+    0,
+    track.scrollWidth - window.innerWidth * 0.90
+  );
+
+  const scrollDistance = () => Math.max(
+    getViewportHeight() * 1.7,
+    travel() * 0.92
+  );
+
+  const tween = gsap.to(track, {
+    x: () => -travel(),
+    ease: "none",
+    scrollTrigger: {
+      trigger: section,
+      start: "top top",
+      end: () => `+=${Math.round(scrollDistance())}`,
+      pin: section,
+      pinSpacing: true,
+      anticipatePin: 1,
+      scrub: 0.42,
+      invalidateOnRefresh: true,
+      onUpdate: self => {
+        if (progress) {
+          gsap.set(progress, {
+            scaleX: self.progress
+          });
+        }
+      }
+    }
+  });
+
+  qa(".intro-h-card").forEach((card,index) => {
+    gsap.fromTo(
+      card,
+      { yPercent: index % 2 === 0 ? 5 : -4 },
+      {
+        yPercent: index % 2 === 0 ? -5 : 4,
+        ease: "none",
+        scrollTrigger: {
+          trigger: card,
+          containerAnimation: tween,
+          start: "left 95%",
+          end: "right 5%",
+          scrub: true
+        }
+      }
+    );
+
+    const image = card.querySelector(".intro-h-image img");
+
+    if (image) {
+      gsap.fromTo(
+        image,
+        { xPercent: -5 },
+        {
+          xPercent: 5,
+          ease: "none",
+          scrollTrigger: {
+            trigger: card,
+            containerAnimation: tween,
+            start: "left 95%",
+            end: "right 5%",
+            scrub: true
+          }
+        }
+      );
+    }
   });
 });
 
@@ -601,13 +708,112 @@ projectMM.add("(min-width: 768px)", () => {
 });
 
 projectMM.add("(max-width: 767px)", () => {
-  gsap.set(
-    ".project-slider, .project-slide.is-active .project-copy, .project-slide.is-active .project-next",
+  const section = q(".project-reveal");
+
+  if (!section) return;
+
+  gsap.set(".project-slide.is-active .project-copy", {
+    autoAlpha: 0,
+    y: 44
+  });
+
+  gsap.set(".project-slide.is-active .project-next", {
+    autoAlpha: 0,
+    y: 16
+  });
+
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: section,
+      start: "top top",
+      end: () => `+=${Math.round(getViewportHeight() * 1.55)}`,
+      pin: section,
+      pinSpacing: true,
+      anticipatePin: 1,
+      scrub: 0.46,
+      invalidateOnRefresh: true
+    }
+  });
+
+  tl.fromTo(
+    ".project-back-two",
+    { scale: 0.68 },
+    {
+      scale: 1.38,
+      duration: 1.7,
+      ease: "power2.inOut"
+    },
+    0
+  )
+  .fromTo(
+    ".project-back-one",
+    { scale: 0.72 },
+    {
+      scale: 1.18,
+      duration: 1.7,
+      ease: "power2.inOut"
+    },
+    0.04
+  )
+  .fromTo(
+    ".project-slider",
+    { scale: 0.74 },
     {
       scale: 1,
+      duration: 1.7,
+      ease: "power2.inOut"
+    },
+    0.08
+  )
+  .fromTo(
+    ".project-slide.is-active > img",
+    { scale: 1.10 },
+    {
+      scale: 1,
+      duration: 1.8,
+      ease: "none"
+    },
+    0
+  )
+  .fromTo(
+    ".chess-left",
+    { height: "42svh" },
+    {
+      height: "0svh",
+      duration: 0.62,
+      ease: "power2.inOut"
+    },
+    0
+  )
+  .fromTo(
+    ".chess-right",
+    { height: "18svh" },
+    {
+      height: "0svh",
+      duration: 0.62,
+      ease: "power2.inOut"
+    },
+    0.05
+  )
+  .to(
+    ".project-slide.is-active .project-copy",
+    {
+      autoAlpha: 1,
       y: 0,
-      autoAlpha: 1
-    }
+      duration: 0.40,
+      ease: "power3.out"
+    },
+    1.10
+  )
+  .to(
+    ".project-slide.is-active .project-next",
+    {
+      autoAlpha: 1,
+      y: 0,
+      duration: 0.30,
+      ease: "power2.out"
+    },
+    1.22
   );
 });
 
@@ -803,30 +1009,121 @@ function initApproach() {
   });
 
   mm.add("(max-width: 767px)", () => {
-    gsap.set(".approach-track", {
+    const section = q(".approach-section");
+    const intro = q(".approach-intro");
+    const track = q(".approach-track");
+
+    if (!section || !track) return;
+
+    gsap.set(track, {
       x: 0,
-      y: 0,
-      scale: 1
+      y: "58svh",
+      scale: 0.90
     });
 
-    qa(".approach-panel").forEach((panel,index) => {
-      ScrollTrigger.create({
-        trigger: panel,
-        start: "top 78%",
-        once: true,
-        onEnter: () => {
-          revealApproachPanelMobile(panel,index + 1);
-        }
-      });
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: "top top",
+        end: () => `+=${Math.round(getViewportHeight() * 3.45)}`,
+        pin: section,
+        pinSpacing: true,
+        anticipatePin: 1,
+        scrub: 0.52,
+        invalidateOnRefresh: true
+      }
     });
+
+    if (intro) {
+      tl.to(
+        intro,
+        {
+          autoAlpha: 0,
+          scale: 0.96,
+          duration: 0.42,
+          ease: "none"
+        },
+        0.18
+      );
+    }
+
+    tl.to(
+      track,
+      {
+        y: 0,
+        scale: 1,
+        duration: 0.70,
+        ease: "power2.inOut"
+      },
+      0.18
+    );
+
+    addApproachReveal(tl,1,0.48);
+
+    tl.to(
+      '[data-approach="image-1"]',
+      {
+        width: "100%",
+        duration: 0.42,
+        ease: "power2.out"
+      },
+      0.50
+    );
+
+    tl.to(
+      track,
+      {
+        x: "-100vw",
+        duration: 1.05,
+        ease: "none"
+      },
+      0.92
+    );
+
+    addApproachReveal(tl,2,1.25);
+
+    [2,3,4,5,6].forEach((number,index) => {
+      tl.to(
+        `[data-approach="image-${number}"]`,
+        {
+          width: "100%",
+          duration: 0.36,
+          ease: "power2.out"
+        },
+        1.27 + index * 0.03
+      );
+    });
+
+    tl.to(
+      track,
+      {
+        x: "-200vw",
+        duration: 1.05,
+        ease: "none"
+      },
+      1.98
+    );
+
+    addApproachReveal(tl,3,2.30);
+
+    tl.to(
+      '[data-approach="image-7"]',
+      {
+        width: "100%",
+        duration: 0.42,
+        ease: "power2.out"
+      },
+      2.32
+    );
+
+    /* Hold the final Delivery panel very briefly before releasing. */
+    tl.to({}, { duration: 0.28 });
   });
 }
 
 
 /* =========================================================
    STUDIO CARD STRIP
-   Desktop = scroll-driven.
-   Mobile = native horizontal swipe.
 ========================================================= */
 
 const studioMM = gsap.matchMedia();
@@ -853,6 +1150,57 @@ studioMM.add("(min-width: 768px)", () => {
       scrub: 0.8,
       invalidateOnRefresh: true
     }
+  });
+});
+
+studioMM.add("(max-width: 767px)", () => {
+  const section = q(".about-section");
+  const track = q(".about-track");
+
+  if (!section || !track) return;
+
+  const travel = () => Math.max(
+    0,
+    track.scrollWidth - window.innerWidth * 0.90
+  );
+
+  const scrollDistance = () => Math.max(
+    getViewportHeight() * 1.35,
+    travel() * 0.88
+  );
+
+  const tween = gsap.to(track, {
+    x: () => -travel(),
+    ease: "none",
+    scrollTrigger: {
+      trigger: section,
+      start: "top top",
+      end: () => `+=${Math.round(scrollDistance())}`,
+      pin: section,
+      pinSpacing: true,
+      anticipatePin: 1,
+      scrub: 0.44,
+      invalidateOnRefresh: true
+    }
+  });
+
+  qa(".about-card").forEach((card,index) => {
+    gsap.fromTo(
+      card,
+      {
+        yPercent: index % 2 === 0 ? 4 : -3
+      },
+      {
+        yPercent: index % 2 === 0 ? -4 : 3,
+        ease: "none",
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: () => `+=${Math.round(scrollDistance())}`,
+          scrub: 0.44
+        }
+      }
+    );
   });
 });
 
@@ -904,6 +1252,113 @@ gsap.from(".team-card", {
 
 
 /* =========================================================
+   MOBILE SECTION MOTION
+========================================================= */
+
+const mobileExtrasMM = gsap.matchMedia();
+
+mobileExtrasMM.add("(max-width: 767px)", () => {
+
+  /* Intro typography drifts slightly as the section exits. */
+  gsap.to(".intro-title", {
+    yPercent: -8,
+    ease: "none",
+    scrollTrigger: {
+      trigger: ".intro-section",
+      start: "top 20%",
+      end: "bottom top",
+      scrub: 0.45
+    }
+  });
+
+  /* Services enter with alternating horizontal direction. */
+  qa(".service-card").forEach((card,index) => {
+    gsap.fromTo(
+      card,
+      {
+        x: index % 2 === 0 ? -34 : 34,
+        autoAlpha: 0.25
+      },
+      {
+        x: 0,
+        autoAlpha: 1,
+        ease: "none",
+        scrollTrigger: {
+          trigger: card,
+          start: "top 92%",
+          end: "top 58%",
+          scrub: 0.42
+        }
+      }
+    );
+  });
+
+  /* Team cards get a visible scroll-linked entrance instead of only a once reveal. */
+  qa(".team-card").forEach((card,index) => {
+    gsap.fromTo(
+      card,
+      {
+        x: index % 2 === 0 ? -26 : 26,
+        autoAlpha: 0.35
+      },
+      {
+        x: 0,
+        autoAlpha: 1,
+        ease: "none",
+        scrollTrigger: {
+          trigger: card,
+          start: "top 92%",
+          end: "top 60%",
+          scrub: 0.42
+        }
+      }
+    );
+  });
+
+  /* Contact builds into the final frame. */
+  gsap.fromTo(
+    ".contact-title",
+    {
+      scale: 0.88,
+      y: 45,
+      autoAlpha: 0.2
+    },
+    {
+      scale: 1,
+      y: 0,
+      autoAlpha: 1,
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".contact",
+        start: "top 76%",
+        end: "top 20%",
+        scrub: 0.55
+      }
+    }
+  );
+
+  gsap.fromTo(
+    ".contact-top",
+    {
+      y: 24,
+      autoAlpha: 0
+    },
+    {
+      y: 0,
+      autoAlpha: 1,
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".contact",
+        start: "top 88%",
+        end: "top 60%",
+        scrub: 0.4
+      }
+    }
+  );
+});
+
+
+/* =========================================================
    INIT
 ========================================================= */
 
@@ -928,5 +1383,12 @@ if (document.readyState === "loading") {
 window.addEventListener("load", () => {
   requestAnimationFrame(() => {
     ScrollTrigger.refresh();
+  });
+});
+
+
+window.addEventListener("pageshow", () => {
+  requestAnimationFrame(() => {
+    ScrollTrigger.refresh(true);
   });
 });
