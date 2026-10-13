@@ -1,277 +1,645 @@
 /* =========================================================
-   SMOOTH SCROLL
-   Desktop: Lenis.
-   Mobile / touch: native scrolling for better performance.
+   VERTICAL 4 — CORE JS
+   Shared across every page.
+
+   Handles:
+   - Desktop Lenis smooth scroll
+   - Mobile native scrolling
+   - Menu open / close
+   - Multi-page navigation
+   - Same-page anchor navigation
+   - Escape key
+   - Back to top
 ========================================================= */
 
-let lenis = null;
+(() => {
 
-const useNativeScroll = window.matchMedia(
-  "(max-width: 767px), (pointer: coarse)"
-).matches;
+  "use strict";
 
-if (!useNativeScroll && typeof Lenis !== "undefined") {
-  lenis = new Lenis({
-    lerp: 0.1,
-    wheelMultiplier: 1
-  });
 
-  window.lenis = lenis;
+  /* =====================================================
+     HELPERS
+  ===================================================== */
 
-  function raf(time) {
-    lenis.raf(time);
-    requestAnimationFrame(raf);
+  const q = selector =>
+      document.querySelector(selector);
+
+  const qa = selector =>
+      Array.from(document.querySelectorAll(selector));
+
+  const isMobile = () =>
+      window.matchMedia("(max-width: 767px)").matches;
+
+  const isCoarse = () =>
+      window.matchMedia("(pointer: coarse)").matches;
+
+  const useNativeScroll =
+      isMobile() || isCoarse();
+
+
+  /* =====================================================
+     LENIS
+     DESKTOP ONLY
+  ===================================================== */
+
+  let lenis = null;
+
+
+  if (
+      !useNativeScroll &&
+      typeof Lenis !== "undefined"
+  ) {
+
+      lenis = new Lenis({
+
+          duration: 1.15,
+
+          smoothWheel: true,
+
+          smoothTouch: false,
+
+          wheelMultiplier: 0.9,
+
+          touchMultiplier: 1
+
+      });
+
+
+      window.lenis = lenis;
+
+
+      function raf(time) {
+
+          lenis.raf(time);
+
+          requestAnimationFrame(raf);
+
+      }
+
+
+      requestAnimationFrame(raf);
+
+
+      if (
+          typeof ScrollTrigger !== "undefined"
+      ) {
+
+          lenis.on(
+              "scroll",
+              ScrollTrigger.update
+          );
+
+      }
+
   }
 
-  requestAnimationFrame(raf);
 
-  if (typeof ScrollTrigger !== "undefined") {
-    lenis.on("scroll", ScrollTrigger.update);
-  }
-} else {
-  window.lenis = null;
-}
+  /* =====================================================
+     MENU
+  ===================================================== */
 
+  const menu =
+      q(".menu-overlay");
 
-/* =========================================================
-   MENU
-========================================================= */
+  const menuOpenButton =
+      q("[data-menu-open]");
 
-const menu = document.querySelector(".menu-overlay");
-const openButton = document.querySelector("[data-menu-open]");
-const closeButton = document.querySelector("[data-menu-close]");
-const menuLinks = document.querySelectorAll(".menu-nav a");
-
-let menuOpen = false;
-
-function openMenu() {
-  if (!menu || menuOpen) return;
-
-  menuOpen = true;
-  document.body.classList.add("menu-open");
-
-  if (lenis) lenis.stop();
-
-  gsap.timeline()
-    .set(menu, {
-      visibility: "visible",
-      attr: { "aria-hidden": "false" }
-    })
-    .to(menu, {
-      clipPath: "inset(0 0 0% 0)",
-      duration: 0.78,
-      ease: "power4.inOut"
-    })
-    .fromTo(
-      ".menu-nav a",
-      {
-        y: 48,
-        autoAlpha: 0
-      },
-      {
-        y: 0,
-        autoAlpha: 1,
-        duration: 0.56,
-        stagger: 0.045,
-        ease: "power3.out"
-      },
-      "-=0.28"
-    );
-}
-
-function closeMenu() {
-  if (!menu || !menuOpen) return;
-
-  menuOpen = false;
-
-  gsap.to(menu, {
-    clipPath: "inset(0 0 100% 0)",
-    duration: 0.68,
-    ease: "power4.inOut",
-    onComplete: () => {
-      gsap.set(menu, {
-        visibility: "hidden",
-        attr: { "aria-hidden": "true" }
-      });
-
-      document.body.classList.remove("menu-open");
-
-      if (lenis) lenis.start();
-    }
-  });
-}
-
-if (openButton) openButton.addEventListener("click", openMenu);
-if (closeButton) closeButton.addEventListener("click", closeMenu);
-
-menuLinks.forEach(link => {
-  link.addEventListener("click", closeMenu);
-});
-
-document.addEventListener("keydown", event => {
-  if (event.key === "Escape") closeMenu();
-});
+  const menuCloseButton =
+      q("[data-menu-close]");
 
 
-/* =========================================================
-   ANCHOR NAVIGATION
-========================================================= */
-
-document.querySelectorAll('a[href^="#"]').forEach(link => {
-  link.addEventListener("click", event => {
-    const href = link.getAttribute("href");
-
-    if (!href || href === "#") return;
-
-    const target = document.querySelector(href);
-    if (!target) return;
-
-    event.preventDefault();
-
-    if (lenis) {
-      lenis.scrollTo(target, {
-        duration: 1.15,
-        offset: 0
-      });
-    } else {
-      target.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-    }
-  });
-});
+  let menuIsOpen = false;
 
 
-/* =========================================================
-   PROJECT SLIDES
-========================================================= */
+  function openMenu() {
 
-const slides = [...document.querySelectorAll(".project-slide")];
-const nextButtons = document.querySelectorAll(".project-next");
+      if (
+          !menu ||
+          menuIsOpen
+      ) {
+          return;
+      }
 
-let activeSlide = 0;
-let slideAnimating = false;
 
-function showSlide(nextIndex) {
-  if (!slides.length || slideAnimating) return;
+      menuIsOpen = true;
 
-  const current = slides[activeSlide];
-  const next = slides[nextIndex];
 
-  if (!current || !next || current === next) return;
+      menu.setAttribute(
+          "aria-hidden",
+          "false"
+      );
 
-  slideAnimating = true;
 
-  gsap.set(next, {
-    visibility: "visible",
-    autoAlpha: 1,
-    zIndex: 3,
-    clipPath: "inset(100% 0 0 0)"
-  });
+      document.body
+          .classList
+          .add("menu-open");
 
-  gsap.set(current, {
-    zIndex: 2
-  });
 
-  const nextImage = next.querySelector("img");
+      if (lenis) {
 
-  if (nextImage) {
-    gsap.set(nextImage, {
-      scale: 1.1
-    });
+          lenis.stop();
+
+      }
+
+
+      if (
+          typeof gsap !== "undefined"
+      ) {
+
+          gsap.killTweensOf(menu);
+
+
+          gsap.set(
+              menu,
+              {
+                  display: "block"
+              }
+          );
+
+
+          gsap.fromTo(
+              menu,
+
+              {
+                  clipPath:
+                      "inset(0% 0% 100% 0%)"
+              },
+
+              {
+                  clipPath:
+                      "inset(0% 0% 0% 0%)",
+
+                  duration:
+                      0.75,
+
+                  ease:
+                      "power4.inOut"
+              }
+
+          );
+
+
+          gsap.fromTo(
+
+              ".menu-nav a",
+
+              {
+                  y: 35,
+                  opacity: 0
+              },
+
+              {
+                  y: 0,
+                  opacity: 1,
+
+                  duration:
+                      0.65,
+
+                  stagger:
+                      0.045,
+
+                  delay:
+                      0.2,
+
+                  ease:
+                      "power3.out"
+              }
+
+          );
+
+      }
+      else {
+
+          menu.style.display =
+              "block";
+
+      }
+
   }
 
-  gsap.timeline({
-    onComplete: () => {
-      slides.forEach((slide, index) => {
-        if (index !== nextIndex) {
-          gsap.set(slide, {
-            visibility: "hidden",
-            autoAlpha: 0,
-            zIndex: 1
-          });
-        }
-      });
 
-      gsap.set(next, {
-        clipPath: "inset(0 0 0 0)",
-        zIndex: 2
-      });
+  function closeMenu(callback) {
 
-      activeSlide = nextIndex;
-      slideAnimating = false;
-    }
-  })
-  .to(next, {
-    clipPath: "inset(0 0 0 0)",
-    duration: 0.82,
-    ease: "power4.inOut"
-  })
-  .to(nextImage, {
-    scale: 1,
-    duration: 1,
-    ease: "power3.out"
-  }, 0)
-  .fromTo(
-    next.querySelector(".project-copy"),
-    {
-      y: 34,
-      autoAlpha: 0
-    },
-    {
-      y: 0,
-      autoAlpha: 1,
-      duration: 0.55,
-      ease: "power3.out"
-    },
-    0.25
+      if (
+          !menu ||
+          !menuIsOpen
+      ) {
+
+          if (callback) {
+              callback();
+          }
+
+          return;
+
+      }
+
+
+      menuIsOpen = false;
+
+
+      document.body
+          .classList
+          .remove("menu-open");
+
+
+      if (
+          typeof gsap !== "undefined"
+      ) {
+
+          gsap.to(
+              menu,
+              {
+
+                  clipPath:
+                      "inset(0% 0% 100% 0%)",
+
+                  duration:
+                      0.6,
+
+                  ease:
+                      "power4.inOut",
+
+
+                  onComplete:
+                      () => {
+
+                          menu.style.display =
+                              "none";
+
+                          menu.setAttribute(
+                              "aria-hidden",
+                              "true"
+                          );
+
+
+                          if (lenis) {
+
+                              lenis.start();
+
+                          }
+
+
+                          if (callback) {
+
+                              callback();
+
+                          }
+
+                      }
+
+              }
+          );
+
+      }
+      else {
+
+          menu.style.display =
+              "none";
+
+
+          menu.setAttribute(
+              "aria-hidden",
+              "true"
+          );
+
+
+          if (lenis) {
+
+              lenis.start();
+
+          }
+
+
+          if (callback) {
+
+              callback();
+
+          }
+
+      }
+
+  }
+
+
+  if (menu) {
+
+      gsap.set(
+          menu,
+          {
+              display:
+                  "none",
+
+              clipPath:
+                  "inset(0% 0% 100% 0%)"
+          }
+      );
+
+  }
+
+
+  if (menuOpenButton) {
+
+      menuOpenButton
+          .addEventListener(
+              "click",
+              openMenu
+          );
+
+  }
+
+
+  if (menuCloseButton) {
+
+      menuCloseButton
+          .addEventListener(
+              "click",
+              () => closeMenu()
+          );
+
+  }
+
+
+  /* =====================================================
+     ESCAPE KEY
+  ===================================================== */
+
+  document.addEventListener(
+      "keydown",
+      event => {
+
+          if (
+              event.key === "Escape" &&
+              menuIsOpen
+          ) {
+
+              closeMenu();
+
+          }
+
+      }
   );
-}
 
-nextButtons.forEach((button, index) => {
-  button.addEventListener("click", () => {
-    const nextIndex = (index + 1) % slides.length;
-    showSlide(nextIndex);
+
+  /* =====================================================
+     NAVIGATION
+
+     IMPORTANT:
+     Normal HTML links such as:
+     ./about.html
+     ./services.html
+
+     are NOT prevented.
+
+     Only same-page #anchors are handled
+     with smooth scrolling.
+  ===================================================== */
+
+  qa("a[href]").forEach(link => {
+
+      link.addEventListener(
+          "click",
+          event => {
+
+              const href =
+                  link.getAttribute("href");
+
+
+              if (
+                  !href ||
+                  href === "#" ||
+                  href.startsWith("javascript:")
+              ) {
+
+                  return;
+
+              }
+
+
+              /*
+               * NORMAL PAGE LINK
+               *
+               * Examples:
+               * ./about.html
+               * ./services.html
+               * ./work.html
+               *
+               * Let the browser navigate normally.
+               */
+
+              if (
+                  !href.startsWith("#")
+              ) {
+
+                  if (
+                      menuIsOpen &&
+                      link.closest(
+                          ".menu-overlay"
+                      )
+                  ) {
+
+                      event.preventDefault();
+
+
+                      closeMenu(
+                          () => {
+
+                              window.location.href =
+                                  href;
+
+                          }
+                      );
+
+                  }
+
+
+                  return;
+
+              }
+
+
+              /*
+               * SAME PAGE ANCHOR
+               */
+
+              const target =
+                  q(href);
+
+
+              if (!target) {
+
+                  return;
+
+              }
+
+
+              event.preventDefault();
+
+
+              const scrollToTarget =
+                  () => {
+
+                      if (lenis) {
+
+                          lenis.scrollTo(
+                              target,
+                              {
+
+                                  offset:
+                                      -70,
+
+                                  duration:
+                                      1.15
+
+                              }
+                          );
+
+                      }
+                      else {
+
+                          target
+                              .scrollIntoView(
+                                  {
+
+                                      behavior:
+                                          "smooth",
+
+                                      block:
+                                          "start"
+
+                                  }
+                              );
+
+                      }
+
+                  };
+
+
+              if (menuIsOpen) {
+
+                  closeMenu(
+                      scrollToTarget
+                  );
+
+              }
+              else {
+
+                  scrollToTarget();
+
+              }
+
+          }
+
+      );
+
   });
-});
 
 
-/* =========================================================
-   BACK TO TOP
-========================================================= */
+  /* =====================================================
+     BACK TO TOP
+  ===================================================== */
 
-const backTop = document.querySelector(".back-top");
+  qa(
+      "[data-back-top]"
+  )
+  .forEach(button => {
 
-if (backTop) {
-  backTop.addEventListener("click", () => {
-    if (lenis) {
-      lenis.scrollTo(0, { duration: 1.3 });
-    } else {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-    }
+      button.addEventListener(
+          "click",
+          event => {
+
+              event.preventDefault();
+
+
+              if (lenis) {
+
+                  lenis.scrollTo(
+                      0,
+                      {
+                          duration:
+                              1.1
+                      }
+                  );
+
+              }
+              else {
+
+                  window.scrollTo(
+                      {
+
+                          top:
+                              0,
+
+                          behavior:
+                              "smooth"
+
+                      }
+                  );
+
+              }
+
+          }
+
+      );
+
   });
-}
 
 
-/* =========================================================
-   RESIZE / ORIENTATION
-========================================================= */
+  /* =====================================================
+     PAGE LOAD
+  ===================================================== */
 
-let refreshTimer;
+  window.addEventListener(
+      "load",
+      () => {
 
-function refreshScrollSystem() {
-  clearTimeout(refreshTimer);
+          if (
+              typeof ScrollTrigger !==
+              "undefined"
+          ) {
 
-  refreshTimer = setTimeout(() => {
-    if (window.ScrollTrigger) {
-      ScrollTrigger.refresh();
-    }
-  }, 220);
-}
+              requestAnimationFrame(
+                  () => {
 
-window.addEventListener("resize", refreshScrollSystem);
-window.addEventListener("orientationchange", refreshScrollSystem);
+                      ScrollTrigger.refresh();
+
+                  }
+              );
+
+          }
+
+      }
+  );
+
+
+  /* =====================================================
+     ORIENTATION CHANGE
+
+     We deliberately DO NOT refresh ScrollTrigger every
+     mobile resize because browser address bars trigger
+     resize repeatedly while scrolling.
+  ===================================================== */
+
+  window.addEventListener(
+      "orientationchange",
+      () => {
+
+          setTimeout(
+              () => {
+
+                  if (
+                      typeof ScrollTrigger !==
+                      "undefined"
+                  ) {
+
+                      ScrollTrigger.refresh();
+
+                  }
+
+              },
+              450
+          );
+
+      }
+  );
+
+})();
