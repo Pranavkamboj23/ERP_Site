@@ -1,0 +1,17 @@
+:root {
+    --white: #ffffff;
+    --graphite: #343436;
+    --muted: #9a9a9c;
+    --ink: #0f1012;
+    --silver: #d0d0d2;
+  
+    --page-pad: clamp(18px, 2.1vw, 34px);
+    --header-h: 72px;
+    --radius-sm: 2px;
+  
+    --ease-out: cubic-bezier(.22, 1, .36, 1);
+    --ease-in-out: cubic-bezier(.76, 0, .24, 1);
+  
+    --font-sans: "Inter", Arial, Helvetica, sans-serif;
+  }
+  

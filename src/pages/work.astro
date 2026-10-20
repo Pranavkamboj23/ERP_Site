@@ -1,0 +1,127 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { PROJECTS } from "../data/projects.js";
+import "../styles/pages/work.css";
+
+const base = import.meta.env.BASE_URL || "/";
+const root = base.endsWith("/") ? base : base + "/";
+const contactHref = root + "contact/";
+---
+
+<BaseLayout
+  title="Work — Vertical 4 Construction"
+  description="Selected residential, commercial and hospitality work by Vertical 4 Construction."
+  bodyClass="page-work"
+>
+  <section class="work-intro" data-work-intro>
+    <div class="work-shell">
+      <div class="work-intro__meta">
+        <span>SELECTED WORK</span>
+        <span>VERTICAL 4 / PROJECT INDEX</span>
+      </div>
+
+      <div class="work-intro__title">
+        <h1 data-work-intro-title>PROJECTS</h1>
+        <span data-work-intro-count>+{String(PROJECTS.length).padStart(2, "0")}</span>
+      </div>
+
+      <div class="work-intro__bottom">
+        <p>A selection of spaces shaped through architecture, material, execution and use.</p>
+        <span>SCROLL TO EXPLORE ↓</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="work-index" aria-label="Selected projects">
+    {
+      PROJECTS.map((project, projectIndex) => (
+        <article class="project-row" data-project-row data-project-index={projectIndex}>
+          <div class="project-row__inner">
+            <aside class="project-row__info">
+              <div class="project-row__eyebrow">
+                <span>{project.id}</span>
+                <span>{project.category.toUpperCase()}</span>
+              </div>
+
+              <div class="project-row__heading">
+                <h2 data-project-title>{project.name}</h2>
+                <span class="project-row__year">{project.year}</span>
+              </div>
+
+              <p class="project-row__description">{project.description}</p>
+
+              <dl class="project-row__meta" data-project-meta>
+                <div><dt>PROJECT TYPE</dt><dd>{project.category}</dd></div>
+                <div><dt>DURATION</dt><dd>{project.duration}</dd></div>
+                <div><dt>AREA</dt><dd>{project.area}</dd></div>
+                <div><dt>LOCATION</dt><dd>{project.location}</dd></div>
+              </dl>
+            </aside>
+
+            <div class="project-gallery" data-project-gallery>
+              <div class="project-gallery__viewport">
+                <div class="project-gallery__track" data-gallery-track>
+                  {
+                    project.images.map((image, imageIndex) => (
+                      <figure class:list={["project-gallery__slide", { "is-primary": imageIndex === 0 }]} data-gallery-slide>
+                        <div class="project-gallery__image">
+                          <img
+                            src={image}
+                            alt={`${project.name} — image ${imageIndex + 1}`}
+                            loading={projectIndex === 0 && imageIndex === 0 ? "eager" : "lazy"}
+                          />
+                          <span class="project-gallery__image-index">
+                            {String(imageIndex + 1).padStart(2, "0")}
+                          </span>
+                        </div>
+                      </figure>
+                    ))
+                  }
+                </div>
+              </div>
+
+              <div class="project-gallery__controls">
+                <div class="project-gallery__progress"><i data-gallery-progress></i></div>
+                <div class="project-gallery__buttons">
+                  <button type="button" data-gallery-prev aria-label={`Previous image for ${project.name}`}>←</button>
+                  <span data-gallery-position>01 / {String(project.images.length).padStart(2, "0")}</span>
+                  <button type="button" data-gallery-next aria-label={`Next image for ${project.name}`}>→</button>
+                </div>
+              </div>
+
+              <div class="project-gallery__mobile-note">SWIPE TO EXPLORE →</div>
+            </div>
+          </div>
+        </article>
+      ))
+    }
+  </section>
+
+  <section class="work-cta" data-work-cta>
+    <div class="work-shell">
+      <div class="work-cta__meta">
+        <span>NEXT STEP</span>
+        <span>START A PROJECT</span>
+      </div>
+
+      <div class="work-cta__body">
+        <p>Have a site, a brief or just the beginning of an idea?</p>
+        <a href={contactHref} class="work-cta__link" data-work-cta-link>
+          <span>LET'S BUILD</span>
+          <span>SOMETHING.</span>
+          <b>↗</b>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="work-fixed-counter" data-work-fixed-counter aria-hidden="true">
+    <span data-work-current>01</span>
+    <i></i>
+    <span>{String(PROJECTS.length).padStart(2, "0")}</span>
+  </div>
+
+  <script>
+    import "../scripts/pages/work.js";
+  </script>
+</BaseLayout>

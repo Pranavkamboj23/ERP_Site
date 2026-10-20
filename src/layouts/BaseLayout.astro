@@ -1,0 +1,35 @@
+---
+import Header from "../components/Header.astro";
+import MenuOverlay from "../components/MenuOverlay.astro";
+import Footer from "../components/Footer.astro";
+import "../styles/global.css";
+import "../styles/components/header.css";
+import "../styles/components/menu.css";
+import "../styles/components/footer.css";
+const { title = "Vertical 4 Construction — Architecture / Design / Delivery", description = "Architecture, interiors and delivery — a scroll-driven studio experience.", bodyClass = "" } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<meta name="theme-color" content="#0F1012" />
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="preconnect" href="https://images.unsplash.com" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body class={bodyClass}>
+<Header />
+<MenuOverlay />
+<main><slot /></main>
+<Footer />
+<script is:inline src="https://cdn.prod.website-files.com/gsap/3.15.0/gsap.min.js"></script>
+<script is:inline src="https://cdn.prod.website-files.com/gsap/3.15.0/SplitText.min.js"></script>
+<script is:inline src="https://cdn.prod.website-files.com/gsap/3.15.0/ScrollTrigger.min.js"></script>
+<script is:inline src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+<script>import "../scripts/core/site.js";</script>
+</body>
+</html>
