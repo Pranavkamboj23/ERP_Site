@@ -4,7 +4,7 @@ const root = base.endsWith("/") ? base : `${base}/`;
 const links = [["01","HOME",root],["02","ABOUT",`${root}about/`],["03","SERVICES",`${root}services/`],["04","WORK",`${root}work/`],["05","APPROACH",`${root}approach/`],["06","TEAM",`${root}team/`],["07","CONTACT",`${root}contact/`]];
 ---
 <aside class="menu-overlay" aria-hidden="true">
-<div class="menu-top"><a class="menu-brand" href={root} aria-label="Vertical 4 Construction home"><img class="menu-logo" src={`${root}assets/images/logo.png`} alt="" onerror="this.hidden=true; this.nextElementSibling.hidden=false;" /><span class="menu-brand-fallback" hidden>VERTICAL 4</span></a><button type="button" data-menu-close>CLOSE</button></div>
+<div class="menu-top"><a class="menu-brand" href={root} aria-label="Vertical 4 Construction home"><img class="menu-logo" src={`${root}assets/images/vertical4-logo.PNG`} alt="" onerror="this.hidden=true; this.nextElementSibling.hidden=false;" /><span class="menu-brand-fallback" hidden>VERTICAL 4</span></a><button type="button" data-menu-close>CLOSE</button></div>
 <nav class="menu-nav" aria-label="Main navigation">{links.map(([number,label,href]) => (<a href={href}><small>{number}</small><span>{label}</span></a>))}</nav>
 <div class="menu-bottom"><span>INDIA</span><span>ARCHITECTURE / INTERIORS / DELIVERY</span></div>
 </aside>
