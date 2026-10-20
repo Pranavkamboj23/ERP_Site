@@ -1,26 +1,254 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import "../styles/pages/about.css";
+
+const base = import.meta.env.BASE_URL || "/";
+const root = base.endsWith("/") ? base : `${base}/`;
+const contactHref = `${root}contact/`;
 ---
 
 <BaseLayout
   title="About — Vertical 4 Construction"
-  description="About Vertical 4 Construction."
-  bodyClass="page-placeholder"
+  description="About Vertical 4 Construction — spaces built with purpose, precision and care."
+  bodyClass="page-about"
 >
-  <section class="route-placeholder">
-    <div class="page-shell">
-      <div class="page-kicker">
-        <span>02 — ABOUT</span>
-        <span>VERTICAL 4 CONSTRUCTION</span>
+  <section class="about-hero" data-about-hero>
+    <div class="about-shell">
+      <div class="about-hero__meta">
+        <span>ABOUT THE STUDIO</span>
+        <span>VERTICAL 4 / 2026</span>
       </div>
 
-      <div class="route-placeholder__content">
-        <h1>ABOUT</h1>
+      <div class="about-hero__title" aria-label="Built With Purpose">
+        <div class="about-hero__line" data-about-hero-line><h1>BUILT</h1></div>
+        <div class="about-hero__line about-hero__line--indent" data-about-hero-line><h1>WITH</h1></div>
+        <div class="about-hero__line" data-about-hero-line><h1>PURPOSE.</h1></div>
+      </div>
+
+      <div class="about-hero__bottom">
+        <span>01 — STUDIO</span>
         <p>
-          This route is connected and ready. We will build this page
-          after the homepage foundation is approved.
+          We design and build spaces that are clear in thought,
+          precise in execution and considered in use.
         </p>
       </div>
     </div>
   </section>
+
+  <section class="about-feature" data-about-feature>
+    <div class="about-feature__frame" data-about-image-reveal>
+      <img
+        src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=2400&q=88"
+        alt="Architectural interior"
+        loading="eager"
+      />
+      <div class="about-feature__shade"></div>
+      <div class="about-feature__caption">
+        <span>SPACE / MATERIAL / CRAFT</span>
+        <span>VERTICAL 4</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-manifesto">
+    <div class="about-shell">
+      <div class="about-section-meta">
+        <span>OUR POINT OF VIEW</span>
+        <span>02 — PHILOSOPHY</span>
+      </div>
+
+      <div class="about-manifesto__title">
+        <h2 data-about-reveal="chars">GOOD SPACES</h2>
+        <h2 class="about-manifesto__indent" data-about-reveal="chars">START WITH</h2>
+        <h2 data-about-reveal="chars">CLEAR THINKING.</h2>
+      </div>
+
+      <div class="about-manifesto__copy">
+        <span class="about-manifesto__mark">( V4 )</span>
+        <div>
+          <p data-about-reveal="words">
+            Every project begins by understanding the site, the people,
+            the purpose and the constraints before deciding what the
+            finished space should become.
+          </p>
+          <p data-about-reveal="words">
+            We believe architecture, interiors and delivery work best
+            when they are treated as one continuous process rather
+            than separate conversations.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-principles">
+    <div class="about-shell">
+      <div class="about-section-meta">
+        <span>HOW WE WORK</span>
+        <span>03 — PRINCIPLES</span>
+      </div>
+
+      <div class="about-principles__grid">
+        <article class="about-principle">
+          <div class="about-principle__top"><span>01</span><span>PLAN</span></div>
+          <div class="about-principle__body">
+            <h3>Read before drawing.</h3>
+            <p>Understand the site, brief, context and constraints before making the first move.</p>
+          </div>
+          <span class="about-principle__arrow">↗</span>
+        </article>
+
+        <article class="about-principle">
+          <div class="about-principle__top"><span>02</span><span>DESIGN</span></div>
+          <div class="about-principle__body">
+            <h3>Resolve the whole.</h3>
+            <p>Material, proportion, light and detail should feel like parts of one coherent idea.</p>
+          </div>
+          <span class="about-principle__arrow">↗</span>
+        </article>
+
+        <article class="about-principle">
+          <div class="about-principle__top"><span>03</span><span>BUILD</span></div>
+          <div class="about-principle__body">
+            <h3>Stay close to execution.</h3>
+            <p>Good intent only matters when workmanship, sequencing and communication carry it through.</p>
+          </div>
+          <span class="about-principle__arrow">↗</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-story" data-about-story>
+    <div class="about-story__sticky">
+      <div class="about-story__intro">
+        <div class="about-section-meta about-section-meta--light">
+          <span>THE STUDIO</span>
+          <span>04 — PEOPLE / PROCESS</span>
+        </div>
+        <h2>ONE STUDIO.<br />ONE PROCESS.</h2>
+      </div>
+
+      <div class="about-story__track" data-about-story-track>
+        <article class="about-story__panel">
+          <div class="about-story__number">01</div>
+          <div class="about-story__heading">
+            <span>ARCHITECTURE</span>
+            <h3>IDEAS WITH<br />STRUCTURE.</h3>
+          </div>
+          <div class="about-story__media">
+            <img
+              src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=86"
+              alt="Contemporary architecture"
+              loading="lazy"
+            />
+          </div>
+          <p>Spatial decisions are grounded in context, function, proportion and long-term use.</p>
+        </article>
+
+        <article class="about-story__panel about-story__panel--light">
+          <div class="about-story__number">02</div>
+          <div class="about-story__heading">
+            <span>INTERIORS</span>
+            <h3>DETAIL WITH<br />RESTRAINT.</h3>
+          </div>
+          <div class="about-story__media">
+            <img
+              src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1800&q=86"
+              alt="Refined interior"
+              loading="lazy"
+            />
+          </div>
+          <p>Material and detail are used to reinforce the architecture, not compete with it.</p>
+        </article>
+
+        <article class="about-story__panel">
+          <div class="about-story__number">03</div>
+          <div class="about-story__heading">
+            <span>DELIVERY</span>
+            <h3>INTENT INTO<br />REALITY.</h3>
+          </div>
+          <div class="about-story__media">
+            <img
+              src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1800&q=86"
+              alt="Construction process"
+              loading="lazy"
+            />
+          </div>
+          <p>Coordination, sequencing and site involvement keep the final result aligned with the original intent.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-numbers">
+    <div class="about-shell">
+      <div class="about-section-meta">
+        <span>STUDIO IN NUMBERS</span>
+        <span>05 — SNAPSHOT</span>
+      </div>
+
+      <div class="about-numbers__grid">
+        <article><span class="about-numbers__value" data-about-counter="24">00</span><p>Projects completed</p></article>
+        <article><span class="about-numbers__value" data-about-counter="8">00</span><p>Active sites</p></article>
+        <article><span class="about-numbers__value" data-about-counter="5">00</span><p>Years of practice</p></article>
+        <article><span class="about-numbers__value" data-about-counter="4">00</span><p>Cities worked in</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-field">
+    <div class="about-shell">
+      <div class="about-section-meta about-section-meta--light">
+        <span>ON THE GROUND</span>
+        <span>06 — PROCESS</span>
+      </div>
+
+      <div class="about-field__grid">
+        <figure class="about-field__card about-field__card--large" data-about-field-card>
+          <div class="about-field__image">
+            <img
+              src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1800&q=86"
+              alt="Construction site"
+              loading="lazy"
+            />
+          </div>
+          <figcaption><span>SITE / EXECUTION</span><span>01</span></figcaption>
+        </figure>
+
+        <figure class="about-field__card about-field__card--small" data-about-field-card>
+          <div class="about-field__image">
+            <img
+              src="https://images.unsplash.com/photo-1531835551805-16d864c8d311?auto=format&fit=crop&w=1600&q=86"
+              alt="Architecture team collaboration"
+              loading="lazy"
+            />
+          </div>
+          <figcaption><span>TEAM / COORDINATION</span><span>02</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-next" data-about-next>
+    <div class="about-shell">
+      <div class="about-section-meta">
+        <span>NEXT</span>
+        <span>07 — START A PROJECT</span>
+      </div>
+
+      <div class="about-next__body">
+        <p>Have a space, a site or an idea you want to develop?</p>
+        <a class="about-next__link" href={contactHref} data-about-next-link>
+          <span>LET'S MAKE</span>
+          <span>IT REAL.</span>
+          <b>↗</b>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    import "../scripts/pages/about.js";
+  </script>
 </BaseLayout>

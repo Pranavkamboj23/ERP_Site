@@ -1,26 +1,150 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import "../styles/pages/approach.css";
+
+const base = import.meta.env.BASE_URL || "/";
+const root = base.endsWith("/") ? base : `${base}/`;
+const contactHref = `${root}contact/`;
 ---
 
 <BaseLayout
   title="Approach — Vertical 4 Construction"
-  description="How Vertical 4 Construction plans, builds and delivers."
-  bodyClass="page-placeholder"
+  description="A clear process from understanding the brief to delivering the finished space."
+  bodyClass="page-approach"
 >
-  <section class="route-placeholder">
-    <div class="page-shell">
-      <div class="page-kicker">
-        <span>05 — APPROACH</span>
-        <span>VERTICAL 4 CONSTRUCTION</span>
+  <section class="approach-hero" data-approach-hero>
+    <div class="approach-shell">
+      <div class="approach-hero__meta">
+        <span>OUR APPROACH</span>
+        <span>VERTICAL 4 / PROCESS</span>
       </div>
 
-      <div class="route-placeholder__content">
-        <h1>APPROACH</h1>
+      <div class="approach-hero__title">
+        <div class="approach-hero__line" data-approach-hero-line><h1>FROM IDEA</h1></div>
+        <div class="approach-hero__line approach-hero__line--indent" data-approach-hero-line><h1>TO BUILT</h1></div>
+        <div class="approach-hero__line" data-approach-hero-line><h1>FORM.</h1></div>
+      </div>
+
+      <div class="approach-hero__bottom">
+        <span>01 — PROCESS</span>
         <p>
-          This route is connected and ready. We will build this page
-          after the homepage foundation is approved.
+          A project moves better when every stage is understood,
+          coordinated and resolved before the next one begins.
         </p>
       </div>
     </div>
   </section>
+
+  <section class="approach-intro">
+    <div class="approach-shell">
+      <div class="approach-section-meta">
+        <span>THE METHOD</span>
+        <span>02 — FIVE STAGES</span>
+      </div>
+
+      <div class="approach-intro__title">
+        <h2 data-approach-reveal="chars">CLARITY AT</h2>
+        <h2 class="approach-intro__indent" data-approach-reveal="chars">EVERY STEP.</h2>
+      </div>
+
+      <div class="approach-intro__copy">
+        <span>( V4 )</span>
+        <p data-approach-reveal="words">
+          We treat design and construction as one connected sequence.
+          Decisions are tested early, communicated clearly and carried
+          through with attention to quality, timing and execution.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="approach-process" data-process-section>
+    <div class="approach-process__sticky">
+      <div class="approach-process__intro">
+        <div class="approach-section-meta approach-section-meta--light">
+          <span>PROCESS</span>
+          <span>03 — 01 / 05</span>
+        </div>
+        <h2>ONE PROJECT.<br />FIVE CLEAR<br />MOVES.</h2>
+      </div>
+
+      <div class="approach-process__track" data-process-track>
+        <article class="approach-process__panel">
+          <div class="approach-process__number">01</div>
+          <div class="approach-process__head"><span>DISCOVER</span><h3>UNDERSTAND<br />THE BRIEF.</h3></div>
+          <div class="approach-process__media"><img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1800&q=86" alt="Project discussion" loading="lazy" /></div>
+          <p>Site, context, program, priorities and constraints are mapped before design begins.</p>
+        </article>
+
+        <article class="approach-process__panel approach-process__panel--light">
+          <div class="approach-process__number">02</div>
+          <div class="approach-process__head"><span>PLAN</span><h3>SHAPE THE<br />FRAMEWORK.</h3></div>
+          <div class="approach-process__media"><img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1800&q=86" alt="Planning and drawings" loading="lazy" /></div>
+          <p>Spatial logic, sequencing and project priorities are organized into a clear working direction.</p>
+        </article>
+
+        <article class="approach-process__panel">
+          <div class="approach-process__number">03</div>
+          <div class="approach-process__head"><span>DESIGN</span><h3>RESOLVE THE<br />DETAILS.</h3></div>
+          <div class="approach-process__media"><img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1800&q=86" alt="Interior design detail" loading="lazy" /></div>
+          <p>Material, proportion, light and detail are developed as one coherent system.</p>
+        </article>
+
+        <article class="approach-process__panel approach-process__panel--light">
+          <div class="approach-process__number">04</div>
+          <div class="approach-process__head"><span>BUILD</span><h3>COORDINATE<br />THE SITE.</h3></div>
+          <div class="approach-process__media"><img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1800&q=86" alt="Construction execution" loading="lazy" /></div>
+          <p>Teams, materials and sequences are aligned to preserve quality and reduce avoidable friction.</p>
+        </article>
+
+        <article class="approach-process__panel">
+          <div class="approach-process__number">05</div>
+          <div class="approach-process__head"><span>DELIVER</span><h3>FINISH WITH<br />INTENT.</h3></div>
+          <div class="approach-process__media"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=86" alt="Finished architecture" loading="lazy" /></div>
+          <p>The final space is reviewed as a complete experience, not just a checklist of completed work.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="approach-principles">
+    <div class="approach-shell">
+      <div class="approach-section-meta"><span>WHAT GUIDES US</span><span>04 — PRINCIPLES</span></div>
+      <div class="approach-principles__grid">
+        <article data-approach-card><span>01</span><h3>Clarity before speed.</h3><p>Fast decisions only help when the direction is already clear.</p></article>
+        <article data-approach-card><span>02</span><h3>Detail before compromise.</h3><p>Key junctions and materials are resolved before they become site problems.</p></article>
+        <article data-approach-card><span>03</span><h3>Communication throughout.</h3><p>Clients, consultants and site teams stay aligned through visible decisions.</p></article>
+        <article data-approach-card><span>04</span><h3>Quality at handover.</h3><p>The project is complete only when the intended experience is actually delivered.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="approach-timeline">
+    <div class="approach-shell">
+      <div class="approach-section-meta approach-section-meta--light"><span>PROJECT RHYTHM</span><span>05 — SAMPLE TIMELINE</span></div>
+      <div class="approach-timeline__rows">
+        <div class="approach-timeline__row" data-timeline-row><span>01</span><h3>Discovery</h3><p>Site, brief, constraints</p><b>01—02 WEEKS</b></div>
+        <div class="approach-timeline__row" data-timeline-row><span>02</span><h3>Planning</h3><p>Concept and spatial framework</p><b>02—04 WEEKS</b></div>
+        <div class="approach-timeline__row" data-timeline-row><span>03</span><h3>Design</h3><p>Material and technical resolution</p><b>04—08 WEEKS</b></div>
+        <div class="approach-timeline__row" data-timeline-row><span>04</span><h3>Execution</h3><p>Construction and coordination</p><b>PROJECT SPECIFIC</b></div>
+        <div class="approach-timeline__row" data-timeline-row><span>05</span><h3>Handover</h3><p>Review and completion</p><b>FINAL STAGE</b></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="approach-next" data-approach-next>
+    <div class="approach-shell">
+      <div class="approach-section-meta"><span>NEXT STEP</span><span>06 — START A PROJECT</span></div>
+      <div class="approach-next__body">
+        <p>Have a project that needs a clear path from idea to execution?</p>
+        <a href={contactHref} class="approach-next__link" data-approach-next-link>
+          <span>LET'S PLAN</span><span>IT WELL.</span><b>↗</b>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    import "../scripts/pages/approach.js";
+  </script>
 </BaseLayout>

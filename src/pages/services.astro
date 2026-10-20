@@ -1,26 +1,150 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import "../styles/pages/services.css";
+
+const base = import.meta.env.BASE_URL || "/";
+const root = base.endsWith("/") ? base : `${base}/`;
+const contactHref = `${root}contact/`;
+
+const services = [
+  {
+    n: "01",
+    name: "ARCHITECTURE",
+    kicker: "SPACE / CONTEXT / FORM",
+    title: "Architecture with a clear point of view.",
+    copy: "From early planning to detailed design, spaces are shaped around context, use, proportion and long-term value.",
+    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=86",
+    tags: ["CONCEPT", "PLANNING", "DESIGN DEVELOPMENT"]
+  },
+  {
+    n: "02",
+    name: "INTERIORS",
+    kicker: "MATERIAL / LIGHT / DETAIL",
+    title: "Interiors that feel resolved, not decorated.",
+    copy: "Material, joinery, lighting and spatial character are treated as extensions of the architecture rather than separate layers.",
+    image: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1800&q=86",
+    tags: ["SPACE PLANNING", "MATERIALS", "DETAILING"]
+  },
+  {
+    n: "03",
+    name: "DESIGN & BUILD",
+    kicker: "ONE TEAM / ONE DIRECTION",
+    title: "Fewer gaps between idea and execution.",
+    copy: "A coordinated design-and-build route keeps decisions connected, improves accountability and reduces avoidable handover friction.",
+    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1800&q=86",
+    tags: ["DESIGN", "PROCUREMENT", "EXECUTION"]
+  },
+  {
+    n: "04",
+    name: "PROJECT DELIVERY",
+    kicker: "SEQUENCE / QUALITY / CONTROL",
+    title: "Delivery with discipline at every stage.",
+    copy: "Site coordination, scheduling, quality checks and communication keep the project moving while protecting the intended result.",
+    image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1800&q=86",
+    tags: ["COORDINATION", "QUALITY", "HANDOVER"]
+  },
+  {
+    n: "05",
+    name: "RENOVATION",
+    kicker: "REUSE / ADAPT / UPGRADE",
+    title: "New life for existing spaces.",
+    copy: "Existing buildings are re-read carefully, retained where valuable and transformed where new performance or character is needed.",
+    image: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1800&q=86",
+    tags: ["ASSESSMENT", "ADAPTATION", "UPGRADE"]
+  }
+];
 ---
 
 <BaseLayout
   title="Services — Vertical 4 Construction"
-  description="Architecture, interiors and delivery services."
-  bodyClass="page-placeholder"
+  description="Architecture, interiors, design development and project delivery by Vertical 4 Construction."
+  bodyClass="page-services"
 >
-  <section class="route-placeholder">
-    <div class="page-shell">
-      <div class="page-kicker">
-        <span>03 — SERVICES</span>
-        <span>VERTICAL 4 CONSTRUCTION</span>
+  <section class="services-hero" data-services-hero>
+    <div class="services-shell">
+      <div class="services-hero__meta"><span>WHAT WE DO</span><span>VERTICAL 4 / SERVICES</span></div>
+      <div class="services-hero__title">
+        <div class="services-hero__line" data-services-hero-line><h1>DESIGN.</h1></div>
+        <div class="services-hero__line services-hero__line--indent" data-services-hero-line><h1>BUILD.</h1></div>
+        <div class="services-hero__line" data-services-hero-line><h1>DELIVER.</h1></div>
       </div>
-
-      <div class="route-placeholder__content">
-        <h1>SERVICES</h1>
-        <p>
-          This route is connected and ready. We will build this page
-          after the homepage foundation is approved.
-        </p>
+      <div class="services-hero__bottom">
+        <span>01 — SERVICES</span>
+        <p>One studio across architecture, interiors and execution — giving each project one clear direction from first idea to finished space.</p>
       </div>
     </div>
   </section>
+
+  <section class="services-theatre" data-services-theatre>
+    <div class="services-theatre__sticky">
+      <div class="services-theatre__top">
+        <span>OUR CAPABILITIES</span>
+        <div class="services-theatre__counter"><span data-service-current>01</span><i></i><span>05</span></div>
+      </div>
+
+      <div class="services-deck" data-services-deck>
+        {services.map((service, i) => (
+          <article class={`service-card service-card--${i + 1}`} data-service-card data-service-index={i}>
+            <div class="service-card__top"><span>{service.n}</span><span>{service.name}</span></div>
+            <div class="service-card__content">
+              <div>
+                <p class="service-card__kicker">{service.kicker}</p>
+                <h2>{service.title}</h2>
+              </div>
+              <p class="service-card__copy">{service.copy}</p>
+            </div>
+            <div class="service-card__media"><img src={service.image} alt={service.name} loading="lazy" /></div>
+            <div class="service-card__footer">{service.tags.map(tag => <span>{tag}</span>)}</div>
+          </article>
+        ))}
+      </div>
+
+      <div class="services-theatre__progress"><i data-services-progress></i></div>
+    </div>
+  </section>
+
+  <section class="services-value">
+    <div class="services-shell">
+      <div class="services-section-meta"><span>WHY ONE STUDIO</span><span>02 — CONTINUITY</span></div>
+      <div class="services-value__title">
+        <h2 data-services-reveal="chars">LESS HANDOFF.</h2>
+        <h2 class="services-value__indent" data-services-reveal="chars">MORE CONTROL.</h2>
+      </div>
+      <div class="services-value__grid">
+        <span class="services-value__mark">( V4 )</span>
+        <div class="services-value__copy">
+          <p data-services-reveal="words">When planning, design and execution stay connected, fewer decisions get lost between teams and fewer compromises arrive late.</p>
+          <p data-services-reveal="words">That continuity creates clearer accountability, better coordination and a finished space that remains closer to the original intent.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="services-matrix">
+    <div class="services-shell">
+      <div class="services-section-meta services-section-meta--light"><span>CAPABILITY MATRIX</span><span>03 — SCOPE</span></div>
+      <div class="services-matrix__rows">
+        <div class="services-matrix__row" data-service-row><span>01</span><h3>Residential</h3><p>New homes / villas / apartments / extensions</p><b>ARCH + INT + BUILD</b></div>
+        <div class="services-matrix__row" data-service-row><span>02</span><h3>Commercial</h3><p>Workplaces / studios / retail / mixed-use interiors</p><b>ARCH + INT</b></div>
+        <div class="services-matrix__row" data-service-row><span>03</span><h3>Hospitality</h3><p>Guest spaces / restaurants / boutique environments</p><b>ARCH + INT + DELIVERY</b></div>
+        <div class="services-matrix__row" data-service-row><span>04</span><h3>Renovation</h3><p>Adaptive reuse / upgrades / additions / refurbishment</p><b>DESIGN + BUILD</b></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="services-next" data-services-next>
+    <div class="services-shell">
+      <div class="services-section-meta"><span>HAVE A BRIEF?</span><span>04 — START A PROJECT</span></div>
+      <div class="services-next__body">
+        <p>Tell us what you are building and where you are in the process.</p>
+        <a href={contactHref} class="services-next__link" data-services-next-link>
+          <span>LET'S FIND</span><span>THE RIGHT WAY.</span><b>↗</b>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    import "../scripts/pages/services.js";
+  </script>
 </BaseLayout>
