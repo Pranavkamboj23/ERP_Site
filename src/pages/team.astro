@@ -1,25 +1,40 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+const founderExperience = [
+  "Anand Amaresh — Khosla and Anand Associates",
+  "Dominic Dube — DDIR Architecture",
+  "Ashwin — Ashwin Architects",
+  "Prakash Selvaraj — Genesis Architecture",
+  "Rakesh Kodath — Dialogue Design Partners",
+  "Gunjan Bajaj — Gutika House of Design",
+  "Vivek Kotharia — D-OR Studio",
+];
+const collaborations = [
+  "Nischith Kashyap & Pooja Rao — Studio NKPR",
+  "Manjunath — Studio Whitescape",
+  "Varun Thautham & Namratha Toraskar — Vanamu",
+  "Veerajshet — Veerajshet Design Studio",
+  "Meinathan & Sai Harini — Architecture + Swath",
+  "Vivek & Naveen — Studio Envisage",
+  "Akshay — Tattvakala Architects",
+  "Brijila Kishore — Loam Architects",
+  "Jeyashri — Mitti Lab",
+  "Kapok Architects",
+];
 ---
-
-<BaseLayout
-  title="Team — Vertical 4 Construction"
-  description="The people behind Vertical 4 Construction."
-  bodyClass="page-placeholder"
->
+<BaseLayout title="Team — Vertical 4 Construction" description="Founder experience and architectural collaborations of Vertical 4 Construction." bodyClass="page-placeholder">
   <section class="route-placeholder">
     <div class="page-shell">
-      <div class="page-kicker">
-        <span>06 — TEAM</span>
-        <span>VERTICAL 4 CONSTRUCTION</span>
-      </div>
-
+      <div class="page-kicker"><span>06 — PEOPLE & COLLABORATIONS</span><span>VERTICAL 4 CONSTRUCTION</span></div>
       <div class="route-placeholder__content">
-        <h1>TEAM</h1>
-        <p>
-          This route is connected and ready. We will build this page
-          after the homepage foundation is approved.
-        </p>
+        <h1>HEMANTH KUMAR R</h1>
+        <p>Founder, Vertical 4 Construction. A civil engineer with project engineering experience executing work designed by leading architectural practices.</p>
+        <h2>FOUNDER'S PROJECT ENGINEERING EXPERIENCE</h2>
+        <p>{founderExperience.join(' • ')}</p>
+        <h2>ARCHITECTURAL COLLABORATIONS AS CONTRACTOR</h2>
+        <p>{collaborations.join(' • ')}</p>
+        <h2>OUR TEAM</h2>
+        <p>Additional team profiles will be added when provided.</p>
       </div>
     </div>
   </section>

@@ -8,56 +8,73 @@ const contactHref = `${root}contact/`;
 
 const services = [
   {
-    n: "01",
-    name: "ARCHITECTURE",
-    kicker: "SPACE / CONTEXT / FORM",
-    title: "Architecture with a clear point of view.",
-    copy: "From early planning to detailed design, spaces are shaped around context, use, proportion and long-term value.",
-    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=86",
-    tags: ["CONCEPT", "PLANNING", "DESIGN DEVELOPMENT"]
+    "n": "01",
+    "name": "EXPOSED CONCRETE",
+    "kicker": "VERTICAL 4 / EXPERTISE",
+    "title": "Exposed concrete construction and finishes.",
+    "copy": "Construction and finishing of exposed concrete surfaces.",
+    "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=86",
+    "tags": [
+      "CONCRETE",
+      "FORMWORK",
+      "FINISHES"
+    ]
   },
   {
-    n: "02",
-    name: "INTERIORS",
-    kicker: "MATERIAL / LIGHT / DETAIL",
-    title: "Interiors that feel resolved, not decorated.",
-    copy: "Material, joinery, lighting and spatial character are treated as extensions of the architecture rather than separate layers.",
-    image: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1800&q=86",
-    tags: ["SPACE PLANNING", "MATERIALS", "DETAILING"]
+    "n": "02",
+    "name": "NATURAL & OXIDE PLASTER",
+    "kicker": "VERTICAL 4 / EXPERTISE",
+    "title": "Natural plaster and oxide plaster finishes.",
+    "copy": "Material-led plaster finishes for architectural spaces.",
+    "image": "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1800&q=86",
+    "tags": [
+      "NATURAL PLASTER",
+      "OXIDE PLASTER"
+    ]
   },
   {
-    n: "03",
-    name: "DESIGN & BUILD",
-    kicker: "ONE TEAM / ONE DIRECTION",
-    title: "Fewer gaps between idea and execution.",
-    copy: "A coordinated design-and-build route keeps decisions connected, improves accountability and reduces avoidable handover friction.",
-    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1800&q=86",
-    tags: ["DESIGN", "PROCUREMENT", "EXECUTION"]
+    "n": "03",
+    "name": "RAMMED EARTH & CSEB",
+    "kicker": "VERTICAL 4 / EXPERTISE",
+    "title": "Rammed earth and compressed stabilized earth blocks.",
+    "copy": "Sustainable construction using rammed earth and CSEB.",
+    "image": "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1800&q=86",
+    "tags": [
+      "RAMMED EARTH",
+      "CSEB"
+    ]
   },
   {
-    n: "04",
-    name: "PROJECT DELIVERY",
-    kicker: "SEQUENCE / QUALITY / CONTROL",
-    title: "Delivery with discipline at every stage.",
-    copy: "Site coordination, scheduling, quality checks and communication keep the project moving while protecting the intended result.",
-    image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1800&q=86",
-    tags: ["COORDINATION", "QUALITY", "HANDOVER"]
+    "n": "04",
+    "name": "FOUNDATIONS & STRENGTHENING",
+    "kicker": "VERTICAL 4 / EXPERTISE",
+    "title": "Pile foundations and structural strengthening.",
+    "copy": "Foundation execution and strengthening of existing structures.",
+    "image": "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1800&q=86",
+    "tags": [
+      "PILE FOUNDATION",
+      "STRENGTHENING"
+    ]
   },
   {
-    n: "05",
-    name: "RENOVATION",
-    kicker: "REUSE / ADAPT / UPGRADE",
-    title: "New life for existing spaces.",
-    copy: "Existing buildings are re-read carefully, retained where valuable and transformed where new performance or character is needed.",
-    image: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1800&q=86",
-    tags: ["ASSESSMENT", "ADAPTATION", "UPGRADE"]
+    "n": "05",
+    "name": "ARCHITECTURAL MASONRY & FABRICATION",
+    "kicker": "VERTICAL 4 / EXPERTISE",
+    "title": "Exposed brickwork, fabrication, arches, vaults and domes.",
+    "copy": "Craft-focused masonry and architectural structural elements.",
+    "image": "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1800&q=86",
+    "tags": [
+      "BRICKWORK",
+      "FABRICATION",
+      "ARCHES / VAULTS / DOMES"
+    ]
   }
 ];
 ---
 
 <BaseLayout
   title="Services — Vertical 4 Construction"
-  description="Architecture, interiors, design development and project delivery by Vertical 4 Construction."
+  description="Conventional construction, structural strengthening and sustainable building expertise by Vertical 4 Construction."
   bodyClass="page-services"
 >
   <section class="services-hero" data-services-hero>
@@ -70,7 +87,7 @@ const services = [
       </div>
       <div class="services-hero__bottom">
         <span>01 — SERVICES</span>
-        <p>One studio across architecture, interiors and execution — giving each project one clear direction from first idea to finished space.</p>
+        <p>Versatile construction expertise across high-end conventional, structural strengthening and sustainable architectural projects.</p>
       </div>
     </div>
   </section>
@@ -105,7 +122,7 @@ const services = [
 
   <section class="services-value">
     <div class="services-shell">
-      <div class="services-section-meta"><span>WHY ONE STUDIO</span><span>02 — CONTINUITY</span></div>
+      <div class="services-section-meta"><span>WHY VERTICAL 4</span><span>02 — CONTINUITY</span></div>
       <div class="services-value__title">
         <h2 data-services-reveal="chars">LESS HANDOFF.</h2>
         <h2 class="services-value__indent" data-services-reveal="chars">MORE CONTROL.</h2>
@@ -113,8 +130,8 @@ const services = [
       <div class="services-value__grid">
         <span class="services-value__mark">( V4 )</span>
         <div class="services-value__copy">
-          <p data-services-reveal="words">When planning, design and execution stay connected, fewer decisions get lost between teams and fewer compromises arrive late.</p>
-          <p data-services-reveal="words">That continuity creates clearer accountability, better coordination and a finished space that remains closer to the original intent.</p>
+          <p data-services-reveal="words">We work alongside architects and design teams to execute their vision with attention to materials, construction methods and site coordination.</p>
+          <p data-services-reveal="words">Our scope spans exposed concrete, natural finishes, earth construction, structural works and architectural fabrication.</p>
         </div>
       </div>
     </div>
@@ -124,10 +141,10 @@ const services = [
     <div class="services-shell">
       <div class="services-section-meta services-section-meta--light"><span>CAPABILITY MATRIX</span><span>03 — SCOPE</span></div>
       <div class="services-matrix__rows">
-        <div class="services-matrix__row" data-service-row><span>01</span><h3>Residential</h3><p>New homes / villas / apartments / extensions</p><b>ARCH + INT + BUILD</b></div>
-        <div class="services-matrix__row" data-service-row><span>02</span><h3>Commercial</h3><p>Workplaces / studios / retail / mixed-use interiors</p><b>ARCH + INT</b></div>
-        <div class="services-matrix__row" data-service-row><span>03</span><h3>Hospitality</h3><p>Guest spaces / restaurants / boutique environments</p><b>ARCH + INT + DELIVERY</b></div>
-        <div class="services-matrix__row" data-service-row><span>04</span><h3>Renovation</h3><p>Adaptive reuse / upgrades / additions / refurbishment</p><b>DESIGN + BUILD</b></div>
+        <div class="services-matrix__row" data-service-row><span>01</span><h3>Residential</h3><p>New homes / villas / apartments / extensions</p><b>CONSTRUCTION</b></div>
+        <div class="services-matrix__row" data-service-row><span>02</span><h3>Commercial</h3><p>Workplaces / studios / retail / mixed-use interiors</p><b>CONSTRUCTION</b></div>
+        <div class="services-matrix__row" data-service-row><span>03</span><h3>Hospitality</h3><p>Guest spaces / restaurants / boutique environments</p><b>CONSTRUCTION</b></div>
+        <div class="services-matrix__row" data-service-row><span>04</span><h3>Renovation</h3><p>Adaptive reuse / upgrades / additions / refurbishment</p><b>RENOVATION / STRENGTHENING</b></div>
       </div>
     </div>
   </section>
