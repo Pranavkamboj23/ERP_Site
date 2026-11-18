@@ -1,54 +1,120 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+
 const founderExperience = [
-  "Anand Amaresh — Khosla and Anand Associates",
-  "Dominic Dube — DDIR Architecture",
-  "Ashwin — Ashwin Architects",
-  "Prakash Selvaraj — Genesis Architecture",
-  "Rakesh Kodath — Dialogue Design Partners",
-  "Gunjan Bajaj — Gutika House of Design",
-  "Vivek Kotharia — D-OR Studio",
+  ["Anand Amaresh", "Khosla and Anand Associates"],
+  ["Dominic Dube", "DDIR Architecture"],
+  ["Ashwin", "Ashwin Architects"],
+  ["Prakash Selvaraj", "Genesis Architecture"],
+  ["Rakesh Kodath", "Dialogue Design Partners"],
+  ["Gunjan Bajaj", "Gutika House of Design"],
+  ["Vivek Kotharia", "D-OR Studio"],
 ];
+
 const collaborations = [
-  "Nischith Kashyap & Pooja Rao — Studio NKPR",
-  "Manjunath — Studio Whitescape",
-  "Varun Thautham & Namratha Toraskar — Vanamu",
-  "Veerajshet — Veerajshet Design Studio",
-  "Meinathan & Sai Harini — Architecture + Swath",
-  "Vivek & Naveen — Studio Envisage",
-  "Akshay — Tattvakala Architects",
-  "Brijila Kishore — Loam Architects",
-  "Jeyashri — Mitti Lab",
-  "Kapok Architects",
+  ["Nischith Kashyap & Pooja Rao", "Studio NKPR"],
+  ["Manjunath", "Studio Whitescape"],
+  ["Varun Thautham & Namratha Toraskar", "Vanamu"],
+  ["Veerajshet", "Veerajshet Design Studio"],
+  ["Meinathan & Sai Harini", "Architecture + Swath"],
+  ["Vivek & Naveen", "Studio Envisage"],
+  ["Akshay", "Tattvakala Architects"],
+  ["Brijila Kishore", "Loam Architects"],
+  ["Jeyashri", "Mitti Lab"],
+  ["Kapok Architects", ""],
 ];
 ---
-<BaseLayout title="Team — Vertical 4 Construction" description="Founder experience and architectural collaborations of Vertical 4 Construction." bodyClass="page-placeholder page-team">
-  <section class="route-placeholder">
-    <div class="page-shell">
-      <div class="page-kicker"><span>06 — PEOPLE & COLLABORATIONS</span><span>VERTICAL 4 CONSTRUCTION</span></div>
-      <div class="route-placeholder__content">
-        <h1>HEMANTH KUMAR R</h1>
-        <p>Founder, Vertical 4 Construction. A civil engineer with project engineering experience executing work designed by leading architectural practices.</p>
-        <h2>FOUNDER'S PROJECT ENGINEERING EXPERIENCE</h2>
-        <ul class="team-list">{founderExperience.map((person) => <li>{person}</li>)}</ul>
-        <h2>ARCHITECTURAL COLLABORATIONS AS CONTRACTOR</h2>
-        <ul class="team-list">{collaborations.map((person) => <li>{person}</li>)}</ul>
-        <h2>OUR TEAM</h2>
-        <p>Additional team profiles will be added when provided.</p>
+
+<BaseLayout
+  title="Team — Vertical 4 Construction"
+  description="Meet the founder and architectural collaborators of Vertical 4 Construction."
+  bodyClass="page-team"
+>
+  <section class="team-page" aria-labelledby="team-heading">
+    <div class="team-page__shell">
+      <div class="team-page__eyebrow">
+        <span>06 — PEOPLE & COLLABORATIONS</span>
+        <span>VERTICAL 4 CONSTRUCTION</span>
       </div>
+
+      <header class="team-page__intro">
+        <p class="team-page__label">FOUNDER / VERTICAL 4 CONSTRUCTION</p>
+        <h1 id="team-heading">HEMANTH<br />KUMAR R</h1>
+        <p class="team-page__description">
+          Hemanth Kumar R, founder of Vertical 4 Construction, is a civil engineer
+          with project engineering experience executing projects designed by
+          leading architectural practices.
+        </p>
+      </header>
+
+      <section class="team-page__section" aria-labelledby="experience-heading">
+        <div class="team-page__section-heading">
+          <span class="team-page__number">01 / EXPERIENCE</span>
+          <h2 id="experience-heading">Founder's project engineering experience</h2>
+        </div>
+        <ul class="team-page__list">
+          {founderExperience.map(([person, studio]) => (
+            <li><span class="team-page__person">{person}</span><span class="team-page__studio">{studio}</span></li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="team-page__section" aria-labelledby="collaborations-heading">
+        <div class="team-page__section-heading">
+          <span class="team-page__number">02 / COLLABORATIONS</span>
+          <h2 id="collaborations-heading">Architectural collaborations as contractor</h2>
+        </div>
+        <ul class="team-page__list">
+          {collaborations.map(([person, studio]) => (
+            <li><span class="team-page__person">{person}</span>{studio && <span class="team-page__studio">{studio}</span>}</li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="team-page__section team-page__section--last" aria-labelledby="team-profiles-heading">
+        <div class="team-page__section-heading">
+          <span class="team-page__number">03 / TEAM</span>
+          <h2 id="team-profiles-heading">Our team</h2>
+        </div>
+        <p class="team-page__description">Additional team profiles will be added when provided.</p>
+      </section>
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  .page-team .route-placeholder{padding:clamp(42px,6vw,96px) var(--page-pad) clamp(75px,9vw,145px);background:#fff}
-  .page-team .page-shell{max-width:1440px;margin:0 auto}
-  .page-team .page-kicker{display:flex;justify-content:space-between;gap:24px;padding-bottom:20px;border-bottom:1px solid #d0d0d2;color:#777;font-size:10px;letter-spacing:.12em}
-  .page-team .route-placeholder__content{max-width:1050px;padding-top:clamp(45px,7vw,110px)}
-  .page-team h1{font-size:clamp(46px,8vw,116px);line-height:.98;font-weight:300;letter-spacing:-.065em;overflow-wrap:break-word;margin:0 0 32px}
-  .page-team .route-placeholder__content>p{max-width:760px;font-size:clamp(15px,1.55vw,20px);line-height:1.65;color:#343436;margin:0 0 55px}
-  .page-team h2{font-size:clamp(19px,2.6vw,32px);line-height:1.2;font-weight:400;letter-spacing:-.035em;margin:58px 0 22px}
-  .page-team .team-list{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 38px;padding:0;border-top:1px solid #d0d0d2}
-  .page-team .team-list li{padding:18px 0;border-bottom:1px solid #d0d0d2;font-size:clamp(13px,1.2vw,17px);line-height:1.5;overflow-wrap:anywhere}
-  @media(max-width:767px){.page-team .page-kicker{font-size:8px}.page-team .page-kicker span:last-child{display:none}.page-team .team-list{grid-template-columns:1fr}.page-team h1{font-size:clamp(43px,11vw,74px)}}
+  .team-page {
+    box-sizing: border-box;
+    min-height: 100vh;
+    padding: calc(var(--header-height, 70px) + clamp(36px, 5vw, 78px)) var(--page-pad, 30px) clamp(80px, 10vw, 150px);
+    background: #fff;
+    color: #0f1012;
+  }
+  .team-page *, .team-page *::before, .team-page *::after { box-sizing: border-box; }
+  .team-page__shell { max-width: 1440px; margin: 0 auto; }
+  .team-page__eyebrow { display: flex; justify-content: space-between; gap: 24px; padding-bottom: 20px; border-bottom: 1px solid #d0d0d2; color: #777; font-size: 10px; font-weight: 500; letter-spacing: .13em; line-height: 1.5; }
+  .team-page__intro { padding: clamp(58px, 9vw, 130px) 0 clamp(72px, 10vw, 150px); }
+  .team-page__label, .team-page__number { display: block; margin: 0; color: #777; font-size: 10px; font-weight: 500; letter-spacing: .13em; line-height: 1.5; text-transform: uppercase; }
+  .team-page h1 { max-width: 100%; margin: 22px 0 34px; font-size: clamp(52px, 10vw, 148px); font-weight: 300; line-height: .98; letter-spacing: -.065em; overflow-wrap: normal; }
+  .team-page__description { max-width: 790px; margin: 0; color: #343436; font-size: clamp(16px, 1.55vw, 21px); line-height: 1.65; }
+  .team-page__section { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr); column-gap: clamp(36px, 6vw, 110px); padding: clamp(50px, 7vw, 100px) 0; border-top: 1px solid #d0d0d2; }
+  .team-page__section--last { padding-bottom: 0; }
+  .team-page__section-heading { min-width: 0; }
+  .team-page h2 { max-width: 570px; margin: 22px 0 0; font-size: clamp(28px, 3.2vw, 48px); font-weight: 400; letter-spacing: -.045em; line-height: 1.12; overflow-wrap: normal; }
+  .team-page__list { display: block; min-width: 0; margin: 0; padding: 0; list-style: none; border-top: 1px solid #d0d0d2; }
+  .team-page__list li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px 22px; align-items: start; padding: 19px 0; border-bottom: 1px solid #d0d0d2; font-size: clamp(14px, 1.15vw, 17px); line-height: 1.5; overflow-wrap: break-word; }
+  .team-page__person { font-weight: 500; }
+  .team-page__studio { color: #68686a; }
+  @media (max-width: 900px) {
+    .team-page__section { grid-template-columns: 1fr; gap: 32px; }
+    .team-page__intro { padding: 70px 0 90px; }
+  }
+  @media (max-width: 600px) {
+    .team-page { padding-top: calc(var(--header-height, 62px) + 32px); }
+    .team-page__eyebrow span:last-child { display: none; }
+    .team-page h1 { font-size: clamp(43px, 11vw, 72px); letter-spacing: -.055em; }
+    .team-page h2 { font-size: clamp(27px, 7vw, 38px); }
+    .team-page__list li { grid-template-columns: 1fr; gap: 3px; }
+    .team-page__section { padding: 54px 0; }
+  }
 </style>
